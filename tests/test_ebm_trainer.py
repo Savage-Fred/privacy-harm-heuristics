@@ -1,6 +1,10 @@
 import json
 from pathlib import Path
 
+import pytest
+
+pytest.importorskip("interpret", reason="EBM trainer needs the [models] extra")
+
 from privacy_harm_heuristics.models.data import build_dataset
 from privacy_harm_heuristics.models.trainers.ebm import train_ebm
 
