@@ -1,0 +1,9 @@
+# PRIVACY HEURISTICS (Derived from historical incidents)
+
+1. Term: f_individuals_log (importance=0.3158)
+2. Term: kw_privacy (importance=0.2834)
+3. Term: kw_video_surveillance (importance=0.0825)
+4. Term: kw_monetary_penalty (importance=0.0773)
+5. Term: kw_reg_enforcement (importance=0.0567)
+6. Term: kw_biometric (importance=0.0277)
+7. Term: kw_location (importance=0.0175)

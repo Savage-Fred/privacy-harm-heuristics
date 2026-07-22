@@ -1,0 +1,24 @@
+{
+  "name": "decision_tree",
+  "version": "1.1",
+  "description": "Exported from models/decision_tree",
+  "rules": [
+    "IF kw_privacy <= 0.5000 AND kw_reg_enforcement <= 0.5000 AND kw_monetary_penalty <= 0.5000 AND kw_video_surveillance <= 0.5000 THEN class=11",
+    "IF kw_privacy <= 0.5000 AND kw_reg_enforcement <= 0.5000 AND kw_monetary_penalty <= 0.5000 AND kw_video_surveillance > 0.5000 THEN class=11",
+    "IF kw_privacy <= 0.5000 AND kw_reg_enforcement <= 0.5000 AND kw_monetary_penalty > 0.5000 THEN class=7",
+    "IF kw_privacy <= 0.5000 AND kw_reg_enforcement > 0.5000 THEN class=5",
+    "IF kw_privacy > 0.5000 AND kw_video_surveillance <= 0.5000 AND kw_reg_enforcement <= 0.5000 AND kw_monetary_penalty <= 0.5000 AND kw_biometric <= 0.5000 THEN class=0",
+    "IF kw_privacy > 0.5000 AND kw_video_surveillance <= 0.5000 AND kw_reg_enforcement <= 0.5000 AND kw_monetary_penalty <= 0.5000 AND kw_biometric > 0.5000 THEN class=0",
+    "IF kw_privacy > 0.5000 AND kw_video_surveillance <= 0.5000 AND kw_reg_enforcement <= 0.5000 AND kw_monetary_penalty > 0.5000 AND kw_biometric <= 0.5000 THEN class=10",
+    "IF kw_privacy > 0.5000 AND kw_video_surveillance <= 0.5000 AND kw_reg_enforcement <= 0.5000 AND kw_monetary_penalty > 0.5000 AND kw_biometric > 0.5000 THEN class=5",
+    "IF kw_privacy > 0.5000 AND kw_video_surveillance <= 0.5000 AND kw_reg_enforcement > 0.5000 THEN class=2",
+    "IF kw_privacy > 0.5000 AND kw_video_surveillance > 0.5000 AND kw_biometric <= 0.5000 AND kw_reg_enforcement <= 0.5000 AND kw_monetary_penalty <= 0.5000 THEN class=2",
+    "IF kw_privacy > 0.5000 AND kw_video_surveillance > 0.5000 AND kw_biometric <= 0.5000 AND kw_reg_enforcement <= 0.5000 AND kw_monetary_penalty > 0.5000 THEN class=2",
+    "IF kw_privacy > 0.5000 AND kw_video_surveillance > 0.5000 AND kw_biometric <= 0.5000 AND kw_reg_enforcement > 0.5000 AND kw_location <= 0.5000 AND kw_monetary_penalty <= 0.5000 THEN class=10",
+    "IF kw_privacy > 0.5000 AND kw_video_surveillance > 0.5000 AND kw_biometric <= 0.5000 AND kw_reg_enforcement > 0.5000 AND kw_location <= 0.5000 AND kw_monetary_penalty > 0.5000 THEN class=10",
+    "IF kw_privacy > 0.5000 AND kw_video_surveillance > 0.5000 AND kw_biometric <= 0.5000 AND kw_reg_enforcement > 0.5000 AND kw_location > 0.5000 THEN class=10",
+    "IF kw_privacy > 0.5000 AND kw_video_surveillance > 0.5000 AND kw_biometric > 0.5000 AND kw_reg_enforcement <= 0.5000 THEN class=10",
+    "IF kw_privacy > 0.5000 AND kw_video_surveillance > 0.5000 AND kw_biometric > 0.5000 AND kw_reg_enforcement > 0.5000 AND kw_monetary_penalty <= 0.5000 THEN class=10",
+    "IF kw_privacy > 0.5000 AND kw_video_surveillance > 0.5000 AND kw_biometric > 0.5000 AND kw_reg_enforcement > 0.5000 AND kw_monetary_penalty > 0.5000 THEN class=10"
+  ]
+}

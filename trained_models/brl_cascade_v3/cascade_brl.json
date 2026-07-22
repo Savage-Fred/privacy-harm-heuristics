@@ -1,0 +1,1132 @@
+{
+  "version": "1.0",
+  "name": "learned_brl_cascade",
+  "description": "18 one-vs-rest BRL classifiers for Solove privacy harm taxonomy. Each classifier outputs a yes/no decision tree with risk weights.",
+  "created": "2025-12-01",
+  "aggregate_metrics": {
+    "mean_f1": 0.047075835475578406,
+    "mean_accuracy": 0.9195190468600574,
+    "n_classifiers": 16,
+    "n_successful": 1
+  },
+  "harm_categories": [
+    "surveillance",
+    "interrogation",
+    "aggregation",
+    "identification",
+    "insecurity",
+    "secondary_use",
+    "exclusion",
+    "breach_of_confidentiality",
+    "disclosure",
+    "exposure",
+    "increased_accessibility",
+    "blackmail",
+    "appropriation",
+    "distortion",
+    "intrusion",
+    "decisional_interference"
+  ],
+  "classifiers": {
+    "identification": {
+      "metrics": {
+        "accuracy": 0.9947401976410584,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "fallback": "decision_tree"
+      },
+      "decision_tree": {
+        "question": "Does this involve privacy?",
+        "feature_name": "kw_privacy",
+        "threshold": 0.5,
+        "yes": {
+          "question": "Does this involve video surveillance?",
+          "feature_name": "kw_video_surveillance",
+          "threshold": 0.5,
+          "yes": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.018773466831664583
+          },
+          "no": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.013287671231547945
+          }
+        },
+        "no": {
+          "question": "Does this involve video surveillance?",
+          "feature_name": "kw_video_surveillance",
+          "threshold": 0.5,
+          "yes": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.0
+          },
+          "no": {
+            "question": "Does this involve individuals log?",
+            "feature_name": "f_individuals_log",
+            "threshold": 0.5,
+            "yes": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.0
+            },
+            "no": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.0024300492950426996
+            }
+          }
+        }
+      },
+      "feature_importances": {
+        "f_individuals_log": 0.008681406809402045,
+        "kw_privacy": 0.9563908992371305,
+        "kw_video_surveillance": 0.03492769395346749
+      }
+    },
+    "aggregation": {
+      "metrics": {
+        "accuracy": 0.9700350653490596,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "fallback": "decision_tree"
+      },
+      "decision_tree": {
+        "question": "Does this involve privacy?",
+        "feature_name": "kw_privacy",
+        "threshold": 0.5,
+        "yes": {
+          "question": "Does this involve monetary penalty?",
+          "feature_name": "kw_monetary_penalty",
+          "threshold": 0.5,
+          "yes": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.1040892193204461
+          },
+          "no": {
+            "question": "Does this involve video surveillance?",
+            "feature_name": "kw_video_surveillance",
+            "threshold": 0.5,
+            "yes": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.07272727272
+            },
+            "no": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.048348559376753336
+            }
+          }
+        },
+        "no": {
+          "question": "Does this involve individuals log?",
+          "feature_name": "f_individuals_log",
+          "threshold": 0.5,
+          "yes": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.0
+          },
+          "no": {
+            "question": "Does this involve video surveillance?",
+            "feature_name": "kw_video_surveillance",
+            "threshold": 0.5,
+            "yes": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.028287461770871557
+            },
+            "no": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.01680205512572381
+            }
+          }
+        }
+      },
+      "feature_importances": {
+        "f_individuals_log": 0.04279637097394558,
+        "kw_privacy": 0.8098223456314928,
+        "kw_video_surveillance": 0.06223137080360724,
+        "kw_monetary_penalty": 0.08514991259095442
+      }
+    },
+    "surveillance": {
+      "metrics": {
+        "accuracy": 0.9633407714376793,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "fallback": "decision_tree"
+      },
+      "decision_tree": {
+        "question": "Does this involve video surveillance?",
+        "feature_name": "kw_video_surveillance",
+        "threshold": 0.5,
+        "yes": {
+          "question": "Does this involve privacy?",
+          "feature_name": "kw_privacy",
+          "threshold": 0.5,
+          "yes": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.17146433039586984
+          },
+          "no": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.06888720665473126
+          }
+        },
+        "no": {
+          "question": "Does this involve privacy?",
+          "feature_name": "kw_privacy",
+          "threshold": 0.5,
+          "yes": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.042739726023123294
+          },
+          "no": {
+            "question": "Does this involve individuals log?",
+            "feature_name": "f_individuals_log",
+            "threshold": 0.5,
+            "yes": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.0
+            },
+            "no": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.02631396236631952
+            }
+          }
+        }
+      },
+      "feature_importances": {
+        "f_individuals_log": 0.04166178321498324,
+        "kw_privacy": 0.3582530138351585,
+        "kw_video_surveillance": 0.6000852029498581
+      }
+    },
+    "interrogation": {
+      "metrics": {
+        "accuracy": 0.9950589735416002,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "fallback": "decision_tree"
+      },
+      "decision_tree": {
+        "question": "Does this involve privacy?",
+        "feature_name": "kw_privacy",
+        "threshold": 0.5,
+        "yes": {
+          "question": "Does this involve video surveillance?",
+          "feature_name": "kw_video_surveillance",
+          "threshold": 0.5,
+          "yes": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.01627033792077597
+          },
+          "no": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.006986301369164383
+          }
+        },
+        "no": {
+          "question": "Does this involve individuals log?",
+          "feature_name": "f_individuals_log",
+          "threshold": 0.5,
+          "yes": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.0
+          },
+          "no": {
+            "question": "Does this involve video surveillance?",
+            "feature_name": "kw_video_surveillance",
+            "threshold": 0.5,
+            "yes": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.0022935779814220185
+            },
+            "no": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.003610358952634868
+            }
+          }
+        }
+      },
+      "feature_importances": {
+        "f_individuals_log": 0.0734249509554604,
+        "kw_privacy": 0.6027590473267243,
+        "kw_video_surveillance": 0.32381600171781544
+      }
+    },
+    "exclusion": {
+      "metrics": {
+        "accuracy": 0.9729040484539369,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "fallback": "decision_tree"
+      },
+      "decision_tree": {
+        "question": "Does this involve privacy?",
+        "feature_name": "kw_privacy",
+        "threshold": 0.5,
+        "yes": {
+          "question": "Does this involve monetary penalty?",
+          "feature_name": "kw_monetary_penalty",
+          "threshold": 0.5,
+          "yes": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.03345724906728624
+          },
+          "no": {
+            "question": "Does this involve video surveillance?",
+            "feature_name": "kw_video_surveillance",
+            "threshold": 0.5,
+            "yes": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.04615384614923077
+            },
+            "no": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.04862965565219958
+            }
+          }
+        },
+        "no": {
+          "question": "Does this involve individuals log?",
+          "feature_name": "f_individuals_log",
+          "threshold": 0.5,
+          "yes": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.0
+          },
+          "no": {
+            "question": "Does this involve monetary penalty?",
+            "feature_name": "kw_monetary_penalty",
+            "threshold": 0.5,
+            "yes": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.025821596241549297
+            },
+            "no": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.012168792933032385
+            }
+          }
+        }
+      },
+      "feature_importances": {
+        "f_individuals_log": 0.024686768598781085,
+        "kw_privacy": 0.9568824819995473,
+        "kw_video_surveillance": 0.000526799559372816,
+        "kw_monetary_penalty": 0.017903949842298813
+      }
+    },
+    "secondary_use": {
+      "metrics": {
+        "accuracy": 0.905482945489321,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "fallback": "decision_tree"
+      },
+      "decision_tree": {
+        "question": "Does this involve privacy?",
+        "feature_name": "kw_privacy",
+        "threshold": 0.5,
+        "yes": {
+          "question": "Does this involve monetary penalty?",
+          "feature_name": "kw_monetary_penalty",
+          "threshold": 0.5,
+          "yes": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.1784386616921933
+          },
+          "no": {
+            "question": "Does this involve video surveillance?",
+            "feature_name": "kw_video_surveillance",
+            "threshold": 0.5,
+            "yes": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.21818181815999999
+            },
+            "no": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.19704848908781447
+            }
+          }
+        },
+        "no": {
+          "question": "Does this involve individuals log?",
+          "feature_name": "f_individuals_log",
+          "threshold": 0.5,
+          "yes": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.0
+          },
+          "no": {
+            "question": "Does this involve monetary penalty?",
+            "feature_name": "kw_monetary_penalty",
+            "threshold": 0.5,
+            "yes": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.08215962440492958
+            },
+            "no": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.04056264311010795
+            }
+          }
+        }
+      },
+      "feature_importances": {
+        "f_individuals_log": 0.014410323378437298,
+        "kw_privacy": 0.9777876222800758,
+        "kw_video_surveillance": 0.002026777694591055,
+        "kw_monetary_penalty": 0.005775276646896043
+      }
+    },
+    "exposure": {
+      "metrics": {
+        "accuracy": 0.0,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "decision_tree": {
+        "question": "Is this a case of exposure?",
+        "feature_name": "fallback",
+        "threshold": 0.5,
+        "risk_weight": 0.0
+      },
+      "feature_importances": {}
+    },
+    "breach_of_confidentiality": {
+      "metrics": {
+        "accuracy": 0.9791201785145043,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "fallback": "decision_tree"
+      },
+      "decision_tree": {
+        "question": "Does this involve privacy?",
+        "feature_name": "kw_privacy",
+        "threshold": 0.5,
+        "yes": {
+          "question": "Does this involve video surveillance?",
+          "feature_name": "kw_video_surveillance",
+          "threshold": 0.5,
+          "yes": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.04505632039599499
+          },
+          "no": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.07315068492419179
+          }
+        },
+        "no": {
+          "question": "Does this involve video surveillance?",
+          "feature_name": "kw_video_surveillance",
+          "threshold": 0.5,
+          "yes": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.0
+          },
+          "no": {
+            "question": "Does this involve individuals log?",
+            "feature_name": "f_individuals_log",
+            "threshold": 0.5,
+            "yes": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.0
+            },
+            "no": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.0005554398388669027
+            }
+          }
+        }
+      },
+      "feature_importances": {
+        "f_individuals_log": 1.3162201129252878e-05,
+        "kw_privacy": 0.9792111750025185,
+        "kw_video_surveillance": 0.020775662796352137
+      }
+    },
+    "insecurity": {
+      "metrics": {
+        "accuracy": 0.9693975135479758,
+        "f1": 0.7532133676092545,
+        "precision": 0.9932203389830508,
+        "recall": 0.6066252587991718,
+        "fallback": "decision_tree"
+      },
+      "decision_tree": {
+        "question": "Does this involve individuals log?",
+        "feature_name": "f_individuals_log",
+        "threshold": 0.5,
+        "yes": {
+          "question": "",
+          "feature_name": "leaf",
+          "threshold": 0.5,
+          "risk_weight": 0.9828660435154206
+        },
+        "no": {
+          "question": "Does this involve privacy?",
+          "feature_name": "kw_privacy",
+          "threshold": 0.5,
+          "yes": {
+            "question": "Does this involve video surveillance?",
+            "feature_name": "kw_video_surveillance",
+            "threshold": 0.5,
+            "yes": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.055068836039549436
+            },
+            "no": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.02342465753190411
+            }
+          },
+          "no": {
+            "question": "Does this involve monetary penalty?",
+            "feature_name": "kw_monetary_penalty",
+            "threshold": 0.5,
+            "yes": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.07981220656478873
+            },
+            "no": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.0393195943696369
+            }
+          }
+        }
+      },
+      "feature_importances": {
+        "f_individuals_log": 0.9977825905781701,
+        "kw_privacy": 0.0009386923927434409,
+        "kw_video_surveillance": 0.0006583462920983294,
+        "kw_monetary_penalty": 0.0006203707369879654
+      }
+    },
+    "disclosure": {
+      "metrics": {
+        "accuracy": 0.9772075231112528,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "fallback": "decision_tree"
+      },
+      "decision_tree": {
+        "question": "Does this involve individuals log?",
+        "feature_name": "f_individuals_log",
+        "threshold": 0.5,
+        "yes": {
+          "question": "",
+          "feature_name": "leaf",
+          "threshold": 0.5,
+          "risk_weight": 0.0
+        },
+        "no": {
+          "question": "Does this involve privacy?",
+          "feature_name": "kw_privacy",
+          "threshold": 0.5,
+          "yes": {
+            "question": "Does this involve video surveillance?",
+            "feature_name": "kw_video_surveillance",
+            "threshold": 0.5,
+            "yes": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.03754693366332917
+            },
+            "no": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.025753424654958904
+            }
+          },
+          "no": {
+            "question": "Does this involve monetary penalty?",
+            "feature_name": "kw_monetary_penalty",
+            "threshold": 0.5,
+            "yes": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.01877934272112676
+            },
+            "no": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.021066404970088323
+            }
+          }
+        }
+      },
+      "feature_importances": {
+        "f_individuals_log": 0.6905815625153906,
+        "kw_privacy": 0.1999115819017497,
+        "kw_video_surveillance": 0.10718708353163495,
+        "kw_monetary_penalty": 0.002319772051224766
+      }
+    },
+    "increased_accessibility": {
+      "metrics": {
+        "accuracy": 0.9944214217405164,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "fallback": "decision_tree"
+      },
+      "decision_tree": {
+        "question": "Does this involve individuals log?",
+        "feature_name": "f_individuals_log",
+        "threshold": 0.5,
+        "yes": {
+          "question": "",
+          "feature_name": "leaf",
+          "threshold": 0.5,
+          "risk_weight": 0.0
+        },
+        "no": {
+          "question": "Does this involve reg enforcement?",
+          "feature_name": "kw_reg_enforcement",
+          "threshold": 0.5,
+          "yes": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.01111111111
+          },
+          "no": {
+            "question": "Does this involve monetary penalty?",
+            "feature_name": "kw_monetary_penalty",
+            "threshold": 0.5,
+            "yes": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.0015649452267605633
+            },
+            "no": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.0055015184185335155
+            }
+          }
+        }
+      },
+      "feature_importances": {
+        "f_individuals_log": 0.6051515114178903,
+        "kw_monetary_penalty": 0.1580439658451507,
+        "kw_reg_enforcement": 0.23680452273695904
+      }
+    },
+    "blackmail": {
+      "metrics": {
+        "accuracy": 0.9987248963978324,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "fallback": "decision_tree"
+      },
+      "decision_tree": {
+        "question": "Does this involve reg enforcement?",
+        "feature_name": "kw_reg_enforcement",
+        "threshold": 0.5,
+        "yes": {
+          "question": "",
+          "feature_name": "leaf",
+          "threshold": 0.5,
+          "risk_weight": 0.006637168140929204
+        },
+        "no": {
+          "question": "Does this involve monetary penalty?",
+          "feature_name": "kw_monetary_penalty",
+          "threshold": 0.5,
+          "yes": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.0031298904535211267
+          },
+          "no": {
+            "question": "Does this involve individuals log?",
+            "feature_name": "f_individuals_log",
+            "threshold": 0.5,
+            "yes": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.0
+            },
+            "no": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.0009682672416618987
+            }
+          }
+        }
+      },
+      "feature_importances": {
+        "f_individuals_log": 0.06175815559476359,
+        "kw_monetary_penalty": 0.16551598684202526,
+        "kw_reg_enforcement": 0.7727258575632112
+      }
+    },
+    "appropriation": {
+      "metrics": {
+        "accuracy": 0.999681224099458,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "fallback": "decision_tree"
+      },
+      "decision_tree": {
+        "question": "Does this involve video surveillance?",
+        "feature_name": "kw_video_surveillance",
+        "threshold": 0.5,
+        "yes": {
+          "question": "Does this involve privacy?",
+          "feature_name": "kw_privacy",
+          "threshold": 0.5,
+          "yes": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.0
+          },
+          "no": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.002271006812793338
+          }
+        },
+        "no": {
+          "question": "Does this involve individuals log?",
+          "feature_name": "f_individuals_log",
+          "threshold": 0.5,
+          "yes": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.0
+          },
+          "no": {
+            "question": "Does this involve monetary penalty?",
+            "feature_name": "kw_monetary_penalty",
+            "threshold": 0.5,
+            "yes": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.0
+            },
+            "no": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.0007549662623696503
+            }
+          }
+        }
+      },
+      "feature_importances": {
+        "f_individuals_log": 0.14480476346419607,
+        "kw_privacy": 0.569776232497939,
+        "kw_video_surveillance": 0.22243189847519929,
+        "kw_monetary_penalty": 0.06298710556266571
+      }
+    },
+    "distortion": {
+      "metrics": {
+        "accuracy": 0.9988842843481033,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "fallback": "decision_tree"
+      },
+      "decision_tree": {
+        "question": "Does this involve video surveillance?",
+        "feature_name": "kw_video_surveillance",
+        "threshold": 0.5,
+        "yes": {
+          "question": "Does this involve privacy?",
+          "feature_name": "kw_privacy",
+          "threshold": 0.5,
+          "yes": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.0012515644554443055
+          },
+          "no": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.0015140045418622257
+          }
+        },
+        "no": {
+          "question": "Does this involve individuals log?",
+          "feature_name": "f_individuals_log",
+          "threshold": 0.5,
+          "yes": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.0
+          },
+          "no": {
+            "question": "Does this involve monetary penalty?",
+            "feature_name": "kw_monetary_penalty",
+            "threshold": 0.5,
+            "yes": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.0
+            },
+            "no": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.0005190393053791346
+            }
+          }
+        }
+      },
+      "feature_importances": {
+        "f_individuals_log": 0.1415931074736837,
+        "kw_privacy": 0.015741338591102213,
+        "kw_video_surveillance": 0.7810754529219077,
+        "kw_monetary_penalty": 0.061590101013306295
+      }
+    },
+    "intrusion": {
+      "metrics": {
+        "accuracy": 0.996334077143768,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "fallback": "decision_tree"
+      },
+      "decision_tree": {
+        "question": "Does this involve reg enforcement?",
+        "feature_name": "kw_reg_enforcement",
+        "threshold": 0.5,
+        "yes": {
+          "question": "",
+          "feature_name": "leaf",
+          "threshold": 0.5,
+          "risk_weight": 0.026548672563716815
+        },
+        "no": {
+          "question": "Does this involve video surveillance?",
+          "feature_name": "kw_video_surveillance",
+          "threshold": 0.5,
+          "yes": {
+            "question": "Does this involve privacy?",
+            "feature_name": "kw_privacy",
+            "threshold": 0.5,
+            "yes": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.005571030640111421
+            },
+            "no": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.007234726687379421
+            }
+          },
+          "no": {
+            "question": "Does this involve individuals log?",
+            "feature_name": "f_individuals_log",
+            "threshold": 0.5,
+            "yes": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.0
+            },
+            "no": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.003362757460781841
+            }
+          }
+        }
+      },
+      "feature_importances": {
+        "f_individuals_log": 0.04959602447730765,
+        "kw_privacy": 0.004613112475997693,
+        "kw_video_surveillance": 0.07874608107762107,
+        "kw_reg_enforcement": 0.8670447819690735
+      }
+    },
+    "decisional_interference": {
+      "metrics": {
+        "accuracy": 0.9969716289448518,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "fallback": "decision_tree"
+      },
+      "decision_tree": {
+        "question": "Does this involve monetary penalty?",
+        "feature_name": "kw_monetary_penalty",
+        "threshold": 0.5,
+        "yes": {
+          "question": "Does this involve privacy?",
+          "feature_name": "kw_privacy",
+          "threshold": 0.5,
+          "yes": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.0
+          },
+          "no": {
+            "question": "",
+            "feature_name": "leaf",
+            "threshold": 0.5,
+            "risk_weight": 0.016431924880985917
+          }
+        },
+        "no": {
+          "question": "Does this involve privacy?",
+          "feature_name": "kw_privacy",
+          "threshold": 0.5,
+          "yes": {
+            "question": "Does this involve video surveillance?",
+            "feature_name": "kw_video_surveillance",
+            "threshold": 0.5,
+            "yes": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.002797202796923077
+            },
+            "no": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.0025298664790161626
+            }
+          },
+          "no": {
+            "question": "Does this involve individuals log?",
+            "feature_name": "f_individuals_log",
+            "threshold": 0.5,
+            "yes": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.0
+            },
+            "no": {
+              "question": "",
+              "feature_name": "leaf",
+              "threshold": 0.5,
+              "risk_weight": 0.00124304874047105
+            }
+          }
+        }
+      },
+      "feature_importances": {
+        "f_individuals_log": 0.01735649468212894,
+        "kw_privacy": 0.5220887839205871,
+        "kw_video_surveillance": 0.0004403384867520737,
+        "kw_monetary_penalty": 0.46011438291053197
+      }
+    }
+  },
+  "master_checklist": [
+    {
+      "question": "Does this involve video surveillance?",
+      "predicts_harms": [
+        "identification",
+        "identification",
+        "aggregation",
+        "aggregation",
+        "surveillance",
+        "interrogation",
+        "interrogation",
+        "exclusion",
+        "secondary_use",
+        "breach_of_confidentiality",
+        "breach_of_confidentiality",
+        "insecurity",
+        "disclosure",
+        "appropriation",
+        "distortion",
+        "intrusion",
+        "decisional_interference"
+      ],
+      "n_harms": 17
+    },
+    {
+      "question": "Does this involve privacy?",
+      "predicts_harms": [
+        "identification",
+        "aggregation",
+        "surveillance",
+        "surveillance",
+        "interrogation",
+        "exclusion",
+        "secondary_use",
+        "breach_of_confidentiality",
+        "insecurity",
+        "disclosure",
+        "appropriation",
+        "distortion",
+        "intrusion",
+        "decisional_interference",
+        "decisional_interference"
+      ],
+      "n_harms": 15
+    },
+    {
+      "question": "Does this involve individuals log?",
+      "predicts_harms": [
+        "identification",
+        "aggregation",
+        "surveillance",
+        "interrogation",
+        "exclusion",
+        "secondary_use",
+        "breach_of_confidentiality",
+        "insecurity",
+        "disclosure",
+        "increased_accessibility",
+        "blackmail",
+        "appropriation",
+        "distortion",
+        "intrusion",
+        "decisional_interference"
+      ],
+      "n_harms": 15
+    },
+    {
+      "question": "Does this involve monetary penalty?",
+      "predicts_harms": [
+        "aggregation",
+        "exclusion",
+        "exclusion",
+        "secondary_use",
+        "secondary_use",
+        "insecurity",
+        "disclosure",
+        "increased_accessibility",
+        "blackmail",
+        "appropriation",
+        "distortion",
+        "decisional_interference"
+      ],
+      "n_harms": 12
+    },
+    {
+      "question": "Does this involve reg enforcement?",
+      "predicts_harms": [
+        "increased_accessibility",
+        "blackmail",
+        "intrusion"
+      ],
+      "n_harms": 3
+    }
+  ]
+}

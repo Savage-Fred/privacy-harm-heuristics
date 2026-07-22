@@ -1,0 +1,5 @@
+{
+  "default_mode": "rules_static",
+  "default_ruleset": "expert_framework",
+  "default_ruleset_version": "1.0"
+}

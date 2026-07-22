@@ -1,0 +1,161 @@
+{
+  "version": "1.0",
+  "name": "nist",
+  "description": "NIST Privacy Framework Core Functions and Categories",
+  "source": "NIST Privacy Framework Version 1.0 (January 2020)",
+  "url": "https://www.nist.gov/privacy-framework",
+  "created": "2025-11-25",
+  "functions": ["identify", "govern", "control", "communicate", "protect"],
+  "rules": [
+    {
+      "id": "nist_id_001",
+      "function": "identify",
+      "category": "Inventory and Mapping",
+      "condition": "data_inventory OR data_mapping OR data_catalog OR asset_management",
+      "question_form": "Is there a comprehensive inventory of personal data collected and processed?",
+      "risk_indicator": "lack_of_visibility",
+      "confidence": 0.85,
+      "description": "ID.IM: Systems, products, and data actions are inventoried"
+    },
+    {
+      "id": "nist_id_002",
+      "function": "identify",
+      "category": "Business Environment",
+      "condition": "business_context OR organizational_mission OR supply_chain",
+      "question_form": "Is the organization's role in the data ecosystem understood?",
+      "risk_indicator": "unclear_responsibilities",
+      "confidence": 0.75,
+      "description": "ID.BE: Organization's mission, stakeholders, and supply chain are understood"
+    },
+    {
+      "id": "nist_id_003",
+      "function": "identify",
+      "category": "Risk Assessment",
+      "condition": "risk_assessment OR privacy_impact OR threat_model",
+      "question_form": "Has a privacy risk assessment been conducted?",
+      "risk_indicator": "unassessed_risk",
+      "confidence": 0.90,
+      "description": "ID.RA: Privacy risks are identified and assessed"
+    },
+    {
+      "id": "nist_gv_001",
+      "function": "govern",
+      "category": "Governance Policies",
+      "condition": "privacy_policy OR governance_framework OR accountability",
+      "question_form": "Are there established privacy governance policies?",
+      "risk_indicator": "policy_gap",
+      "confidence": 0.85,
+      "description": "GV.PO: Policies establish governance over privacy risk"
+    },
+    {
+      "id": "nist_gv_002",
+      "function": "govern",
+      "category": "Risk Management Strategy",
+      "condition": "risk_tolerance OR risk_appetite OR risk_strategy",
+      "question_form": "Is there a defined privacy risk management strategy?",
+      "risk_indicator": "strategic_gap",
+      "confidence": 0.80,
+      "description": "GV.RM: Risk management processes are established"
+    },
+    {
+      "id": "nist_gv_003",
+      "function": "govern",
+      "category": "Awareness and Training",
+      "condition": "training OR awareness OR education OR privacy_culture",
+      "question_form": "Is there privacy awareness training for personnel?",
+      "risk_indicator": "training_gap",
+      "confidence": 0.75,
+      "description": "GV.AT: Workforce is privacy-aware and trained"
+    },
+    {
+      "id": "nist_gv_004",
+      "function": "govern",
+      "category": "Monitoring and Review",
+      "condition": "monitoring OR audit OR review OR continuous_improvement",
+      "question_form": "Are privacy practices regularly monitored and reviewed?",
+      "risk_indicator": "oversight_gap",
+      "confidence": 0.80,
+      "description": "GV.MT: Privacy practices are monitored and reviewed"
+    },
+    {
+      "id": "nist_ct_001",
+      "function": "control",
+      "category": "Data Processing Management",
+      "condition": "processing_controls OR data_minimization OR purpose_limitation",
+      "question_form": "Are there controls over data processing activities?",
+      "risk_indicator": "processing_risk",
+      "confidence": 0.90,
+      "description": "CT.DM: Data processing is managed to minimize privacy risk"
+    },
+    {
+      "id": "nist_ct_002",
+      "function": "control",
+      "category": "Disassociated Processing",
+      "condition": "anonymization OR pseudonymization OR de-identification",
+      "question_form": "Is data disassociated from individuals where possible?",
+      "risk_indicator": "identifiability_risk",
+      "confidence": 0.85,
+      "description": "CT.DP: Data is disassociated from individuals and devices"
+    },
+    {
+      "id": "nist_ct_003",
+      "function": "control",
+      "category": "Data Protection Policies",
+      "condition": "access_control OR encryption OR data_protection",
+      "question_form": "Are data protection policies implemented and enforced?",
+      "risk_indicator": "protection_gap",
+      "confidence": 0.90,
+      "description": "CT.PP: Data protection policies, processes, and procedures maintained"
+    },
+    {
+      "id": "nist_cm_001",
+      "function": "communicate",
+      "category": "Communication Policies",
+      "condition": "privacy_notice OR transparency OR disclosure",
+      "question_form": "Are there clear privacy communications to individuals?",
+      "risk_indicator": "transparency_gap",
+      "confidence": 0.85,
+      "description": "CM.PO: Policies establish communication of privacy practices"
+    },
+    {
+      "id": "nist_cm_002",
+      "function": "communicate",
+      "category": "Data Processing Awareness",
+      "condition": "consent OR notice OR choice OR opt_out",
+      "question_form": "Are individuals aware of and can consent to data processing?",
+      "risk_indicator": "consent_gap",
+      "confidence": 0.90,
+      "description": "CM.AW: Individuals are aware of data processing and its purposes"
+    },
+    {
+      "id": "nist_pr_001",
+      "function": "protect",
+      "category": "Data Protection",
+      "condition": "security_controls OR safeguards OR encryption OR access_management",
+      "question_form": "Are there security safeguards protecting personal data?",
+      "risk_indicator": "security_gap",
+      "confidence": 0.95,
+      "description": "PR.DS: Data security safeguards are implemented"
+    },
+    {
+      "id": "nist_pr_002",
+      "function": "protect",
+      "category": "Identity Management",
+      "condition": "identity_verification OR authentication OR authorization",
+      "question_form": "Is identity management properly implemented?",
+      "risk_indicator": "identity_risk",
+      "confidence": 0.85,
+      "description": "PR.AC: Identities and credentials are managed appropriately"
+    },
+    {
+      "id": "nist_pr_003",
+      "function": "protect",
+      "category": "Data Security",
+      "condition": "breach_detection OR incident_response OR anomaly_detection",
+      "question_form": "Are there breach detection and response capabilities?",
+      "risk_indicator": "detection_gap",
+      "confidence": 0.90,
+      "description": "PR.DS: Security of data is maintained"
+    }
+  ]
+}

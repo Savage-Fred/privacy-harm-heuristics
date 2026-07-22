@@ -1,0 +1,12 @@
+{
+  "name": "expert_framework",
+  "version": "1.0",
+  "description": "Initial set of expert privacy rules derived from GDPR and NIST.",
+  "rules": [
+    "If data is collected from minors, strict consent is required.",
+    "If location data is stored, it must be encrypted at rest.",
+    "If personal data is shared with third parties, a data processing agreement must be in place.",
+    "If automated decision-making is used, the user must have the right to opt-out.",
+    "If a data breach occurs, affected users must be notified within 72 hours."
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "timestamp": "20251201_203108",
+  "n_trials": 5,
+  "n_derivations": 1,
+  "n_configs": 145,
+  "inventory": {
+    "models": [
+      "decision_tree_v3",
+      "ebm_v3",
+      "sparse_linear_v3",
+      "bayes_net_v3"
+    ],
+    "rulesets": [
+      [
+        "expert_framework",
+        "1.0"
+      ],
+      [
+        "expert_framework_enhanced",
+        "1.0"
+      ],
+      [
+        "solove",
+        "1.0"
+      ],
+      [
+        "nist",
+        "1.0"
+      ],
+      [
+        "gdpr",
+        "1.0"
+      ]
+    ],
+    "derivations": {
+      "decision_tree": [
+        "heuristics/decision_tree_heuristics.txt",
+        "heuristics/decision_tree_v3.jsonl"
+      ],
+      "ebm": [
+        "heuristics/ebm_heuristics.txt",
+        "heuristics/ebm_v3.jsonl"
+      ],
+      "brl_cascade": [
+        "heuristics/brl_cascade_v3.jsonl"
+      ],
+      "sparse_linear": [
+        "heuristics/sparse_linear_heuristics.txt",
+        "heuristics/sparse_linear_v3.jsonl"
+      ],
+      "bayes_net": [
+        "heuristics/bayes_net_heuristics.txt",
+        "heuristics/bayes_net_v3.jsonl"
+      ]
+    }
+  },
+  "golden_file": "data/golden_cases.jsonl",
+  "provider": "gemini",
+  "model_name": null,
+  "dry_run": false
+}

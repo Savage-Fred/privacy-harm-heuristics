@@ -1,0 +1,22 @@
+{
+  "baseline": {
+    "rag": {
+      "p_value": 1.0,
+      "significant": false,
+      "note": "insufficient samples"
+    },
+    "rules_static": {
+      "p_value": 1.0,
+      "significant": false,
+      "note": "insufficient samples"
+    }
+  },
+  "rag": {
+    "rules_static": {
+      "p_value": 1.0,
+      "significant": false,
+      "note": "insufficient samples"
+    }
+  },
+  "rules_static": {}
+}

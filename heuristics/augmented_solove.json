@@ -1,0 +1,160 @@
+{
+  "information_collection": {
+    "title": "Information Collection",
+    "definition": "Gathering data via surveillance or compulsory questioning.",
+    "subtypes": [
+      {
+        "name": "surveillance",
+        "definition": "Watching/listening/recording people",
+        "aliases": []
+      },
+      {
+        "name": "interrogation",
+        "definition": "Compelling disclosures/answers",
+        "aliases": []
+      }
+    ],
+    "keywords": [
+      "surveillance",
+      "monitoring",
+      "track",
+      "tracking",
+      "spy",
+      "spyware",
+      "keylogger",
+      "always on",
+      "listening",
+      "interrogation"
+    ],
+    "aliases": []
+  },
+  "information_processing": {
+    "title": "Information Processing",
+    "definition": "Handling data in ways that create risk or reduce control.",
+    "subtypes": [
+      {
+        "name": "aggregation",
+        "definition": "Combining datasets reveals more",
+        "aliases": []
+      },
+      {
+        "name": "identification",
+        "definition": "De-anonymization / re-identification",
+        "aliases": []
+      },
+      {
+        "name": "insecurity",
+        "definition": "Poor security / breaches of safeguards",
+        "aliases": []
+      },
+      {
+        "name": "secondary_use",
+        "definition": "Using data beyond original purpose",
+        "aliases": []
+      },
+      {
+        "name": "exclusion",
+        "definition": "No access/correction/notice to individuals",
+        "aliases": []
+      }
+    ],
+    "keywords": [
+      "aggregate",
+      "re-identification",
+      "deanonym",
+      "insecurity",
+      "breach",
+      "leak",
+      "secondary use",
+      "repurpose",
+      "no consent",
+      "no notice",
+      "no access"
+    ],
+    "aliases": []
+  },
+  "information_dissemination": {
+    "title": "Information Dissemination",
+    "definition": "Sharing or exposing data in harmful ways.",
+    "subtypes": [
+      {
+        "name": "breach_of_confidentiality",
+        "definition": "Breaking a confidentiality promise",
+        "aliases": []
+      },
+      {
+        "name": "disclosure",
+        "definition": "Publishing personal data",
+        "aliases": []
+      },
+      {
+        "name": "exposure",
+        "definition": "Revealing intimate/sensitive details",
+        "aliases": []
+      },
+      {
+        "name": "increased_accessibility",
+        "definition": "Doxxing / indexing private info",
+        "aliases": []
+      },
+      {
+        "name": "blackmail",
+        "definition": "Coercion with threatened disclosure",
+        "aliases": []
+      },
+      {
+        "name": "appropriation",
+        "definition": "Using likeness/reputation without consent",
+        "aliases": []
+      },
+      {
+        "name": "distortion",
+        "definition": "Misleading/false data harming reputation",
+        "aliases": []
+      }
+    ],
+    "keywords": [
+      "dox",
+      "doxing",
+      "doxxing",
+      "expose",
+      "exposure",
+      "leak",
+      "publicly posted",
+      "breach of confidentiality",
+      "blackmail",
+      "deepfake",
+      "defamation",
+      "distortion"
+    ],
+    "aliases": []
+  },
+  "invasion": {
+    "title": "Invasion",
+    "definition": "Intruding into private affairs or decisions.",
+    "subtypes": [
+      {
+        "name": "intrusion",
+        "definition": "Unwanted entry into private space/solitude",
+        "aliases": []
+      },
+      {
+        "name": "decisional_interference",
+        "definition": "Manipulating/interfering with choices",
+        "aliases": []
+      }
+    ],
+    "keywords": [
+      "intrusion",
+      "intrusive",
+      "stalking",
+      "swatting",
+      "home camera",
+      "forced",
+      "coerc",
+      "manipulat",
+      "dark pattern"
+    ],
+    "aliases": []
+  }
+}

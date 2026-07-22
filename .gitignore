@@ -1,0 +1,29 @@
+# Secrets — never committed, no exceptions
+.env
+.env.*
+*.key
+*.pem
+.secrets
+
+# Large / regenerable artifacts (big data ships as release assets; see README)
+data/with_features.jsonl
+results/
+trained_models/autoencoder*/
+trained_models/vae*/
+trained_models/dnn*/
+*.parquet
+*.duckdb
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+build/
+dist/
+
+# Tooling
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage

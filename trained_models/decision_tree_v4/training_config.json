@@ -1,0 +1,6 @@
+{
+  "model": "decision_tree",
+  "max_depth": 8,
+  "min_samples_leaf": 1,
+  "test_size": 0.2
+}

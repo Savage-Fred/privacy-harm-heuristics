@@ -1,0 +1,9 @@
+# PRIVACY HEURISTICS (Derived from historical incidents)
+
+1. f_individuals_log -> kw_biometric
+2. f_individuals_log -> kw_location
+3. f_individuals_log -> kw_monetary_penalty
+4. f_individuals_log -> kw_privacy
+5. f_individuals_log -> kw_reg_enforcement
+6. f_individuals_log -> kw_video_surveillance
+7. f_individuals_log -> __target__

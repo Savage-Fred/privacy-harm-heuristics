@@ -1,0 +1,19 @@
+{
+  "surveillance": 0.142,
+  "interrogation": 0.102,
+  "aggregation": 0.0,
+  "identification": 0.212,
+  "insecurity": 0.162,
+  "secondary_use": 0.608,
+  "exclusion": 0.0,
+  "breach_of_confidentiality": 0.309,
+  "disclosure": 0.185,
+  "increased_accessibility": 0.287,
+  "blackmail": 0.019,
+  "appropriation": 0.186,
+  "distortion": 0.322,
+  "intrusion": 0.521,
+  "decisional_interference": 0.622,
+  "data_handling": 0.397,
+  "regulatory_violation": 0.045
+}

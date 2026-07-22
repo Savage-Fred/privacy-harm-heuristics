@@ -1,0 +1,208 @@
+{
+  "version": "1.0",
+  "name": "gdpr",
+  "description": "GDPR Key Articles for Privacy Harm Detection",
+  "source": "Regulation (EU) 2016/679 - General Data Protection Regulation",
+  "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj",
+  "created": "2025-11-25",
+  "rules": [
+    {
+      "id": "gdpr_art5_001",
+      "article": "Article 5",
+      "title": "Principles - Lawfulness, Fairness, Transparency",
+      "condition": "unlawful_processing OR unfair OR deceptive OR hidden_collection",
+      "question_form": "Is data processing lawful, fair, and transparent?",
+      "violation_type": "principle_violation",
+      "confidence": 0.90,
+      "max_fine_pct": 4,
+      "description": "Personal data shall be processed lawfully, fairly and transparently"
+    },
+    {
+      "id": "gdpr_art5_002",
+      "article": "Article 5",
+      "title": "Principles - Purpose Limitation",
+      "condition": "purpose_creep OR secondary_use OR incompatible_purpose",
+      "question_form": "Is data only used for specified, explicit, and legitimate purposes?",
+      "violation_type": "purpose_violation",
+      "confidence": 0.90,
+      "max_fine_pct": 4,
+      "description": "Data collected for specified, explicit and legitimate purposes"
+    },
+    {
+      "id": "gdpr_art5_003",
+      "article": "Article 5",
+      "title": "Principles - Data Minimization",
+      "condition": "excessive_collection OR unnecessary_data OR over_collection",
+      "question_form": "Is data collection limited to what is necessary?",
+      "violation_type": "minimization_violation",
+      "confidence": 0.85,
+      "max_fine_pct": 4,
+      "description": "Data shall be adequate, relevant and limited to what is necessary"
+    },
+    {
+      "id": "gdpr_art5_004",
+      "article": "Article 5",
+      "title": "Principles - Accuracy",
+      "condition": "inaccurate_data OR outdated OR no_correction",
+      "question_form": "Is personal data accurate and kept up to date?",
+      "violation_type": "accuracy_violation",
+      "confidence": 0.80,
+      "max_fine_pct": 4,
+      "description": "Personal data shall be accurate and, where necessary, kept up to date"
+    },
+    {
+      "id": "gdpr_art5_005",
+      "article": "Article 5",
+      "title": "Principles - Storage Limitation",
+      "condition": "indefinite_retention OR excessive_retention OR no_deletion_policy",
+      "question_form": "Is data retained only as long as necessary?",
+      "violation_type": "retention_violation",
+      "confidence": 0.85,
+      "max_fine_pct": 4,
+      "description": "Data kept in identifiable form no longer than necessary"
+    },
+    {
+      "id": "gdpr_art5_006",
+      "article": "Article 5",
+      "title": "Principles - Integrity and Confidentiality",
+      "condition": "breach OR unauthorized_access OR leak OR insecurity",
+      "question_form": "Is data protected against unauthorized access and accidental loss?",
+      "violation_type": "security_violation",
+      "confidence": 0.95,
+      "max_fine_pct": 4,
+      "description": "Appropriate security including protection against unauthorized processing"
+    },
+    {
+      "id": "gdpr_art6_001",
+      "article": "Article 6",
+      "title": "Lawful Basis - Consent",
+      "condition": "no_consent OR invalid_consent OR bundled_consent OR pre_ticked",
+      "question_form": "Is there valid consent or other lawful basis for processing?",
+      "violation_type": "lawful_basis_violation",
+      "confidence": 0.90,
+      "max_fine_pct": 4,
+      "description": "Processing only lawful if based on consent or other legal grounds"
+    },
+    {
+      "id": "gdpr_art7_001",
+      "article": "Article 7",
+      "title": "Conditions for Consent",
+      "condition": "unclear_consent OR forced_consent OR no_withdrawal_option",
+      "question_form": "Is consent freely given, specific, informed, and unambiguous?",
+      "violation_type": "consent_violation",
+      "confidence": 0.90,
+      "max_fine_pct": 4,
+      "description": "Controller must demonstrate consent; data subject can withdraw"
+    },
+    {
+      "id": "gdpr_art9_001",
+      "article": "Article 9",
+      "title": "Special Categories - Sensitive Data",
+      "condition": "health_data OR biometric OR genetic OR racial OR political OR religious OR sexual",
+      "question_form": "Is sensitive/special category data processed without explicit consent?",
+      "violation_type": "special_category_violation",
+      "confidence": 0.95,
+      "max_fine_pct": 4,
+      "description": "Processing of special categories prohibited without explicit consent"
+    },
+    {
+      "id": "gdpr_art12_001",
+      "article": "Articles 12-14",
+      "title": "Transparent Information",
+      "condition": "no_privacy_notice OR unclear_notice OR hidden_terms",
+      "question_form": "Is information about data processing provided in a clear manner?",
+      "violation_type": "transparency_violation",
+      "confidence": 0.85,
+      "max_fine_pct": 4,
+      "description": "Information provided in concise, transparent, intelligible form"
+    },
+    {
+      "id": "gdpr_art15_001",
+      "article": "Articles 15-22",
+      "title": "Data Subject Rights",
+      "condition": "denied_access OR no_portability OR no_erasure OR ignored_request",
+      "question_form": "Are data subject rights (access, erasure, portability) respected?",
+      "violation_type": "rights_violation",
+      "confidence": 0.90,
+      "max_fine_pct": 4,
+      "description": "Rights of access, rectification, erasure, restriction, portability, objection"
+    },
+    {
+      "id": "gdpr_art25_001",
+      "article": "Article 25",
+      "title": "Data Protection by Design and Default",
+      "condition": "no_privacy_by_design OR default_public OR default_collection",
+      "question_form": "Is privacy built into systems by design and default?",
+      "violation_type": "design_violation",
+      "confidence": 0.80,
+      "max_fine_pct": 2,
+      "description": "Appropriate technical and organizational measures by design and default"
+    },
+    {
+      "id": "gdpr_art28_001",
+      "article": "Article 28",
+      "title": "Processor Obligations",
+      "condition": "third_party_processor OR subprocessor OR no_contract",
+      "question_form": "Are processor relationships properly governed by contracts?",
+      "violation_type": "processor_violation",
+      "confidence": 0.85,
+      "max_fine_pct": 2,
+      "description": "Processing by a processor governed by a contract"
+    },
+    {
+      "id": "gdpr_art32_001",
+      "article": "Article 32",
+      "title": "Security of Processing",
+      "condition": "inadequate_security OR no_encryption OR weak_access_control",
+      "question_form": "Is there appropriate security for the processing?",
+      "violation_type": "security_violation",
+      "confidence": 0.90,
+      "max_fine_pct": 2,
+      "description": "Appropriate technical and organizational security measures"
+    },
+    {
+      "id": "gdpr_art33_001",
+      "article": "Articles 33-34",
+      "title": "Breach Notification",
+      "condition": "late_notification OR no_notification OR concealed_breach",
+      "question_form": "Are data breaches notified within 72 hours?",
+      "violation_type": "notification_violation",
+      "confidence": 0.90,
+      "max_fine_pct": 2,
+      "description": "Notification of breach to supervisory authority within 72 hours"
+    },
+    {
+      "id": "gdpr_art35_001",
+      "article": "Article 35",
+      "title": "Data Protection Impact Assessment",
+      "condition": "high_risk_processing OR profiling OR large_scale AND no_dpia",
+      "question_form": "Has a DPIA been conducted for high-risk processing?",
+      "violation_type": "dpia_violation",
+      "confidence": 0.85,
+      "max_fine_pct": 2,
+      "description": "Impact assessment required for high-risk processing"
+    },
+    {
+      "id": "gdpr_art83_001",
+      "article": "Article 83",
+      "title": "Administrative Fines - Higher Tier",
+      "condition": "principle_violation OR rights_violation OR international_transfer_violation",
+      "question_form": "Is this a serious violation warranting higher-tier fines?",
+      "violation_type": "higher_tier_fine",
+      "confidence": 0.95,
+      "max_fine_pct": 4,
+      "description": "Up to €20M or 4% of global annual turnover"
+    },
+    {
+      "id": "gdpr_art83_002",
+      "article": "Article 83",
+      "title": "Administrative Fines - Lower Tier",
+      "condition": "organizational_violation OR technical_violation",
+      "question_form": "Is this a technical or organizational violation?",
+      "violation_type": "lower_tier_fine",
+      "confidence": 0.90,
+      "max_fine_pct": 2,
+      "description": "Up to €10M or 2% of global annual turnover"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "privacy": ["privacy", "private", "personal data", "data collection", "tracking", "surveillance"],
+  "video_surveillance": ["camera", "cctv", "ring", "doorbell", "webcam"],
+  "biometric": ["face recognition", "facial recognition", "fingerprint", "iris", "biometric"],
+  "location": ["gps", "geolocation", "location data", "geofence"],
+  "monetary_penalty": ["fine", "penalty", "settlement", "million", "billion"],
+  "reg_enforcement": ["consent decree", "enforcement", "complaint", "order"]
+}

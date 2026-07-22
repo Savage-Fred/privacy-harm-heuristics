@@ -1,0 +1,8 @@
+{
+  "saved_at": "2026-02-11T21:29:41.110964Z",
+  "python_version": "3.11.9",
+  "platform": "macOS-15.7.3-arm64-arm-64bit",
+  "model_type": "ebm",
+  "data_path": "data/with_features.jsonl",
+  "data_sha256": "5466d7c68a4145163558c803066fbac3ec50b41c2edb3c906d94d6716a59df58"
+}

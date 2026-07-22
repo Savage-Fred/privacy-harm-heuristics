@@ -1,0 +1,4 @@
+{
+  "model": "bayes_net",
+  "test_size": 0.2
+}

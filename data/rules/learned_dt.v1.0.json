@@ -1,0 +1,12 @@
+{
+  "name": "learned_dt",
+  "version": "1.0",
+  "rules": [
+    "If NOT '2020' AND NOT 'announced' AND NOT 'passport' AND NOT 'hit' AND NOT '2022', then potential harm is 'data_breach_internal'.",
+    "If NOT '2020' AND NOT 'announced' AND NOT 'passport' AND NOT 'hit' AND '2022', then potential harm is 'data_breach_phishing'.",
+    "If NOT '2020' AND NOT 'announced' AND NOT 'passport' AND 'hit', then potential harm is 'data_breach_ransomware'.",
+    "If NOT '2020' AND NOT 'announced' AND 'passport', then potential harm is 'data_breach_web_skimming'.",
+    "If NOT '2020' AND 'announced', then potential harm is 'data_leak_insider'.",
+    "If '2020', then potential harm is 'data_breach_credential_reuse'."
+  ]
+}

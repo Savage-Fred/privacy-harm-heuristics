@@ -1,0 +1,251 @@
+{
+  "always_on_listening": {
+    "synonyms": ["always-on", "always on listening", "hotword", "wake word", "continual microphone", "continuous mic"],
+    "regex": ["\\b(always[- ]on|continuous|always listening) (microphone|mic|listening)\\b", "\\bwake word\\b"]
+  },
+  "webcam_access": {
+    "synonyms": ["webcam", "camera feed", "video capture", "front camera", "rear camera"],
+    "regex": ["\\b(webcam|camera) (access|stream|feed)\\b"]
+  },
+  "location_tracking": {
+    "synonyms": ["gps tracking", "location tracking", "geo-tracking", "geolocation", "precise location"],
+    "regex": ["\\b(location|gps|geolocation) (track|tracking|collection)\\b", "\\bprecise location\\b"]
+  },
+  "cookies": {
+    "synonyms": ["third-party cookies", "cookie banner", "tracking cookies"],
+    "regex": ["\\bcookies?\\b", "\\bthird[- ]party cookies?\\b"]
+  },
+  "third_party_sharing": {
+    "synonyms": ["data brokers", "sell data", "share with partners", "ad partners"],
+    "regex": ["\\bshare(s|d)? with (partners|third parties)\\b", "\\bsell(s|ing)? data\\b", "\\bdata broker(s)?\\b"]
+  },
+  "biometric_collection": {
+    "synonyms": ["face recognition", "facial recognition", "fingerprint", "iris scan", "voiceprint", "gait"],
+    "regex": ["\\b(face|facial) recognition\\b", "\\bfingerprint(s)?\\b", "\\biris scan\\b", "\\bvoiceprint\\b"]
+  },
+  "ad_personalization": {
+    "synonyms": ["personalized ads", "targeted advertising", "interest-based ads"],
+    "regex": ["\\b(personali[sz]ed|target(ed)?|interest-based) ads?\\b", "\\bad personalization\\b"]
+  },
+  "data_retention_extended": {
+    "synonyms": ["retain indefinitely", "store forever", "long-term retention"],
+    "regex": ["\\b(retain|store) (data )?(indefinitely|forever|for long periods)\\b"]
+  },
+  "encryption_at_rest": {
+    "synonyms": ["encrypted at rest", "disk encryption", "storage encryption"],
+    "regex": ["\\bencrypt(ed|ion)? at rest\\b", "\\bdisk encryption\\b"]
+  },
+  "end_to_end_encryption": {
+    "synonyms": ["e2e encryption", "end-to-end encryption", "e2ee"],
+    "regex": ["\\bend[- ]to[- ]end encryption\\b", "\\be2e( encryption)?\\b", "\\be2ee\\b"]
+  },
+  "dark_patterns": {
+    "synonyms": ["confirmshaming", "trick wording", "deceptive design"],
+    "regex": ["\\b(dark pattern|deceptive design|confirmsham(e|ing))\\b"]
+  },
+  "age_verification": {
+    "synonyms": ["age gate", "verify age"],
+    "regex": ["\\bage (verification|gate)\\b", "verify (your )?age"]
+  },
+  "parental_controls": {
+    "synonyms": ["parent dashboard", "family controls"],
+    "regex": ["\\bparent(al)? controls?\\b", "\\bfamily controls?\\b"]
+  },
+  "data_minimization": {
+    "synonyms": ["collect only necessary", "only what we need"],
+    "regex": ["collect (only )?(what we need|necessary data)"]
+  },
+  "privacy_by_design": {
+    "synonyms": ["privacy-first design", "designed with privacy"],
+    "regex": ["privacy (by|first) design", "designed with privacy"]
+  },
+  "anonymization": {
+    "synonyms": ["data anonymized", "anonymization", "de-identified"],
+    "regex": ["\\banonymi[sz]ed? data\\b", "\\bde-identified data\\b"]
+  },
+  "data_deletion_user_control": {
+    "synonyms": ["delete my data", "erase data", "right to delete"],
+    "regex": ["\\b(delete|erase|remove) (my )?data\\b", "right to delete"]
+  },
+  "privacy_dashboard": {
+    "synonyms": ["settings dashboard", "privacy settings page"],
+    "regex": ["privacy (settings|dashboard)"]
+  },
+  "tracking_pixel": {
+    "synonyms": ["web beacon", "pixel tracking"],
+    "regex": ["\\b(tracking )?pixel\\b", "web beacon"]
+  },
+  "session_replay": {
+    "synonyms": ["session replay", "user recording"],
+    "regex": ["session replay", "replay session", "record(ing)? user (session|interaction)"]
+  },
+  "differential_privacy": {
+    "synonyms": ["differential privacy", "noise injection"],
+    "regex": ["differential privacy", "adding noise to (data|dataset)"]
+  },
+  "federated_learning": {
+    "synonyms": ["federated learning", "on-device training"],
+    "regex": ["federated learning", "on[- ]device training"]
+  },
+  "local_processing": {
+    "synonyms": ["on-device processing", "local inference"],
+    "regex": ["on[- ]device processing", "local (processing|inference)"]
+  },
+  "zero_knowledge_encryption": {
+    "synonyms": ["zero knowledge", "zero-knowledge", "cant read your messages"],
+    "regex": ["zero[- ]knowledge", "provider cannot read (messages|data)"]
+  },
+  "device_encryption": {
+    "synonyms": ["device encryption", "full disk encryption"],
+    "regex": ["device encryption", "full disk encryption"]
+  },
+  "contextual_ads": {
+    "synonyms": ["contextual ads", "non-tracking ads"],
+    "regex": ["contextual ads?", "non[- ]tracking ads?"]
+  },
+  "behavioral_ads": {
+    "synonyms": ["behavioral ads", "behavioral advertising", "interest based ads"],
+    "regex": ["behavioral (ads?|advertising)", "interest[- ]based ads?"]
+  },
+  "cross_site_tracking": {
+    "synonyms": ["cross site tracking", "cross-site tracking"],
+    "regex": ["cross[- ]site tracking", "track(s|ing)? across sites?"]
+  },
+  "push_notifications": {
+    "synonyms": ["push notification", "push alerts"],
+    "regex": ["push notifications?", "push alerts?"]
+  },
+  "voice_commands_opt_in": {
+    "synonyms": ["opt-in voice", "voice opt in"],
+    "regex": ["voice (command )?opt[- ]in", "opt[- ]in voice"]
+  },
+  "ephemeral_messages": {
+    "synonyms": ["ephemeral messages", "disappearing messages"],
+    "regex": ["ephemeral messages", "disappearing messages"]
+  },
+  "short_data_retention": {
+    "synonyms": ["short retention", "minimal retention"],
+    "regex": ["(short|minimal) data retention", "retain data (only )?briefly"]
+  },
+  "data_portability": {
+    "synonyms": ["export data", "data export", "download my data"],
+    "regex": ["export (my )?data", "download (my )?data"]
+  },
+  "multi_factor_auth": {
+    "synonyms": ["mfa", "multi factor auth", "two factor"],
+    "regex": ["multi[- ]factor", "two[- ]factor", "\bmfa\b"]
+  },
+  "encryption_in_transit": {
+    "synonyms": ["tls", "encrypted in transit"],
+    "regex": ["encrypted in transit", "TLS 1\\.[2-3]"]
+  },
+  "data_localization": {
+    "synonyms": ["data stays local", "regional hosting"],
+    "regex": ["data (stays|stored) (locally|in region)", "regional hosting"]
+  },
+  "user_consent_granular": {
+    "synonyms": ["granular consent", "per-feature consent"],
+    "regex": ["granular consent", "per[- ]feature consent"]
+  },
+  "children_data_handling": {
+    "synonyms": ["child privacy", "coppa compliance"],
+    "regex": ["child(ren)? privacy", "coppa compliance"]
+  },
+  "ad_transparency": {
+    "synonyms": ["why this ad", "ad transparency"],
+    "regex": ["why this ad", "ad transparency"]
+  },
+  "privacy_labels": {
+    "synonyms": ["privacy label", "data nutrition label"],
+    "regex": ["privacy labels?", "data nutrition label"]
+  },
+  "data_broker_usage": {
+    "synonyms": ["data broker", "third party data", "purchased data", "data aggregator"],
+    "regex": ["\\bdata broker(s)?\\b", "\\bpurchas(ed|ing) (user )?data\\b", "\\bthird[- ]party data\\b"]
+  },
+  "misleading_privacy_notice": {
+    "synonyms": [
+      "unclear privacy policy",
+      "privacy policy was unclear",
+      "confusing notice",
+      "misleading terms",
+      "vague policy"
+    ],
+    "regex": [
+      "\\b(unclear|confusing|misleading|vague) (privacy )?(policy|notice|terms)\\b",
+      "privacy policy was unclear"
+    ]
+  },
+  "background_data_collection": {
+    "synonyms": ["background collection", "collect in background", "passive collection"],
+    "regex": ["\\bcollect(s|ing|ed)? (data )?in (the )?background\\b", "\\bpassive (data )?collection\\b"]
+  },
+  "sensor_always_active": {
+    "synonyms": ["always on sensor", "sensor always active", "continuous sensing"],
+    "regex": ["\\balways[- ]on sensor\\b", "\\bsensor (is )?always active\\b", "\\bcontinuous sensing\\b"]
+  },
+  "forced_consent": {
+    "synonyms": ["forced consent", "mandatory consent", "no opt out", "take it or leave it"],
+    "regex": ["\\bforc(ed|ing) consent\\b", "\\bmandatory consent\\b", "\\bno opt[- ]out\\b", "\\btake it or leave it\\b"]
+  },
+  "hidden_data_collection": {
+    "synonyms": ["hidden collection", "secret collection", "undisclosed collection"],
+    "regex": ["\\b(hidden|secret|undisclosed) (data )?collection\\b"]
+  },
+  "fourth_party_tracking": {
+    "synonyms": ["fourth party", "4th party", "partner sharing"],
+    "regex": ["\\bfourth[- ]party\\b", "\\b4th[- ]party\\b", "\\bpartner(s)? shar(e|ing)\\b"]
+  },
+  "unclear_data_retention": {
+    "synonyms": ["unclear retention", "retention policy unclear", "how long stored"],
+    "regex": ["\\bunclear retention\\b", "\\bretention (policy )?unclear\\b", "\\bhow long (data )?stored\\b"]
+  },
+  "excessive_permissions": {
+    "synonyms": ["too many permissions", "excessive access", "unnecessary permissions"],
+    "regex": ["\\b(too many|excessive|unnecessary) permissions\\b", "\\bexcessive access\\b"]
+  },
+  "cross_context_data_use": {
+    "synonyms": ["cross-context use", "data reuse", "secondary purpose"],
+    "regex": ["\\bcross[- ]context (data )?use\\b", "\\bdata re[- ]?use\\b", "\\bsecondary purpose\\b"]
+  },
+  "no_user_control": {
+    "synonyms": ["no control", "cannot control", "no user control", "cannot delete"],
+    "regex": ["\\bno (user )?control\\b", "\\bcannot control\\b", "\\bcannot delete (data)?\\b"]
+  },
+  "opaque_algorithms": {
+    "synonyms": ["opaque algorithm", "black box", "unclear algorithm", "algorithmic decision"],
+    "regex": ["\\bopaque algorithm(s)?\\b", "\\bblack[- ]box\\b", "\\balgorithmic decision(s)?\\b"]
+  },
+  "profiling": {
+    "synonyms": ["user profiling", "behavioral profiling", "create profile"],
+    "regex": ["\\b(user |behavioral )?profiling\\b", "\\bcreat(e|ing) profile(s)?\\b"]
+  },
+  "fingerprinting": {
+    "synonyms": ["device fingerprinting", "browser fingerprinting", "fingerprint tracking"],
+    "regex": ["\\b(device|browser) fingerprinting\\b", "\\bfingerprint tracking\\b"]
+  },
+  "no_encryption": {
+    "synonyms": ["unencrypted", "no encryption", "not encrypted", "plaintext storage"],
+    "regex": ["\\bunencrypted\\b", "\\bno encryption\\b", "\\bnot encrypted\\b", "\\bplaintext (storage|transmission)\\b"]
+  },
+  "insecure_storage": {
+    "synonyms": ["insecure storage", "unprotected data", "weak security"],
+    "regex": ["\\binsecure storage\\b", "\\bunprotected data\\b", "\\bweak security\\b"]
+  },
+  "default_opt_in": {
+    "synonyms": ["default opt-in", "opt-in by default", "pre-checked box"],
+    "regex": ["\\bdefault opt[- ]in\\b", "\\bopt[- ]in by default\\b", "\\bpre[- ]checked (box)?\\b"]
+  },
+  "notification_fatigue": {
+    "synonyms": ["too many notifications", "excessive notifications", "notification spam"],
+    "regex": ["\\b(too many|excessive) notifications\\b", "\\bnotification (spam|fatigue)\\b"]
+  },
+  "deceptive_interface": {
+    "synonyms": ["deceptive ui", "misleading interface", "tricky design"],
+    "regex": ["\\bdeceptive (ui|interface|design)\\b", "\\bmisleading interface\\b", "\\btricky design\\b"]
+  },
+  "no_audit_trail": {
+    "synonyms": ["no audit log", "no logging", "cannot audit"],
+    "regex": ["\\bno audit (log|trail)\\b", "\\bno logging\\b", "\\bcannot audit\\b"]
+  }
+}

@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "privacy-harm-heuristics"
+version = "1.0.0"
+description = "Can we estimate privacy harm with interpretable heuristics, given facts parsed by a small LLM? Companion artifact to the masters practicum 'Human vs Human vs Machine' (Dec 2025)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "Will" }]
+dependencies = [
+    "scikit-learn>=1.4",
+    "pandas>=2.0",
+    "numpy>=1.26",
+    "joblib>=1.3",
+    "typer>=0.12",
+    "pydantic>=2",
+]
+
+[project.optional-dependencies]
+# interpret -> EBM; imodels -> Bayesian Rule List; pomegranate -> Bayesian Network.
+# The BRL/bayes_net trainer *tests* importorskip on imodels/pomegranate, so `make
+# test` degrades cleanly if this extra is absent.
+models = ["interpret>=0.6", "imodels>=1.4", "pomegranate>=1.0"]
+llm = ["openai>=1.30", "google-generativeai>=0.8"]
+nlp = ["gliner2>=0.1"]
+dev = [
+    "pytest>=8",
+    "ruff>=0.4",
+    "black>=24",
+    "mypy>=1.10",
+]
+
+[project.scripts]
+privacy-harm-heuristics = "privacy_harm_heuristics.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 100
+[tool.ruff.lint]
+ignore = ["E501"]
+
+[tool.mypy]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["slow: slow model-training tests"]

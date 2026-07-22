@@ -1,0 +1,118 @@
+{
+  "baseline": {
+    "hybrid_deterministic_first": {
+      "p_value": 0.84375,
+      "significant": false,
+      "bonferroni_alpha": 0.0033333333333333335,
+      "effect_size_cliffs_d": -0.2857142857142857,
+      "mean_diff": -0.011864432806518277
+    },
+    "hybrid_llm_first": {
+      "p_value": 0.84375,
+      "significant": false,
+      "bonferroni_alpha": 0.0033333333333333335,
+      "effect_size_cliffs_d": -0.2857142857142857,
+      "mean_diff": -0.011864432806518277
+    },
+    "rag": {
+      "p_value": 1.0,
+      "significant": false,
+      "bonferroni_alpha": 0.0033333333333333335,
+      "effect_size_cliffs_d": 0.0,
+      "mean_diff": 0.0
+    },
+    "rules_dynamic": {
+      "p_value": 0.21875,
+      "significant": false,
+      "bonferroni_alpha": 0.0033333333333333335,
+      "effect_size_cliffs_d": -0.5306122448979592,
+      "mean_diff": -0.08506144428438317
+    },
+    "rules_static": {
+      "p_value": 0.6875,
+      "significant": false,
+      "bonferroni_alpha": 0.0033333333333333335,
+      "effect_size_cliffs_d": -0.3673469387755102,
+      "mean_diff": -0.03626343663247328
+    }
+  },
+  "hybrid_deterministic_first": {
+    "hybrid_llm_first": {
+      "p_value": NaN,
+      "significant": false,
+      "bonferroni_alpha": 0.0033333333333333335,
+      "effect_size_cliffs_d": 0.0,
+      "mean_diff": 0.0
+    },
+    "rag": {
+      "p_value": 0.84375,
+      "significant": false,
+      "bonferroni_alpha": 0.0033333333333333335,
+      "effect_size_cliffs_d": 0.2857142857142857,
+      "mean_diff": 0.011864432806518277
+    },
+    "rules_dynamic": {
+      "p_value": 0.09176685327841419,
+      "significant": false,
+      "bonferroni_alpha": 0.0033333333333333335,
+      "effect_size_cliffs_d": 0.2777777777777778,
+      "mean_diff": 0.054355511854765504
+    },
+    "rules_static": {
+      "p_value": 0.8303573258839704,
+      "significant": false,
+      "bonferroni_alpha": 0.0033333333333333335,
+      "effect_size_cliffs_d": 0.027210884353741496,
+      "mean_diff": 0.01386012813429266
+    }
+  },
+  "hybrid_llm_first": {
+    "rag": {
+      "p_value": 0.84375,
+      "significant": false,
+      "bonferroni_alpha": 0.0033333333333333335,
+      "effect_size_cliffs_d": 0.2857142857142857,
+      "mean_diff": 0.011864432806518277
+    },
+    "rules_dynamic": {
+      "p_value": 0.09176685327841419,
+      "significant": false,
+      "bonferroni_alpha": 0.0033333333333333335,
+      "effect_size_cliffs_d": 0.2777777777777778,
+      "mean_diff": 0.054355511854765504
+    },
+    "rules_static": {
+      "p_value": 0.8303573258839704,
+      "significant": false,
+      "bonferroni_alpha": 0.0033333333333333335,
+      "effect_size_cliffs_d": 0.027210884353741496,
+      "mean_diff": 0.01386012813429266
+    }
+  },
+  "rag": {
+    "rules_dynamic": {
+      "p_value": 0.21875,
+      "significant": false,
+      "bonferroni_alpha": 0.0033333333333333335,
+      "effect_size_cliffs_d": -0.5306122448979592,
+      "mean_diff": -0.08506144428438317
+    },
+    "rules_static": {
+      "p_value": 0.6875,
+      "significant": false,
+      "bonferroni_alpha": 0.0033333333333333335,
+      "effect_size_cliffs_d": -0.3673469387755102,
+      "mean_diff": -0.03626343663247328
+    }
+  },
+  "rules_dynamic": {
+    "rules_static": {
+      "p_value": 0.393895815382726,
+      "significant": false,
+      "bonferroni_alpha": 0.0033333333333333335,
+      "effect_size_cliffs_d": 0.08333333333333333,
+      "mean_diff": 0.0023722200266129145
+    }
+  },
+  "rules_static": {}
+}

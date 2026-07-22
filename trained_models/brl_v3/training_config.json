@@ -1,0 +1,7 @@
+{
+  "model": "brl",
+  "max_rule_length": 3,
+  "n_steps": 500,
+  "n_chains": 1,
+  "test_size": 0.2
+}

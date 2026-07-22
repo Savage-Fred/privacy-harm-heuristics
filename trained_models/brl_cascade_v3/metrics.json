@@ -1,0 +1,119 @@
+{
+  "mean_f1": 0.047075835475578406,
+  "mean_accuracy": 0.9195190468600574,
+  "n_classifiers": 16,
+  "n_successful": 1,
+  "per_category": {
+    "identification": {
+      "accuracy": 0.9947401976410584,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "fallback": "decision_tree"
+    },
+    "aggregation": {
+      "accuracy": 0.9700350653490596,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "fallback": "decision_tree"
+    },
+    "surveillance": {
+      "accuracy": 0.9633407714376793,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "fallback": "decision_tree"
+    },
+    "interrogation": {
+      "accuracy": 0.9950589735416002,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "fallback": "decision_tree"
+    },
+    "exclusion": {
+      "accuracy": 0.9729040484539369,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "fallback": "decision_tree"
+    },
+    "secondary_use": {
+      "accuracy": 0.905482945489321,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "fallback": "decision_tree"
+    },
+    "exposure": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0
+    },
+    "breach_of_confidentiality": {
+      "accuracy": 0.9791201785145043,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "fallback": "decision_tree"
+    },
+    "insecurity": {
+      "accuracy": 0.9693975135479758,
+      "f1": 0.7532133676092545,
+      "precision": 0.9932203389830508,
+      "recall": 0.6066252587991718,
+      "fallback": "decision_tree"
+    },
+    "disclosure": {
+      "accuracy": 0.9772075231112528,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "fallback": "decision_tree"
+    },
+    "increased_accessibility": {
+      "accuracy": 0.9944214217405164,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "fallback": "decision_tree"
+    },
+    "blackmail": {
+      "accuracy": 0.9987248963978324,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "fallback": "decision_tree"
+    },
+    "appropriation": {
+      "accuracy": 0.999681224099458,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "fallback": "decision_tree"
+    },
+    "distortion": {
+      "accuracy": 0.9988842843481033,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "fallback": "decision_tree"
+    },
+    "intrusion": {
+      "accuracy": 0.996334077143768,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "fallback": "decision_tree"
+    },
+    "decisional_interference": {
+      "accuracy": 0.9969716289448518,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "fallback": "decision_tree"
+    }
+  }
+}

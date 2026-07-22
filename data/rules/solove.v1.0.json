@@ -1,0 +1,175 @@
+{
+  "version": "1.0",
+  "name": "solove",
+  "description": "Daniel Solove's Privacy Harm Taxonomy - 16 categories organized into 4 groups",
+  "source": "Solove, D. J. (2006). A Taxonomy of Privacy. University of Pennsylvania Law Review, 154(3), 477-564.",
+  "created": "2025-11-25",
+  "groups": {
+    "information_collection": ["surveillance", "interrogation"],
+    "information_processing": ["aggregation", "identification", "insecurity", "secondary_use", "exclusion"],
+    "information_dissemination": ["breach_of_confidentiality", "disclosure", "exposure", "increased_accessibility", "blackmail", "appropriation", "distortion"],
+    "invasions": ["intrusion", "decisional_interference"]
+  },
+  "rules": [
+    {
+      "id": "solove_001",
+      "category": "surveillance",
+      "condition": "monitoring OR tracking OR watching OR observing OR recording",
+      "question_form": "Is there monitoring, tracking, or surveillance of individuals?",
+      "harm": "surveillance",
+      "confidence": 0.85,
+      "description": "Watching, listening to, or recording of an individual's activities",
+      "examples": ["CCTV monitoring", "GPS tracking", "browsing history collection", "always-on devices"]
+    },
+    {
+      "id": "solove_002",
+      "category": "interrogation",
+      "condition": "questioning OR interrogating OR forced_disclosure OR compelled",
+      "question_form": "Are individuals compelled or pressured to disclose information?",
+      "harm": "interrogation",
+      "confidence": 0.80,
+      "description": "Pressuring individuals to divulge information",
+      "examples": ["mandatory disclosure forms", "intrusive background checks", "coercive data requests"]
+    },
+    {
+      "id": "solove_003",
+      "category": "aggregation",
+      "condition": "combining OR aggregating OR profiling OR data_fusion OR linking",
+      "question_form": "Is data from multiple sources combined or aggregated?",
+      "harm": "aggregation",
+      "confidence": 0.90,
+      "description": "Combining various pieces of data about a person",
+      "examples": ["data brokers", "cross-device tracking", "shadow profiles", "Cambridge Analytica"]
+    },
+    {
+      "id": "solove_004",
+      "category": "identification",
+      "condition": "identifying OR re-identification OR deanonymization OR linking_identity",
+      "question_form": "Can individuals be identified or re-identified from the data?",
+      "harm": "identification",
+      "confidence": 0.85,
+      "description": "Linking information to particular individuals",
+      "examples": ["facial recognition", "device fingerprinting", "de-anonymization attacks"]
+    },
+    {
+      "id": "solove_005",
+      "category": "insecurity",
+      "condition": "breach OR leak OR hack OR exposed OR vulnerable OR misconfigured",
+      "question_form": "Is data inadequately protected from breaches or unauthorized access?",
+      "harm": "insecurity",
+      "confidence": 0.95,
+      "description": "Carelessness in protecting stored information from leaks and improper access",
+      "examples": ["Equifax breach", "unencrypted databases", "exposed S3 buckets"]
+    },
+    {
+      "id": "solove_006",
+      "category": "secondary_use",
+      "condition": "repurpose OR secondary_use OR different_purpose OR without_consent OR sold",
+      "question_form": "Is data used for purposes beyond the original collection intent?",
+      "harm": "secondary_use",
+      "confidence": 0.90,
+      "description": "Use of collected information for purposes different from assented purposes",
+      "examples": ["selling user data", "ad targeting from messages", "Cambridge Analytica"]
+    },
+    {
+      "id": "solove_007",
+      "category": "exclusion",
+      "condition": "no_access OR denied_access OR opaque OR no_correction OR no_deletion",
+      "question_form": "Are individuals excluded from knowledge or control of their data?",
+      "harm": "exclusion",
+      "confidence": 0.80,
+      "description": "Failure to allow data subjects to know about and participate in data handling",
+      "examples": ["no data portability", "denied access requests", "opaque algorithms"]
+    },
+    {
+      "id": "solove_008",
+      "category": "breach_of_confidentiality",
+      "condition": "confidential AND (disclosed OR shared OR revealed)",
+      "question_form": "Has confidential information been improperly disclosed?",
+      "harm": "breach_of_confidentiality",
+      "confidence": 0.90,
+      "description": "Breaking a promise to keep information confidential",
+      "examples": ["doctor sharing medical records", "lawyer disclosing client info"]
+    },
+    {
+      "id": "solove_009",
+      "category": "disclosure",
+      "condition": "disclosure OR revealed OR exposed OR made_public",
+      "question_form": "Has true but private information been revealed to others?",
+      "harm": "disclosure",
+      "confidence": 0.85,
+      "description": "Revelation of truthful information that damages reputation",
+      "examples": ["outing sexual orientation", "revealing medical conditions", "exposing financial troubles"]
+    },
+    {
+      "id": "solove_010",
+      "category": "exposure",
+      "condition": "exposed OR naked OR intimate OR bodily",
+      "question_form": "Has intimate or bodily information been exposed?",
+      "harm": "exposure",
+      "confidence": 0.90,
+      "description": "Revealing physical or emotional attributes of a person",
+      "examples": ["leaked intimate images", "exposed medical photos", "body camera footage"]
+    },
+    {
+      "id": "solove_011",
+      "category": "increased_accessibility",
+      "condition": "public_database OR searchable OR indexed OR accessible",
+      "question_form": "Has personal information been made more accessible than before?",
+      "harm": "increased_accessibility",
+      "confidence": 0.75,
+      "description": "Amplifying accessibility of already available information",
+      "examples": ["public records online", "mugshot websites", "Clearview AI scraping"]
+    },
+    {
+      "id": "solove_012",
+      "category": "blackmail",
+      "condition": "blackmail OR extortion OR ransom OR threat_disclosure",
+      "question_form": "Is there blackmail or extortion using personal information?",
+      "harm": "blackmail",
+      "confidence": 0.95,
+      "description": "Threat to disclose personal information",
+      "examples": ["ransomware", "sextortion", "doxing threats"]
+    },
+    {
+      "id": "solove_013",
+      "category": "appropriation",
+      "condition": "appropriation OR identity_theft OR impersonation OR stolen_identity",
+      "question_form": "Has someone's identity or likeness been appropriated?",
+      "harm": "appropriation",
+      "confidence": 0.90,
+      "description": "Use of one's identity or personality for another's purposes",
+      "examples": ["deepfakes", "identity theft", "unauthorized celebrity endorsements"]
+    },
+    {
+      "id": "solove_014",
+      "category": "distortion",
+      "condition": "distortion OR misrepresentation OR false_light OR manipulated",
+      "question_form": "Has information about a person been distorted or misrepresented?",
+      "harm": "distortion",
+      "confidence": 0.80,
+      "description": "Dissemination of false or misleading information",
+      "examples": ["deepfakes", "manipulated reviews", "false accusations"]
+    },
+    {
+      "id": "solove_015",
+      "category": "intrusion",
+      "condition": "intrusion OR invasion OR unwanted_contact OR harassment",
+      "question_form": "Is there unwanted intrusion into someone's private space or affairs?",
+      "harm": "intrusion",
+      "confidence": 0.85,
+      "description": "Invasive acts that disturb one's tranquility or solitude",
+      "examples": ["spam", "telemarketing", "stalking via location data"]
+    },
+    {
+      "id": "solove_016",
+      "category": "decisional_interference",
+      "condition": "manipulation OR coercion OR dark_pattern OR nudge OR algorithmic_decision",
+      "question_form": "Is there interference with personal decision-making through manipulation?",
+      "harm": "decisional_interference",
+      "confidence": 0.80,
+      "description": "Government or private sector intrusion into personal decisions",
+      "examples": ["dark patterns", "algorithmic discrimination", "manipulative recommendations"]
+    }
+  ]
+}

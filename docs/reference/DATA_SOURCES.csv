@@ -1,0 +1,32 @@
+Data Sources and Status,,,,,,,
+Context: Proposal,Privacy Heuristics Proposal and Status Updates,,,,,,
+Author: Will McCarty,,,,,,,
+Georgia Tech PUBP,,,,,,,
+Date: 8/31/2025,,,,,,,
+Updated: 9/14/2025,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+Source,Description,Primary,Structured?,Status,Status Update,Collection Method,Complexity
+Privacy Rights Clearinghouse,Historical database of data breaches since 2005,Primary,Yes,In progress,"Email sent to databreachchronology@privacyrights.org 
+","Purchase dataset
+$250 for single user one-time access or get permission for free set",Low
+HHS-OCR Breach Portal,HIPAA breach notifications,Primary,Yes,Completed,Downloads Available,Static Sheet,Medium
+State AG Websites,State-level breach notifications (10 priority states),Primary,Varies,Not started,,Multi-site scraper,High
+FTC Enforcement Actions,Privacy and data security cases,Primary,Varies,Not started,,Structured scraper,Low
+SEC EDGAR,Material breach disclosures in filings,Primary,Varies,In progress,,API-based collection,Medium
+EU DPA Decisions,GDPR enforcement actions,Primary,Varies,In progress,,Multi-country scraper,High
+UK ICO,Enforcement notices and penalties,Primary,Varies,Not started,,Structured scraper,Low
+Canadian Privacy Commissioner,Published findings and decisions,Primary,,Not started,,Structured scraper,Low
+YouTube Researcher Program,YouTube API Access,Primary,Yes,Blocked,Infeasible – only available to faculty and PhD+ researchers ,API-Based collection,Low
+X Academic API,Access to subset of X data for academic purposes,Primary,Yes,In progress,,API-based-collection,Low
+Reddit Data – Infeasible,Reddit accepts proposals for free use of Reddit Data.,Primary,Yes,Blocked,Requested: 8-12 weeks to get access,API-based-collection,Medium – requires proposal acceptance.
+Mozilla PNI DataSet,"Privacy Not Included is Mozilla’s buyer-guide & research tool designed to help consumers understand how “creepy” connected products are from a privacy & security perspective, so you can shop smarter and pressure companies toward better practices.",Primary,Yes,In progress,Email sent to press@mozillafoundation.org,Bulk Download on Request,Medium
+Cyber Insurance Claims,,Secondary,Yes,Not started,,,
+Tech News Aggregation,Privacy incident coverage from tech media,Secondary,No,Not started,,API + NLP extraction,High
+General News,,Secondary,No,Not started,,News API + keyword filtering,High
+Social Media,Look into aggregators or RSS feeds that allow scraping,Secondary,No,Not started,,API-based sampling,High
+Industry Reports,,Secondary,No,Not started,,Manual collection,Low
+Academic Literature,Look for metastudies,Secondary,No,Not started,,API + manual collection,Medium
+GDPR Enforcement (CSV Connector),Structured CSV of GDPR fines & decisions (internal prototype),Primary,Yes,Completed,Connector implemented & normalized,CSV ingestion (per DPA export),Medium
+Global Privacy Actions (CSV Connector),Aggregated global regulatory privacy actions (prototype),Primary,Yes,Completed,Singular CSV parser added,CSV ingestion,Medium

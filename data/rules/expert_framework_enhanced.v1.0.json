@@ -1,0 +1,17 @@
+{
+  "name": "expert_framework_enhanced",
+  "version": "1.0",
+  "description": "Enhanced set of expert privacy rules derived from GDPR, NIST, and Solove, designed to improve the focusing effect.",
+  "rules": [
+    "If data is collected from minors (under 16), strict verifiable parental consent is required.",
+    "If location data is stored, it must be encrypted at rest and access must be logged.",
+    "If personal data is shared with third parties, a data processing agreement must be in place and the user must be informed.",
+    "If automated decision-making or profiling is used, the user must have the right to opt-out and receive a human review.",
+    "If a data breach occurs involving sensitive data, affected users must be notified within 72 hours.",
+    "If surveillance or monitoring technologies are used, clear and conspicuous notice must be provided before collection begins.",
+    "If data is aggregated from multiple sources to create profiles, the user must be informed of this profiling activity.",
+    "If sensitive data (health, biometric, financial) is collected, it requires explicit, affirmative consent (opt-in).",
+    "If data is used for a purpose other than what it was originally collected for (secondary use), new consent must be obtained.",
+    "If a user requests access to or deletion of their data, the organization must comply within a reasonable timeframe (e.g., 30 days)."
+  ]
+}

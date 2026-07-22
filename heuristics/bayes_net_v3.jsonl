@@ -1,0 +1,7 @@
+{"model_type": "bayes_net", "kind": "edge", "text": "f_individuals_log -> kw_biometric", "support": null, "precision": null, "lift": null, "extra": {"provenance_hash": "5929cb06a69447b5", "version": 1}}
+{"model_type": "bayes_net", "kind": "edge", "text": "f_individuals_log -> kw_location", "support": null, "precision": null, "lift": null, "extra": {"provenance_hash": "5929cb06a69447b5", "version": 1}}
+{"model_type": "bayes_net", "kind": "edge", "text": "f_individuals_log -> kw_monetary_penalty", "support": null, "precision": null, "lift": null, "extra": {"provenance_hash": "5929cb06a69447b5", "version": 1}}
+{"model_type": "bayes_net", "kind": "edge", "text": "f_individuals_log -> kw_privacy", "support": null, "precision": null, "lift": null, "extra": {"provenance_hash": "5929cb06a69447b5", "version": 1}}
+{"model_type": "bayes_net", "kind": "edge", "text": "f_individuals_log -> kw_reg_enforcement", "support": null, "precision": null, "lift": null, "extra": {"provenance_hash": "5929cb06a69447b5", "version": 1}}
+{"model_type": "bayes_net", "kind": "edge", "text": "f_individuals_log -> kw_video_surveillance", "support": null, "precision": null, "lift": null, "extra": {"provenance_hash": "5929cb06a69447b5", "version": 1}}
+{"model_type": "bayes_net", "kind": "edge", "text": "f_individuals_log -> __target__", "support": null, "precision": null, "lift": null, "extra": {"provenance_hash": "5929cb06a69447b5", "version": 1}}

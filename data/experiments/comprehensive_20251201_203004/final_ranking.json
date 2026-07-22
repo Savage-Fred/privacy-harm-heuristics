@@ -1,0 +1,23 @@
+[
+  {
+    "mode": "baseline",
+    "micro_f1_mean": 0.4123620356542087,
+    "micro_f1_ci_lower": 0.4123620356542087,
+    "micro_f1_ci_upper": 0.4123620356542087,
+    "n_trials": 1
+  },
+  {
+    "mode": "rag",
+    "micro_f1_mean": 0.4123620356542087,
+    "micro_f1_ci_lower": 0.4123620356542087,
+    "micro_f1_ci_upper": 0.4123620356542087,
+    "n_trials": 1
+  },
+  {
+    "mode": "rules_static",
+    "micro_f1_mean": 0.41236203565420865,
+    "micro_f1_ci_lower": 0.41236203565420865,
+    "micro_f1_ci_upper": 0.41236203565420865,
+    "n_trials": 3
+  }
+]

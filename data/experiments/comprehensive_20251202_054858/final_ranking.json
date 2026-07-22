@@ -1,0 +1,44 @@
+[
+  {
+    "mode": "rules_dynamic",
+    "micro_f1_mean": 0.41273246909776534,
+    "micro_f1_ci_lower": 0.37631446403186125,
+    "micro_f1_ci_upper": 0.45311978165286826,
+    "n_trials": 24
+  },
+  {
+    "mode": "hybrid_deterministic_first",
+    "micro_f1_mean": 0.41273246909776534,
+    "micro_f1_ci_lower": 0.38757416008017914,
+    "micro_f1_ci_upper": 0.43789893758765747,
+    "n_trials": 60
+  },
+  {
+    "mode": "hybrid_llm_first",
+    "micro_f1_mean": 0.41273246909776534,
+    "micro_f1_ci_lower": 0.38757416008017914,
+    "micro_f1_ci_upper": 0.43789893758765747,
+    "n_trials": 60
+  },
+  {
+    "mode": "baseline",
+    "micro_f1_mean": 0.4004976028476905,
+    "micro_f1_ci_lower": 0.3331765202059084,
+    "micro_f1_ci_upper": 0.474151836952994,
+    "n_trials": 7
+  },
+  {
+    "mode": "rag",
+    "micro_f1_mean": 0.4004976028476905,
+    "micro_f1_ci_lower": 0.3331765202059084,
+    "micro_f1_ci_upper": 0.474151836952994,
+    "n_trials": 7
+  },
+  {
+    "mode": "rules_static",
+    "micro_f1_mean": 0.4004976028476904,
+    "micro_f1_ci_lower": 0.3714213414220972,
+    "micro_f1_ci_upper": 0.43012125858457495,
+    "n_trials": 42
+  }
+]

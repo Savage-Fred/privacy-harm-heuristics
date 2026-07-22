@@ -1,0 +1,67 @@
+{
+  "baseline": {
+    "hybrid_deterministic_first": {
+      "p_value": 1.0,
+      "significant": false,
+      "note": "insufficient samples"
+    },
+    "rag": {
+      "p_value": 1.0,
+      "significant": false,
+      "note": "insufficient samples"
+    },
+    "rules_dynamic": {
+      "p_value": 1.0,
+      "significant": false,
+      "note": "insufficient samples"
+    },
+    "rules_static": {
+      "p_value": 1.0,
+      "significant": false,
+      "note": "insufficient samples"
+    }
+  },
+  "hybrid_deterministic_first": {
+    "rag": {
+      "p_value": 1.0,
+      "significant": false,
+      "note": "insufficient samples"
+    },
+    "rules_dynamic": {
+      "p_value": 1.0,
+      "significant": false,
+      "bonferroni_alpha": 0.005,
+      "effect_size_cliffs_d": 0.0,
+      "mean_diff": 0.0
+    },
+    "rules_static": {
+      "p_value": 1.0,
+      "significant": false,
+      "bonferroni_alpha": 0.005,
+      "effect_size_cliffs_d": 0.0,
+      "mean_diff": 0.0
+    }
+  },
+  "rag": {
+    "rules_dynamic": {
+      "p_value": 1.0,
+      "significant": false,
+      "note": "insufficient samples"
+    },
+    "rules_static": {
+      "p_value": 1.0,
+      "significant": false,
+      "note": "insufficient samples"
+    }
+  },
+  "rules_dynamic": {
+    "rules_static": {
+      "p_value": 1.0,
+      "significant": false,
+      "bonferroni_alpha": 0.005,
+      "effect_size_cliffs_d": 0.0,
+      "mean_diff": 0.0
+    }
+  },
+  "rules_static": {}
+}
