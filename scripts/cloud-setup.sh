@@ -30,8 +30,13 @@ if command -v sha256sum >/dev/null 2>&1; then
 else
   key="$(printf '%s' "$root" | cksum | tr -cd '0-9')"
 fi
-stamp="${TMPDIR:-/tmp}/.cloud-setup-${key:-fallback}"
-[ -f "$stamp" ] && exit 0
+stamp="${TMPDIR:-/tmp}/.cloud-setup-${key}"
+
+# If neither hasher exists the key is empty, and every checkout would share one
+# stamp name. Skip the stamp entirely in that case and install every time: when
+# the script cannot tell two repos apart, redundant work is the safe failure and
+# "these are the same repo" is not.
+[ -n "$key" ] && [ -f "$stamp" ] && exit 0
 
 install_deps() {
   # Ubuntu 24.04 marks the system Python externally-managed (PEP 668), so a bare
@@ -51,7 +56,7 @@ install_tools() { :; }
 # dependencies on every resume just because a linter download failed.
 if install_deps; then
   install_tools || echo "cloud-setup: optional CI tooling did not install; repo gates that need it will fail until it does." >&2
-  touch "$stamp"
+  [ -n "$key" ] && touch "$stamp"
 else
   echo "cloud-setup: dependency install FAILED in $root — dependencies are missing, install them by hand before trusting a test run." >&2
 fi
