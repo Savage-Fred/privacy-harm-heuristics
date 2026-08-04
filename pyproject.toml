@@ -28,9 +28,9 @@ llm = ["openai>=1.30", "google-generativeai>=0.8"]
 nlp = ["gliner2>=0.1"]
 dev = [
     "pytest>=8",
-    "ruff>=0.4",
-    "black>=24",
-    "mypy>=1.10",
+    "ruff>=0.4,<0.17",
+    "black>=24,<27",
+    "mypy>=1.10,<3",
 ]
 
 [project.scripts]
@@ -46,6 +46,13 @@ target-version = ["py311"]
 [tool.ruff]
 line-length = 100
 [tool.ruff.lint]
+# State the rule set explicitly rather than inheriting ruff's default. This is
+# the set ruff <=0.15 selected by default; 0.16 widened its default to include
+# UP/I/RUF/TRY/BLE/PERF/FURB/PL/ISC/PIE/FLY, which turned a clean tree into
+# hundreds of findings without a line of project code changing. Enforcement
+# should move when we decide it moves, not when a dependency resolves to a new
+# release. Matches agentic-privacy.
+select = ["E4", "E7", "E9", "F"]
 ignore = ["E501"]
 
 [tool.mypy]
