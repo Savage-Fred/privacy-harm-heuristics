@@ -26,11 +26,13 @@ dependencies = [
 models = ["interpret>=0.6", "imodels>=1.4", "pomegranate>=1.0"]
 llm = ["openai>=1.30", "google-generativeai>=0.8"]
 nlp = ["gliner2>=0.1"]
+# Every gate is bounded below the next release that can change its verdict, so a
+# check goes red because our code changed, not because pip resolved a newer tool.
 dev = [
-    "pytest>=8",
+    "pytest>=8,<10",
     "ruff>=0.4,<0.17",
     "black>=24,<27",
-    "mypy>=1.10,<3",
+    "mypy>=1.10,<2",
 ]
 
 [project.scripts]
@@ -51,10 +53,11 @@ line-length = 100
 # families (notably PYI, B, SIM, C, UP, RUF, PL, S), which turned a clean tree
 # into a wall of findings without a line of project code changing. Enforcement
 # should move when we decide it moves, not when a dependency resolves to a new
-# release. Same rule selection as agentic-privacy; that repo also bounds pytest
-# and pre-commit, which this one does not.
+# release. Same rule selection as agentic-privacy.
+#
+# No `ignore` is needed: E501 (line length) is outside the E4/E7/E9 prefixes, so
+# nothing in the selected set enforces it.
 select = ["E4", "E7", "E9", "F"]
-ignore = ["E501"]
 
 [tool.mypy]
 ignore_missing_imports = true
