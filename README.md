@@ -192,6 +192,13 @@ practicum artifact** — extracted and stabilized for reference, not under activ
 development. The successor line of work (a contextual-integrity judge and a
 disclosure ledger) lives elsewhere and does not depend on this code.
 
+## Maintenance
+
+A weekly Claude Code Routine keeps this artifact reproducible and CI green;
+its contract is [`docs/ops/MAINTENANCE.md`](docs/ops/MAINTENANCE.md) and it
+reports on the open issue labeled `maintenance-log`. It does not develop the
+artifact.
+
 ## License & citation
 
 Released under the [MIT License](LICENSE).
