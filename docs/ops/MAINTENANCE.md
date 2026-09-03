@@ -18,7 +18,7 @@ green, not to develop it.
 | Routine | `privacy-harm-heuristics weekly maintenance` — <https://claude.ai/code/routines/trig_01TpPuGYm1paWdNLbXdDKU4C> |
 | Schedule | cron `0 14 * * 1` (UTC — Monday 07:00 PDT / 06:00 PST), fresh session per fire, push notification on completion |
 | Manage | `/schedule` skill: `RemoteTrigger {action: "get", trigger_id: "trig_01TpPuGYm1paWdNLbXdDKU4C"}`; `update` with `{"enabled": false}` pauses; `run` fires now; `list_runs` then `get_run_log` to debug. Deleting is UI-only at <https://claude.ai/code/routines>. |
-| Reach | GitHub only. The repo is public, so `git clone` needs no credentials; pushing and commenting need either an authenticated `gh` or the session's GitHub MCP tools (`mcp__github__*`). If neither is available the run is read-only and reports in its final message. |
+| Reach | GitHub only. The repo is public, so `git clone` needs no credentials; pushing and commenting need either an authenticated `gh` or the session's GitHub MCP tools (`mcp__github__*`). If neither is available the run is read-only and reports in its final message. If the first run is read-only, recreate the Routine from the Routines UI with this repo as its source and the same prompt, then update the trigger id in this file. |
 
 ## Run procedure
 
@@ -27,7 +27,11 @@ Bounded, in order. Small and well-scoped beats complete.
 0. **Preflight.** Confirm a GitHub read path: `gh auth status` and
    `gh api repos/Savage-Fred/privacy-harm-heuristics --jq .full_name`, or
    `mcp__github__get_me` plus a read of this repo. Record which path
-   worked. If neither works, stop; nothing below can post.
+   worked. If neither works, stop; nothing below can post. Confirm the labels
+   `maintenance-log`, `P1`, `P2`, `P3`, `size:S`, `size:M`, `size:L`,
+   `needs-owner`, `status:assigned`, and `verified` exist; create any that are
+   missing when a write path is available, otherwise name them in the final
+   report and stay read-only.
 1. **Orient.** Read this file, then only the last comment on the open issue
    labeled `maintenance-log`. If none is open, create
    `Maintenance log (YYYY-MM)` with that label and continue. Read
@@ -38,9 +42,12 @@ Bounded, in order. Small and well-scoped beats complete.
      dependency resolving to a newer release is fixed by tightening the
      bound in `pyproject.toml` (the bounds are the contract; see the `dev`
      extra's comment), never by loosening a gate.
-   - Release asset: `gh release view v1.0.0 --json assets` still lists
-     `with_features.jsonl`; `data/CHECKSUMS.txt` still present.
-   - Open PRs: a PR idle more than 7 days gets one comment, never a second.
+   - Release asset: `make fetch-data` must download `with_features.jsonl` and
+     verify it against `data/CHECKSUMS.txt`.
+   - Open PRs: review every green PR whose linked issue is eligible under step
+     4, using that step's review tier, and merge only after its findings are
+     fixed or rebutted. A PR idle more than 7 days gets one comment, never a
+     second.
    - Open issues: skip anything labeled `needs-owner`; do not post "stale"
      nags.
 3. **Triage.** Search open issues first. One issue per finding: title as a
@@ -48,11 +55,13 @@ Bounded, in order. Small and well-scoped beats complete.
    `P1`/`P2`/`P3` and one of `size:S`/`size:M`/`size:L`, plus `needs-owner`
    when only the owner can act. Comment on an existing issue rather than
    opening a twin.
-4. **Fix.** `size:S` issues without `needs-owner`, highest priority first,
-   following `.claude/skills/git-workflow/SKILL.md` (cloud variant: skip the
-   coord lease, record the claim on the issue). One PR per issue; merge only
-   on a green `ci` check; `verified` is another agent's label, never your
-   own. Review tier: `/code-review max` for anything under
+4. **Fix.** `size:S` issues without `needs-owner`, highest priority first, only
+   when the acceptance line restores CI, documented reproducibility, or release
+   integrity. Do not implement features or refactors. Follow
+   `.claude/skills/git-workflow/SKILL.md` (cloud variant: skip the coord lease,
+   record the claim on the issue). One PR per issue; merge only on a green
+   `ci` check; `verified` is another agent's label, never your own. Review tier:
+   `/code-review max` for anything under
    `.github/workflows/`, `data/`, `trained_models/`, or `heuristics/`;
    `/code-review medium` for everything else.
 5. **Report.** One comment on the open log issue: what was checked, what
