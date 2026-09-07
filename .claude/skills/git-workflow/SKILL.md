@@ -6,7 +6,10 @@ description: The house git rules for all Savage-Fred project repos — branch na
 # /git-workflow — house git rules
 
 This skill is the operational digest. Applies to agentic-privacy,
-privacy-crawler, privacy-heuristics, ai-context, ai-config, paper-builder.
+privacy-crawler, privacy-heuristics, privacy-harm-heuristics, ai-context,
+ai-config, paper-builder. `privacy-harm-heuristics` has no `stable` branch,
+promotion workflow, `make hooks` target, or CI commit-message gate; ignore
+those claims below for this repo and follow the remaining rules.
 
 Canonical policy is `docs/BRANCHING.md` and `docs/WORK-TRACKING.md` **in the
 agentic-privacy repo**. Those files are not copied into the other repos, so from

@@ -192,6 +192,20 @@ practicum artifact** — extracted and stabilized for reference, not under activ
 development. The successor line of work (a contextual-integrity judge and a
 disclosure ledger) lives elsewhere and does not depend on this code.
 
+## Maintenance
+
+A weekly Claude Code Routine checks this artifact's health — CI on `main` and
+the integrity of the published release asset — and fixes what it safely can.
+Its contract is [`docs/ops/MAINTENANCE.md`](docs/ops/MAINTENANCE.md). It does
+not develop the artifact, and it does not make the headline numbers
+reproducible: see §"Reproducing these numbers" above for why they are not.
+
+When the routine has a write path it reports on the open issue labeled
+`maintenance-log`. It currently does not — the Routine carries no repository
+source, so each run is read-only and reports only inside its own session
+transcript. Fixing that is tracked in
+[#6](https://github.com/Savage-Fred/privacy-harm-heuristics/issues/6).
+
 ## License & citation
 
 Released under the [MIT License](LICENSE).
