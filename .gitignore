@@ -27,3 +27,10 @@ dist/
 .ruff_cache/
 .pytest_cache/
 .coverage
+
+# LaTeX build byproducts (paper/lessons.pdf is committed)
+paper/*.aux
+paper/*.log
+paper/*.fls
+paper/*.fdb_latexmk
+paper/*.out

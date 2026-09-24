@@ -1,0 +1,305 @@
+\documentclass[10pt,twocolumn]{article}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\setlist{nosep,leftmargin=*}
+
+% Every number below is produced by paper/reanalysis.py (-> paper/reanalysis.json),
+% except the recorded Nov-2025 arms (data/experiments/final_results_summary.md)
+% and the offline arm (README.md). Keep it that way.
+
+\title{A Constant Beats Every Arm: Lessons from Re-analysing\\a Privacy-Harm Heuristics Evaluation}
+\author{Anonymous Author(s)}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We re-analyse a small study that asked whether interpretable heuristics can
+estimate privacy harm, and how they compare with large language models (LLMs).
+Its recorded result was that injecting a static block of privacy rules into an
+LLM prompt beat a plain LLM, retrieval augmentation, and two hybrids on all four
+reported metrics. Using only the study's committed artifacts and no model calls,
+we find that constant predictors beat every arm on three of those four metrics:
+predicting \emph{no harm} for every case gives the highest exact-match ratio
+(0.70), and predicting all four of Solove's harm groups for every case gives the
+highest Jaccard (0.175) and nDCG@5 (0.282). On the fourth metric, the only run
+with per-case outputs cannot be distinguished from a constant. We trace this to
+an empty-majority, LLM-generated gold set; to dry runs stored beside real
+results; and to training labels produced entirely by a keyword fallback. We
+distil nine lessons for anyone evaluating harm classifiers built on LLMs.
+\end{abstract}
+
+\section{Introduction}
+
+Estimating the \emph{harm} of a privacy incident, not only detecting that one
+occurred, is useful to regulators, auditors, and engineers deciding what to fix
+first. Legal scholarship offers structure for the task: Solove's taxonomy
+organises privacy problems into information collection, information processing,
+information dissemination, and invasion~\cite{solove2006}, and Citron and
+Solove catalogue the injuries that follow~\cite{citron2022}. A natural
+engineering question is whether cheap, interpretable heuristics can apply that
+structure at scale, and whether an LLM does better.
+
+A 2025 master's practicum asked exactly that, in two questions: \emph{can we
+estimate privacy harm using heuristics, given facts parsed by a small language
+model}, and \emph{how do non-language models compare with LLMs and with an LLM
+applying classical privacy frameworks}? Its public artifact records a headline
+comparison in which a ``rules static'' arm led every metric.
+
+This paper is the study's close-out. We re-examined every committed artifact
+offline and asked what the evidence can support. The answer is: much less than
+recorded, but something useful about how such evaluations fail. Our
+contributions are:
+\begin{itemize}
+  \item a re-analysis showing that trivial baselines, scored with the study's own
+        metric code, beat every recorded arm on three of four metrics
+        (\S\ref{sec:baselines});
+  \item an audit of the evaluation's provenance: its gold set, its dry runs, and
+        where its training labels came from (\S\ref{sec:provenance});
+  \item nine lessons, each tied to the evidence behind it (\S\ref{sec:lessons}).
+\end{itemize}
+One script regenerates every re-analysis number from the public repository
+without network access (\S\ref{sec:artifact}).
+
+\section{The original study}
+\label{sec:study}
+
+\paragraph{Pipeline.} Public incident reports (regulator breach filings,
+securities filings, news, forums, Wikipedia) were crawled, labelled with Solove
+categories, and turned into features. Five interpretable model families were
+trained: decision tree, Explainable Boosting Machine~\cite{lou2012,nori2019},
+Bayesian rule lists~\cite{letham2015}, a sparse linear model, and a Chow--Liu
+Bayes net~\cite{chow1968}. Their exported rules fed ``hybrid'' arms. Facts were
+to be extracted by GLiNER2, a successor to GLiNER~\cite{zaratiana2024}.
+
+\paragraph{Evaluation.} Six arms were scored on a 50-case gold set: a plain LLM
+baseline; \emph{rules static} (a fixed block of rules injected into the prompt);
+\emph{rules dynamic}; RAG; and two hybrids. All LLM arms were served by Gemini;
+the recorded run did not log a model version. The metrics were
+instance-averaged Jaccard, exact-match ratio (EMR, i.e.\ subset accuracy),
+micro-F1, and nDCG@5 over predicted harm groups~\cite{zhang2014}. The recorded
+table (Table~\ref{tab:main}, top) is a mean of five trials. A 2026 rerun
+pinned the model (\texttt{gemini-2.5-flash}) and repeated the rules-static arm
+once. The repository also added an \emph{offline deterministic} arm that uses
+keyword rules with no LLM, so at least one arm reproduces byte-for-byte.
+
+\begin{table}[t]
+\centering\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Arm & Jaccard & EMR & micro-F1 & nDCG@5 \\
+\midrule
+\multicolumn{5}{@{}l}{\emph{Recorded, Nov 2025 (model unpinned, 5 trials)}}\\
+Rules static        & 0.068 & 0.667 & \textbf{0.391} & 0.090 \\
+LLM baseline        & 0.056 & 0.620 & 0.285 & 0.072 \\
+Rules dynamic       & 0.055 & 0.593 & 0.281 & 0.073 \\
+Hybrid (det.\ first) & 0.053 & 0.593 & 0.275 & 0.068 \\
+RAG                 & 0.047 & 0.580 & 0.242 & 0.061 \\
+Hybrid (LLM first)  & 0.036 & 0.600 & 0.195 & 0.049 \\
+\midrule
+\multicolumn{5}{@{}l}{\emph{Later runs}}\\
+Rules static, pinned (2026) & 0.105 & 0.360 & 0.336 & 0.176 \\
+Offline keyword rules       & 0.081 & 0.080 & 0.222 & 0.162 \\
+\midrule
+\multicolumn{5}{@{}l}{\emph{Constant predictors (this paper)}}\\
+Always $\emptyset$         & 0.000 & \textbf{0.700} & 0.000 & 0.000 \\
+Always \{processing\}        & 0.127 & 0.040 & 0.306 & 0.154 \\
+Always \{invasion\}          & 0.097 & 0.020 & 0.259 & 0.122 \\
+Always all four groups       & \textbf{0.175} & 0.040 & 0.298 & \textbf{0.282} \\
+\bottomrule
+\end{tabular}
+\caption{All rows score the same 50-case gold set. Constant predictors are
+scored with the repository's own metric code, which reproduces the pinned
+2026 run exactly. Bold marks the best value in each column.}
+\label{tab:main}
+\end{table}
+
+\section{Constants beat the arms}
+\label{sec:baselines}
+
+\paragraph{The gold set is mostly empty.} Of the 50 gold cases, 35 carry no harm
+label. After mapping to Solove's four groups, the other 15 carry 35 labels
+(processing 13, invasion 11, collection 7, dissemination 4). An empty prediction
+is therefore correct 70\% of the time, and EMR, which counts only exact set
+equality, mainly measures how often an arm predicts nothing.
+
+\paragraph{Result.} Table~\ref{tab:main} adds four constant predictors. The
+empty predictor's EMR (0.700) exceeds every arm's. Predicting all four groups
+for every case beats every arm on Jaccard and nDCG@5. It also beats the offline
+keyword arm on every metric except EMR. Only one number in the recorded table,
+rules-static micro-F1 (0.391), exceeds every constant (best 0.306), and no
+per-case outputs of that run survive to test the gap. The pinned rerun does
+keep per-case outputs. Its micro-F1 (0.336; 95\% bootstrap CI
+$[0.199, 0.451]$, 2{,}000 resamples~\cite{efron1993}) minus the constant
+\{processing\} predictor's, paired over cases, has CI $[-0.080, 0.135]$: no
+detectable difference.
+
+\paragraph{Where the arm's EMR came from.} In the pinned rerun, the arm predicted
+the empty set on 18 of the 35 empty-gold cases and exactly matched none of the
+15 non-empty cases. Its predictions also used eight labels outside the gold
+label space (root-cause terms such as \texttt{lack\_of\_consent}), and each one
+is a guaranteed false positive under set-based scoring.
+
+\paragraph{Severity.} The rerun also scored 1--5 harm severity. It reached
+accuracy 0.50 (quadratic-weighted $\kappa = 0.33$). Because 39 of the 50 gold
+severities are 1, always predicting 1 reaches 0.78.
+
+\paragraph{Drift.} The pinned rerun of the same arm on the same cases moved EMR
+from 0.667 to 0.360 and roughly doubled Jaccard and nDCG@5. The newer model
+predicts non-empty sets far more often; that costs it on the empty-majority set
+and helps it on overlap metrics. Hosted models change under a stable
+name~\cite{chen2023}; with no model version recorded, the 2025 table cannot be
+reproduced by construction.
+
+\section{How the evaluation misled}
+\label{sec:provenance}
+
+\paragraph{An LLM-generated, mostly off-topic gold set.} The experiment summary
+records that the 50-case gold set was generated with Gemini~2.5~Pro, and the
+LLM arms were served by Gemini. Scoring a model family against labels written by
+the same family invites self-preference~\cite{panickssery2024,zheng2023}, and
+here nothing measures it. The cases are crawled pages, not incident reports:
+47 of the 50 are general Wikipedia articles (several countries' nationality
+laws, a law school, a flowering shrub, Moore's law, underwater diving). The 15
+cases labelled with harm include the Railway Regulation Act 1844 and an article
+on data warehousing. None has the \texttt{harms} field that the scorer reads
+first, so the scorer silently fell back to \texttt{root\_causes}, a field its
+own comment says holds technical causes, not Solove harms. A separate 96-case
+set, with labels drafted by \texttt{gemini-2.5-flash}, was marked as reviewed
+through a web review tool in July 2026 (78 confirmed, 5 corrected, 2 annotated,
+11 without a note). The record does not say whether the reviewer was a person,
+and no recorded live comparison used this set.
+
+\paragraph{Dry runs stored as experiments.} The repository keeps 14
+``comprehensive'' run directories, the largest spanning 320 configurations with
+confidence intervals, Bonferroni-corrected pairwise tests, and Cliff's $\delta$.
+Seven are flagged \texttt{dry\_run} in their metadata. The five that report
+per-arm metrics are all dry runs, and within each the mean micro-F1 is identical
+to 12 decimal places across every arm in four of them, with two distinct values
+in the fifth. The seven live runs committed no per-arm metrics. The statistics
+machinery ran on placeholder outputs, correctly found ``no significant
+difference,'' and produced tables that look like results.
+
+\paragraph{Heuristic labels in, heuristic rules out.} The labeller was designed
+to assign a Solove category with GLiNER2, then fall back to keyword scoring, then
+to an LLM. In the released 33{,}472-row corpus, every label's recorded source is
+the keyword fallback, and 61.4\% of labels are \texttt{unknown}. The
+interpretable models were trained on seven features: a log count of affected
+individuals and six keyword flags. They therefore learned to approximate one
+keyword heuristic from another, which cannot answer the study's first question.
+They did so poorly. Macro-F1 was 0.14 (decision tree), 0.10 (EBM), 0.20
+(sparse linear), and 0.04 (Bayes net). The Bayes net predicted a single class
+for every test row; its accuracy, 0.524, is therefore that class's share of its
+test split. The other three accuracies (0.58--0.62) sit at most 0.10 above it,
+although the repository does not record whether the splits were identical. Of the 16 per-category rule-list classifiers, one trained
+successfully. The decision tree's 20 exported ``heuristics'' each have support
+0.000 and precision at most 0.004, and they name classes by index rather than
+label.
+
+\paragraph{Unresolvable provenance.} The trained models record a SHA-256 for
+their training corpus. It identifies a pre-scrub file that no archived copy we
+could locate matches; the public release is the scrubbed derivative.
+
+\paragraph{The dataset enacted the harm it studied.} A pre-release audit found
+that the social-media portions of the corpus republished verbatim,
+re-identifiable posts in which private individuals described legal, medical, and
+financial trouble. That is the secondary-use and aggregation harm the project
+set out to measure. A tested scrub removed handles, bodies, and permalinks
+before release.
+
+\section{Lessons}
+\label{sec:lessons}
+
+\begin{enumerate}[label=\textbf{L\arabic*}]
+  \item \textbf{Report constant baselines with the same scorer.} Include empty,
+        modal, and all-labels predictors for sets, and the modal score for
+        ordinal targets. A metric on which an arm does not beat every constant
+        supports no claim (\S\ref{sec:baselines}).
+  \item \textbf{Treat empty-majority EMR as an emptiness detector.} Report the
+        gold empty share and score the non-empty subset separately.
+  \item \textbf{Keep the gold set independent of the systems under test.} Do not
+        generate it with the model family you evaluate, and have a person review
+        it before the headline run, not after.
+  \item \textbf{Make scorer fallbacks loud.} A missing field that silently
+        switches the target from harms to causes changed what was measured.
+  \item \textbf{Make placeholder runs unable to pass for results.} Refuse to
+        aggregate or test when outputs do not vary by arm, and keep dry-run
+        output out of results directories~\cite{kapoor2023}.
+  \item \textbf{Measure the label pipeline you ran, not the one you designed.}
+        Log the share of labels from each source; a 100\% fallback share means
+        the models learn the fallback~\cite{ratner2017}.
+  \item \textbf{Pin model versions and keep per-case outputs.} Summaries cannot
+        be re-tested, and unversioned hosted models turn a table into a dated
+        anecdote.
+  \item \textbf{Name arms by mechanism, and include a model-free arm.}
+        ``Rules static'' still used an LLM to produce every label.
+  \item \textbf{Scrub at collection, not at release.} Privacy datasets can
+        reproduce the harm they study.
+\end{enumerate}
+
+These lessons echo known failure modes: annotation artifacts that let trivial
+models score well~\cite{gururangan2018}, shortcut learning~\cite{geirhos2020},
+leakage between labels and features~\cite{kapoor2023}, and benchmark rankings
+that are sensitive to design choices~\cite{dehghani2021}. What is specific to
+LLM-era harm classification is how cheaply an LLM can produce each ingredient
+(gold labels, rules, predictions), and so how easily one model family ends up
+on both sides of the comparison.
+
+\section{Limitations of this re-analysis}
+
+We made no model calls. We therefore cannot say how the arms would score on the
+reviewed 96-case set. The constant baselines use the current scorer; the 2025
+table was produced by an earlier revision whose label mapping was not recorded.
+The empty-predictor EMR depends only on which gold cases are empty, so that
+comparison is robust to the mapping; the Jaccard and nDCG comparisons assume the
+mapping did not change. The model analysis relies on the recorded metrics files
+and the scrubbed public corpus, because the training corpus could not be
+matched.
+
+\section{Conclusion}
+
+The study's headline, that a static rule block beats LLM baselines at estimating
+privacy harm, does not survive a constant predictor. Its first question, whether
+heuristics can estimate harm, remains open, because the labels it learned from
+were themselves heuristics. What the study does offer is a compact,
+reproducible case of how an evaluation can pass every internal check (CI,
+confidence intervals, corrected tests) and still measure almost nothing. We hope
+the nine lessons save the next project the same year.
+
+\section*{Artifact availability}
+\label{sec:artifact}
+The repository, including gold sets, recorded runs, trained models, and a
+scrubbed corpus (release \texttt{v1.0.0}), is public at
+\url{https://github.com/Savage-Fred/privacy-harm-heuristics}.
+\texttt{paper/reanalysis.py} regenerates \texttt{paper/reanalysis.json}, the
+source of every re-analysis number here. It makes no network calls and asserts
+that its scoring path reproduces the recorded 2026 rerun exactly.
+
+\begin{thebibliography}{99}\small
+\bibitem{chen2023} L.~Chen, M.~Zaharia, and J.~Zou. How is ChatGPT's behavior changing over time? arXiv:2307.09009, 2023.
+\bibitem{chow1968} C.~K. Chow and C.~N. Liu. Approximating discrete probability distributions with dependence trees. \emph{IEEE Trans.\ Information Theory}, 14(3):462--467, 1968.
+\bibitem{citron2022} D.~K. Citron and D.~J. Solove. Privacy harms. \emph{Boston University Law Review}, 102:793, 2022.
+\bibitem{dehghani2021} M.~Dehghani, Y.~Tay, A.~A. Gritsenko, Z.~Zhao, N.~Houlsby, F.~Diaz, D.~Metzler, and O.~Vinyals. The benchmark lottery. arXiv:2107.07002, 2021.
+\bibitem{efron1993} B.~Efron and R.~J. Tibshirani. \emph{An Introduction to the Bootstrap}. Chapman \& Hall, 1993.
+\bibitem{geirhos2020} R.~Geirhos, J.-H. Jacobsen, C.~Michaelis, R.~Zemel, W.~Brendel, M.~Bethge, and F.~A. Wichmann. Shortcut learning in deep neural networks. \emph{Nature Machine Intelligence}, 2:665--673, 2020.
+\bibitem{gururangan2018} S.~Gururangan, S.~Swayamdipta, O.~Levy, R.~Schwartz, S.~R. Bowman, and N.~A. Smith. Annotation artifacts in natural language inference data. In \emph{NAACL-HLT}, 2018.
+\bibitem{kapoor2023} S.~Kapoor and A.~Narayanan. Leakage and the reproducibility crisis in machine-learning-based science. \emph{Patterns}, 4(9):100804, 2023.
+\bibitem{letham2015} B.~Letham, C.~Rudin, T.~H. McCormick, and D.~Madigan. Interpretable classifiers using rules and Bayesian analysis: Building a better stroke prediction model. \emph{Annals of Applied Statistics}, 9(3):1350--1371, 2015.
+\bibitem{lou2012} Y.~Lou, R.~Caruana, and J.~Gehrke. Intelligible models for classification and regression. In \emph{KDD}, 2012.
+\bibitem{nori2019} H.~Nori, S.~Jenkins, P.~Koch, and R.~Caruana. InterpretML: A unified framework for machine learning interpretability. arXiv:1909.09223, 2019.
+\bibitem{panickssery2024} A.~Panickssery, S.~R. Bowman, and S.~Feng. LLM evaluators recognize and favor their own generations. In \emph{NeurIPS}, 2024.
+\bibitem{ratner2017} A.~Ratner, S.~H. Bach, H.~Ehrenberg, J.~Fries, S.~Wu, and C.~R\'e. Snorkel: Rapid training data creation with weak supervision. \emph{PVLDB}, 11(3):269--282, 2017.
+\bibitem{solove2006} D.~J. Solove. A taxonomy of privacy. \emph{University of Pennsylvania Law Review}, 154(3):477--564, 2006.
+\bibitem{zaratiana2024} U.~Zaratiana, N.~Tomeh, P.~Holat, and T.~Charnois. GLiNER: Generalist model for named entity recognition using bidirectional transformer. In \emph{NAACL}, 2024.
+\bibitem{zhang2014} M.-L. Zhang and Z.-H. Zhou. A review on multi-label learning algorithms. \emph{IEEE Trans.\ Knowledge and Data Engineering}, 26(8):1819--1837, 2014.
+\bibitem{zheng2023} L.~Zheng et~al. Judging LLM-as-a-judge with MT-Bench and Chatbot Arena. In \emph{NeurIPS Datasets and Benchmarks}, 2023.
+\end{thebibliography}
+
+\end{document}
