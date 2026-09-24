@@ -1,167 +1,208 @@
 {
-  "bootstrap_95ci_rerun": {
-    "B": 2000,
-    "exact_match_ratio": [
-      0.22,
-      0.5
-    ],
-    "instance_jaccard": [
-      0.0512,
-      0.1633
-    ],
-    "micro_f1": [
-      0.1986,
-      0.4509
-    ],
-    "micro_f1_minus_constant": [
-      -0.0799,
-      0.1353
-    ],
-    "seed": 0
-  },
-  "comprehensive_runs": [
-    {
-      "distinct_micro_f1_means": 0,
-      "dry_run": true,
-      "golden_file": "data/golden_cases.jsonl",
-      "modes_with_metrics": 0,
-      "n_configs": 145,
-      "run": "comprehensive_20251201_195648"
-    },
-    {
-      "distinct_micro_f1_means": 0,
-      "dry_run": true,
-      "golden_file": "data/golden_cases.jsonl",
-      "modes_with_metrics": 0,
-      "n_configs": 145,
-      "run": "comprehensive_20251201_195707"
-    },
-    {
-      "distinct_micro_f1_means": 1,
-      "dry_run": true,
-      "golden_file": "data/golden_cases.jsonl",
-      "modes_with_metrics": 5,
-      "n_configs": 20,
-      "run": "comprehensive_20251201_195824"
-    },
-    {
-      "distinct_micro_f1_means": 1,
-      "dry_run": true,
-      "golden_file": "data/golden_cases.jsonl",
-      "modes_with_metrics": 5,
-      "n_configs": 20,
-      "run": "comprehensive_20251201_200006"
-    },
-    {
-      "distinct_micro_f1_means": 0,
-      "dry_run": false,
-      "golden_file": "data/golden_cases.jsonl",
-      "modes_with_metrics": 0,
-      "n_configs": 145,
-      "run": "comprehensive_20251201_200013"
-    },
-    {
-      "distinct_micro_f1_means": 0,
-      "dry_run": false,
-      "golden_file": "data/golden_cases.jsonl",
-      "modes_with_metrics": 0,
-      "n_configs": 3,
-      "run": "comprehensive_20251201_200140"
-    },
-    {
-      "distinct_micro_f1_means": 1,
-      "dry_run": true,
-      "golden_file": "data/golden_cases.jsonl",
-      "modes_with_metrics": 3,
-      "n_configs": 5,
-      "run": "comprehensive_20251201_203004"
-    },
-    {
-      "distinct_micro_f1_means": 0,
-      "dry_run": false,
-      "golden_file": "data/golden_cases.jsonl",
-      "modes_with_metrics": 0,
-      "n_configs": 145,
-      "run": "comprehensive_20251201_203011"
-    },
-    {
-      "distinct_micro_f1_means": 0,
-      "dry_run": false,
-      "golden_file": "data/golden_cases.jsonl",
-      "modes_with_metrics": 0,
-      "n_configs": 145,
-      "run": "comprehensive_20251201_203108"
-    },
-    {
-      "distinct_micro_f1_means": 0,
-      "dry_run": false,
-      "golden_file": "data/golden_cases.jsonl",
-      "modes_with_metrics": 0,
-      "n_configs": 3,
-      "run": "comprehensive_20251201_203239"
-    },
-    {
-      "distinct_micro_f1_means": 0,
-      "dry_run": false,
-      "golden_file": "data/golden_cases.jsonl",
-      "modes_with_metrics": 0,
-      "n_configs": 5,
-      "run": "comprehensive_20251201_205926"
-    },
-    {
-      "distinct_micro_f1_means": 0,
-      "dry_run": false,
-      "golden_file": "data/golden_cases.jsonl",
-      "modes_with_metrics": 0,
-      "n_configs": 145,
-      "run": "comprehensive_20251201_210943"
-    },
-    {
-      "distinct_micro_f1_means": 2,
-      "dry_run": true,
-      "golden_file": "data/golden_cases.jsonl",
-      "modes_with_metrics": 6,
-      "n_configs": 200,
-      "run": "comprehensive_20251202_054858"
-    },
-    {
-      "distinct_micro_f1_means": 1,
-      "dry_run": true,
-      "golden_file": "data/golden_cases.jsonl",
-      "modes_with_metrics": 6,
-      "n_configs": 320,
-      "run": "comprehensive_20251202_054908"
-    }
-  ],
-  "empty_set_decomposition": {
-    "exact_on_gold_nonempty": 0,
-    "gold_empty": 35,
-    "gold_label_counts": {
-      "information_collection": 7,
-      "information_dissemination": 4,
-      "information_processing": 13,
-      "invasion": 11
-    },
-    "gold_nonempty": 15,
-    "n": 50,
-    "pred_empty_on_gold_empty": 18,
-    "pred_labels_outside_gold_space": [
-      "deceptive_practices",
-      "inadequate_oversight",
-      "insider_threat",
-      "lack_of_access_control",
-      "lack_of_consent",
-      "scraping",
-      "state_sponsored_attack",
-      "unpatched_vulnerability"
+  "comprehensive_runs": {
+    "max_dry_run_micro_f1_mean": 0.41736732275921923,
+    "runs": [
+      {
+        "distinct_micro_f1_means": 0,
+        "dry_run": true,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 0,
+        "n_configs": 145,
+        "n_trials": 5,
+        "pairwise_tests": {
+          "present": false
+        },
+        "run": "comprehensive_20251201_195648"
+      },
+      {
+        "distinct_micro_f1_means": 0,
+        "dry_run": true,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 0,
+        "n_configs": 145,
+        "n_trials": 5,
+        "pairwise_tests": {
+          "present": false
+        },
+        "run": "comprehensive_20251201_195707"
+      },
+      {
+        "distinct_micro_f1_means": 1,
+        "dry_run": true,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 5,
+        "n_configs": 20,
+        "n_trials": 5,
+        "pairwise_tests": {
+          "parses": false,
+          "present": true
+        },
+        "run": "comprehensive_20251201_195824"
+      },
+      {
+        "distinct_micro_f1_means": 1,
+        "dry_run": true,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 5,
+        "n_configs": 20,
+        "n_trials": 5,
+        "pairwise_tests": {
+          "bonferroni": true,
+          "cliffs_delta": true,
+          "entries": 10,
+          "parses": true,
+          "placeholders": 10,
+          "present": true
+        },
+        "run": "comprehensive_20251201_200006"
+      },
+      {
+        "distinct_micro_f1_means": 0,
+        "dry_run": false,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 0,
+        "n_configs": 145,
+        "n_trials": 5,
+        "pairwise_tests": {
+          "present": false
+        },
+        "run": "comprehensive_20251201_200013"
+      },
+      {
+        "distinct_micro_f1_means": 0,
+        "dry_run": false,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 0,
+        "n_configs": 3,
+        "n_trials": 1,
+        "pairwise_tests": {
+          "present": false
+        },
+        "run": "comprehensive_20251201_200140"
+      },
+      {
+        "distinct_micro_f1_means": 1,
+        "dry_run": true,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 3,
+        "n_configs": 5,
+        "n_trials": 3,
+        "pairwise_tests": {
+          "bonferroni": false,
+          "cliffs_delta": false,
+          "entries": 3,
+          "parses": true,
+          "placeholders": 3,
+          "present": true
+        },
+        "run": "comprehensive_20251201_203004"
+      },
+      {
+        "distinct_micro_f1_means": 0,
+        "dry_run": false,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 0,
+        "n_configs": 145,
+        "n_trials": 5,
+        "pairwise_tests": {
+          "present": false
+        },
+        "run": "comprehensive_20251201_203011"
+      },
+      {
+        "distinct_micro_f1_means": 0,
+        "dry_run": false,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 0,
+        "n_configs": 145,
+        "n_trials": 5,
+        "pairwise_tests": {
+          "present": false
+        },
+        "run": "comprehensive_20251201_203108"
+      },
+      {
+        "distinct_micro_f1_means": 0,
+        "dry_run": false,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 0,
+        "n_configs": 3,
+        "n_trials": 1,
+        "pairwise_tests": {
+          "present": false
+        },
+        "run": "comprehensive_20251201_203239"
+      },
+      {
+        "distinct_micro_f1_means": 0,
+        "dry_run": false,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 0,
+        "n_configs": 5,
+        "n_trials": 3,
+        "pairwise_tests": {
+          "present": false
+        },
+        "run": "comprehensive_20251201_205926"
+      },
+      {
+        "distinct_micro_f1_means": 0,
+        "dry_run": false,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 0,
+        "n_configs": 145,
+        "n_trials": 5,
+        "pairwise_tests": {
+          "present": false
+        },
+        "run": "comprehensive_20251201_210943"
+      },
+      {
+        "distinct_micro_f1_means": 2,
+        "dry_run": true,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 6,
+        "n_configs": 200,
+        "n_trials": 10,
+        "pairwise_tests": {
+          "bonferroni": true,
+          "cliffs_delta": true,
+          "entries": 15,
+          "parses": true,
+          "placeholders": 1,
+          "present": true
+        },
+        "run": "comprehensive_20251202_054858"
+      },
+      {
+        "distinct_micro_f1_means": 1,
+        "dry_run": true,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 6,
+        "n_configs": 320,
+        "n_trials": 10,
+        "pairwise_tests": {
+          "bonferroni": true,
+          "cliffs_delta": true,
+          "entries": 15,
+          "parses": true,
+          "placeholders": 1,
+          "present": true
+        },
+        "run": "comprehensive_20251202_054908"
+      }
     ]
   },
   "gold_sets": {
     "reviewed_base": {
+      "empty_harms": 0,
+      "gaps": 95,
+      "gaps_under_10s": 83,
       "label_providers": {
         "None": 4,
         "gemini-2.5-flash": 92
       },
+      "median_gap_seconds": 0.001399,
       "n": 96,
       "review_notes": {
         "annotated": 2,
@@ -184,16 +225,445 @@
       },
       "has_harms_field": 0,
       "n": 50,
+      "root_causes_all_solove_subtypes": true,
+      "root_causes_values": [
+        "aggregation",
+        "decisional_interference",
+        "disclosure",
+        "distortion",
+        "exclusion",
+        "identification",
+        "insecurity",
+        "interrogation",
+        "intrusion",
+        "secondary_use",
+        "surveillance"
+      ],
       "sources": {
         "hn": 2,
         "news_eff": 1,
         "wikipedia": 47
+      },
+      "titles": [
+        {
+          "labelled": false,
+          "title": "Georgia Tech Research Institute"
+        },
+        {
+          "labelled": false,
+          "title": "Canadian tort law"
+        },
+        {
+          "labelled": false,
+          "title": "Copyright"
+        },
+        {
+          "labelled": true,
+          "title": "Data synchronization"
+        },
+        {
+          "labelled": false,
+          "title": "The death of tech idealism and rise of the homeless in North"
+        },
+        {
+          "labelled": true,
+          "title": "Profiling (information science)"
+        },
+        {
+          "labelled": false,
+          "title": "Clinical commissioning group"
+        },
+        {
+          "labelled": true,
+          "title": "Call Center Agoda Reschedule"
+        },
+        {
+          "labelled": true,
+          "title": "Railway Regulation Act 1844"
+        },
+        {
+          "labelled": true,
+          "title": "Kuwaiti nationality law"
+        },
+        {
+          "labelled": false,
+          "title": "Disinformation research"
+        },
+        {
+          "labelled": false,
+          "title": "Cura\u00e7ao"
+        },
+        {
+          "labelled": false,
+          "title": "Lawmaking"
+        },
+        {
+          "labelled": true,
+          "title": "Illegal immigration to the United States"
+        },
+        {
+          "labelled": false,
+          "title": "NXP Semiconductors"
+        },
+        {
+          "labelled": false,
+          "title": "Dasiphora fruticosa"
+        },
+        {
+          "labelled": false,
+          "title": "Letter and spirit of the law"
+        },
+        {
+          "labelled": false,
+          "title": "Chinese nationality law"
+        },
+        {
+          "labelled": false,
+          "title": "Law of Cambodia"
+        },
+        {
+          "labelled": true,
+          "title": "Data warehouse"
+        },
+        {
+          "labelled": true,
+          "title": "Dublin Regulation"
+        },
+        {
+          "labelled": false,
+          "title": "Legal Entity Identifier"
+        },
+        {
+          "labelled": false,
+          "title": "Mutual information"
+        },
+        {
+          "labelled": false,
+          "title": "Moroccan nationality law"
+        },
+        {
+          "labelled": false,
+          "title": "Icon (computing)"
+        },
+        {
+          "labelled": true,
+          "title": "Personal information management"
+        },
+        {
+          "labelled": false,
+          "title": "Institute for Information, Telecommunication and Media Law"
+        },
+        {
+          "labelled": false,
+          "title": "University of Delaware"
+        },
+        {
+          "labelled": false,
+          "title": "Edinburgh Law School"
+        },
+        {
+          "labelled": true,
+          "title": "Capacity (law)"
+        },
+        {
+          "labelled": false,
+          "title": "English criminal law"
+        },
+        {
+          "labelled": false,
+          "title": "Exclusive economic zone"
+        },
+        {
+          "labelled": false,
+          "title": "Cypriot nationality law"
+        },
+        {
+          "labelled": true,
+          "title": "EFF and Other Organizations: Keep Key Intelligence Positions Senate Confirmed"
+        },
+        {
+          "labelled": false,
+          "title": "Wikimedia Foundation"
+        },
+        {
+          "labelled": true,
+          "title": "Browser security"
+        },
+        {
+          "labelled": true,
+          "title": "Female genital mutilation laws by country"
+        },
+        {
+          "labelled": false,
+          "title": "Economic data"
+        },
+        {
+          "labelled": false,
+          "title": "Nicolas Malebranche"
+        },
+        {
+          "labelled": false,
+          "title": "Harmonisation of law"
+        },
+        {
+          "labelled": true,
+          "title": "Nationality law in the American Colonies"
+        },
+        {
+          "labelled": false,
+          "title": "Costs in English law"
+        },
+        {
+          "labelled": false,
+          "title": "Cambridge International Law Journal"
+        },
+        {
+          "labelled": true,
+          "title": "National Security Agency"
+        },
+        {
+          "labelled": false,
+          "title": "Jurisdiction"
+        },
+        {
+          "labelled": false,
+          "title": "Depository Institutions Deregulation and Monetary Control Act"
+        },
+        {
+          "labelled": false,
+          "title": "Moore's law"
+        },
+        {
+          "labelled": false,
+          "title": "Law of Germany"
+        },
+        {
+          "labelled": false,
+          "title": "The Concept of Law"
+        },
+        {
+          "labelled": false,
+          "title": "Underwater diving"
+        }
+      ]
+    }
+  },
+  "headline": {
+    "all_four_ndcg_range_over_24_orders": [
+      0.2079870443748651,
+      0.28177520490328267
+    ],
+    "best_constant_selected_on_test_labels": {
+      "exact_match_ratio": {
+        "arm": "empty",
+        "value": 0.7
+      },
+      "instance_jaccard": {
+        "arm": "collection+processing+invasion",
+        "value": 0.19166666666666665
+      },
+      "micro_f1": {
+        "arm": "processing+invasion",
+        "value": 0.35555555555555557
+      },
+      "ndcg@5": {
+        "arm": "processing+invasion+collection+dissemination",
+        "value": 0.28177520490328267
       }
+    },
+    "empty_set_decomposition": {
+      "gold_empty": 35,
+      "gold_label_counts": {
+        "information_collection": 7,
+        "information_dissemination": 4,
+        "information_processing": 13,
+        "invasion": 11
+      },
+      "gold_nonempty": 15,
+      "rerun_exact_on_gold_nonempty": 0,
+      "rerun_pred_empty_on_gold_empty": 18,
+      "rerun_pred_labels_outside_groups": [
+        "deceptive_practices",
+        "inadequate_oversight",
+        "insider_threat",
+        "lack_of_access_control",
+        "lack_of_consent",
+        "scraping",
+        "state_sponsored_attack",
+        "unpatched_vulnerability"
+      ]
+    },
+    "n": 50,
+    "nonempty_subset": {
+      "const_all_four_taxonomy_order": {
+        "exact_match_ratio": 0.13333333333333333,
+        "instance_jaccard": 0.5833333333333334,
+        "jaccard_empty_as_1": 0.5833333333333334,
+        "micro_f1": 0.7368421052631579,
+        "ndcg@5": 0.7900782096358884
+      },
+      "n": 15,
+      "offline_keyword_arm": {
+        "exact_match_ratio": 0.0,
+        "instance_jaccard": 0.26936507936507936,
+        "jaccard_empty_as_1": 0.26936507936507936,
+        "micro_f1": 0.43037974683544306,
+        "ndcg@5": 0.5408537637174693
+      },
+      "rerun_current_scorer": {
+        "exact_match_ratio": 0.0,
+        "instance_jaccard": 0.3505555555555555,
+        "jaccard_empty_as_1": 0.3505555555555555,
+        "micro_f1": 0.5747126436781609,
+        "ndcg@5": 0.5865686139750008
+      },
+      "rerun_filtered_to_groups": {
+        "exact_match_ratio": 0.13333333333333333,
+        "instance_jaccard": 0.5277777777777778,
+        "jaccard_empty_as_1": 0.5277777777777778,
+        "micro_f1": 0.746268656716418,
+        "ndcg@5": 0.6748354645375773
+      },
+      "rerun_nov2025_scorer": {
+        "exact_match_ratio": 0.0,
+        "instance_jaccard": 0.13586487586487586,
+        "jaccard_empty_as_1": 0.13586487586487586,
+        "micro_f1": 0.2777777777777778,
+        "ndcg@5": 0.1359470346467784
+      }
+    },
+    "paired_bootstrap_95ci": {
+      "B": 2000,
+      "emr: const_empty - rerun": [
+        0.22,
+        0.46
+      ],
+      "jaccard: const_all_four - offline": [
+        0.0418,
+        0.1515
+      ],
+      "jaccard: const_all_four - rerun": [
+        0.0333,
+        0.1103
+      ],
+      "micro_f1: const_all_four - offline": [
+        0.0096,
+        0.1494
+      ],
+      "micro_f1: filtered - best_constant_reselected": [
+        -0.0262,
+        0.2184
+      ],
+      "micro_f1: rerun - best_constant_reselected": [
+        -0.1218,
+        0.0717
+      ],
+      "ndcg@5: const_all_four - offline": [
+        0.0102,
+        0.1455
+      ],
+      "ndcg@5: const_all_four - rerun": [
+        0.0184,
+        0.1106
+      ],
+      "rerun micro_f1": [
+        0.1986,
+        0.4509
+      ],
+      "rerun weighted_kappa": [
+        0.0586,
+        0.5669
+      ],
+      "seed": 0
+    },
+    "rerun_config": {
+      "has_resolved_model": false,
+      "model_name": null
+    },
+    "rows": {
+      "const_all_four_taxonomy_order": {
+        "exact_match_ratio": 0.04,
+        "instance_jaccard": 0.175,
+        "jaccard_empty_as_1": 0.175,
+        "micro_f1": 0.2978723404255319,
+        "ndcg@5": 0.2370234628907665
+      },
+      "const_empty": {
+        "exact_match_ratio": 0.7,
+        "instance_jaccard": 0.0,
+        "jaccard_empty_as_1": 0.7,
+        "micro_f1": 0.0,
+        "ndcg@5": 0.0
+      },
+      "offline_keyword_arm": {
+        "exact_match_ratio": 0.08,
+        "instance_jaccard": 0.0808095238095238,
+        "jaccard_empty_as_1": 0.16080952380952382,
+        "micro_f1": 0.2222222222222222,
+        "ndcg@5": 0.1622561291152408
+      },
+      "oracle_ceiling_perfect_predictor": {
+        "exact_match_ratio": 1.0,
+        "instance_jaccard": 0.3,
+        "jaccard_empty_as_1": 1.0,
+        "micro_f1": 1.0,
+        "ndcg@5": 0.3
+      },
+      "rerun_current_scorer": {
+        "exact_match_ratio": 0.36,
+        "instance_jaccard": 0.10516666666666666,
+        "jaccard_empty_as_1": 0.4651666666666667,
+        "micro_f1": 0.33557046979865773,
+        "ndcg@5": 0.17597058419250025
+      },
+      "rerun_filtered_to_groups": {
+        "exact_match_ratio": 0.4,
+        "instance_jaccard": 0.15833333333333333,
+        "jaccard_empty_as_1": 0.5183333333333333,
+        "micro_f1": 0.46296296296296297,
+        "ndcg@5": 0.20245063936127317
+      },
+      "rerun_nov2025_scorer": {
+        "exact_match_ratio": 0.36,
+        "instance_jaccard": 0.04075946275946276,
+        "jaccard_empty_as_1": 0.4007594627594628,
+        "micro_f1": 0.16666666666666666,
+        "ndcg@5": 0.04078411039403352
+      }
+    },
+    "severity": {
+      "always_1": {
+        "accuracy": 0.78,
+        "kendall_tau": 0.0,
+        "spearman_rho": 0.0,
+        "weighted_kappa": 0.0
+      },
+      "gold_severity_1": 39,
+      "harm_labelled_cases_with_severity_1": [
+        "Data synchronization",
+        "Call Center Agoda Reschedule",
+        "Data warehouse",
+        "Personal information management"
+      ],
+      "offline_keyword_arm": {
+        "accuracy": 0.16,
+        "kendall_tau": 0.024639657156339676,
+        "spearman_rho": 0.031240226156382365,
+        "weighted_kappa": 0.09117137911136752
+      },
+      "rerun": {
+        "accuracy": 0.5,
+        "kendall_tau": 0.35277617121640004,
+        "spearman_rho": 0.3833664514412743,
+        "weighted_kappa": 0.33236808236808224
+      },
+      "rerun_unparsed_predictions_scored_0": 1
     }
   },
   "interpretable_models": {
     "bayes_net_v4": {
       "accuracy": 0.524390243902439,
+      "accuracy_fraction": "43/82",
       "distinct_test_predictions": [
         "breach_of_confidentiality"
       ],
@@ -206,7 +676,8 @@
         "kw_privacy",
         "kw_reg_enforcement",
         "kw_video_surveillance"
-      ]
+      ],
+      "predicted_class_share_in_release": 0.0212
     },
     "brl_cascade_v3": {
       "classifiers": 16,
@@ -228,6 +699,7 @@
     },
     "decision_tree_v4": {
       "accuracy": 0.5873983739837398,
+      "accuracy_fraction": "289/492",
       "f1": 0.13872731960540902,
       "features": [
         "f_individuals_log",
@@ -242,10 +714,12 @@
     "decision_tree_v4_exported_rules": {
       "max_precision": 0.004,
       "max_support": 0.0,
-      "n_rules": 20
+      "n_rules": 20,
+      "rule_1_release_coverage": 0.6137
     },
     "ebm_v4": {
       "accuracy": 0.5823170731707317,
+      "accuracy_fraction": "191/328",
       "f1": 0.10174158046537196,
       "features": [
         "f_individuals_log",
@@ -259,6 +733,7 @@
     },
     "sparse_linear_v3": {
       "accuracy": 0.6222222222222222,
+      "accuracy_fraction": "28/45",
       "f1": 0.19863387978142077,
       "features": [
         "f_individuals_log",
@@ -273,64 +748,108 @@
   },
   "label_sources": {
     "committed_sample": {
-      "distinct_categories": 22,
       "harm_category_source": {
         "heuristic": 2549
       },
+      "labelled_classes": 21,
       "n": 2549,
+      "non_solove_classes": [
+        "data_handling",
+        "model_inversion",
+        "provenance_failure",
+        "regulatory_violation",
+        "synthetic_media_misuse",
+        "training_data_extraction"
+      ],
       "unknown_share": 0.6022
     },
     "release_asset_v1_0_0": {
-      "distinct_categories": 22,
       "harm_category_source": {
         "heuristic": 33472
       },
+      "labelled_classes": 21,
       "n": 33472,
+      "non_solove_classes": [
+        "data_handling",
+        "model_inversion",
+        "provenance_failure",
+        "regulatory_violation",
+        "synthetic_media_misuse",
+        "training_data_extraction"
+      ],
       "unknown_share": 0.6139
     }
   },
-  "rerun_rules_static_recomputed": {
-    "exact_match_ratio": 0.36,
-    "instance_jaccard": 0.10516666666666666,
-    "micro_f1": 0.33557046979865773,
-    "ndcg@5": 0.17597058419250025
+  "prompt_identity": {
+    "distinct_prompts": 2,
+    "expert_framework_rules": [
+      "If data is collected from minors, strict consent is required.",
+      "If location data is stored, it must be encrypted at rest.",
+      "If personal data is shared with third parties, a data processing agreement must be in place.",
+      "If automated decision-making is used, the user must have the right to opt-out.",
+      "If a data breach occurs, affected users must be notified within 72 hours."
+    ],
+    "modes_by_prompt": [
+      [
+        "baseline",
+        "rules_dynamic",
+        "rag",
+        "hybrid_deterministic_first",
+        "hybrid_llm_first"
+      ],
+      [
+        "rules_static"
+      ]
+    ]
   },
-  "severity_baseline": {
-    "always_1": {
-      "accuracy": 0.78,
-      "gold_score_1_count": 39
+  "recorded_2025": {
+    "Baseline": {
+      "emr_x150": 93.0,
+      "emr_x250": 155.0,
+      "exact_match_ratio": 0.62,
+      "instance_jaccard": 0.0556,
+      "micro_f1": 0.2853,
+      "ndcg@5": 0.0716
     },
-    "rerun_rules_static": {
-      "accuracy": 0.5,
-      "kendall_tau": 0.35277617121640004,
-      "spearman_rho": 0.3833664514412743,
-      "weighted_kappa": 0.33236808236808224
-    }
-  },
-  "trivial_baselines": {
-    "always_all_four_groups": {
-      "exact_match_ratio": 0.04,
-      "instance_jaccard": 0.175,
-      "micro_f1": 0.2978723404255319,
-      "ndcg@5": 0.28177520490328267
+    "Hybrid (Det. First)": {
+      "emr_x150": 89.0,
+      "emr_x250": 148.33,
+      "exact_match_ratio": 0.5933,
+      "instance_jaccard": 0.0533,
+      "micro_f1": 0.2752,
+      "ndcg@5": 0.0681
     },
-    "always_empty": {
-      "exact_match_ratio": 0.7,
-      "instance_jaccard": 0.0,
-      "micro_f1": 0.0,
-      "ndcg@5": 0.0
+    "Hybrid (LLM First)": {
+      "emr_x150": 90.0,
+      "emr_x250": 150.0,
+      "exact_match_ratio": 0.6,
+      "instance_jaccard": 0.0361,
+      "micro_f1": 0.1949,
+      "ndcg@5": 0.0492
     },
-    "always_information_processing": {
-      "exact_match_ratio": 0.04,
-      "instance_jaccard": 0.12666666666666665,
-      "micro_f1": 0.3058823529411765,
-      "ndcg@5": 0.15447221935805044
+    "RAG": {
+      "emr_x150": 87.0,
+      "emr_x250": 145.0,
+      "exact_match_ratio": 0.58,
+      "instance_jaccard": 0.0467,
+      "micro_f1": 0.2424,
+      "ndcg@5": 0.0609
     },
-    "always_invasion": {
-      "exact_match_ratio": 0.02,
-      "instance_jaccard": 0.09666666666666666,
-      "micro_f1": 0.25882352941176473,
-      "ndcg@5": 0.12220927550274126
+    "Rules Dynamic": {
+      "emr_x150": 89.0,
+      "emr_x250": 148.33,
+      "exact_match_ratio": 0.5933,
+      "instance_jaccard": 0.0547,
+      "micro_f1": 0.2807,
+      "ndcg@5": 0.0732
+    },
+    "Rules Static": {
+      "emr_x150": 100.0,
+      "emr_x250": 166.67,
+      "exact_match_ratio": 0.6667,
+      "instance_jaccard": 0.0678,
+      "micro_f1": 0.3908,
+      "ndcg@5": 0.0896
     }
   }
 }

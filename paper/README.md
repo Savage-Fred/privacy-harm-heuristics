@@ -1,29 +1,40 @@
-# Close-out paper: "A Constant Beats Every Arm"
+# Close-out paper: "When Constants Win"
 
-`lessons.tex` / `lessons.pdf` is a short (4-page) negative-results paper that
+`lessons.tex` / `lessons.pdf` is a short (5-page) negative-results paper. It
 re-analyses this repository's committed evidence offline and records what the
-practicum does and does not support. It is anonymised for double-blind review;
+practicum does and does not support. It was revised after an adversarial
+peer-style review (see PR #10). It is anonymised for double-blind review;
 remove the repository URL in §"Artifact availability" before submitting to a
 venue that requires it.
 
 ## What we learned
 
 The headline, that a static rule block in the prompt beats LLM baselines, does
-not survive a constant predictor: on the same 50 gold cases, predicting no harm
-gives the best exact-match (0.700), and predicting all four Solove groups gives
-the best Jaccard (0.175) and nDCG@5 (0.282). The first research question
-(can heuristics estimate harm?) is still open, because every training label in
-the released corpus came from the keyword fallback.
+not survive constants fixed in advance. On the same 50 gold cases:
 
-1. Report constant baselines (empty, modal, all-labels, modal severity) with the same scorer.
-2. On an empty-majority gold set, exact-match mostly measures emptiness. Report the empty share and score the non-empty subset separately.
-3. Keep the gold set independent of the systems under test, and review it before the headline run.
-4. Make scorer fallbacks loud. A missing `harms` field silently switched the target to `root_causes`.
-5. Make placeholder runs unable to pass for results. Every per-arm metric in the 14 "comprehensive" runs came from a dry run.
-6. Measure the label pipeline you ran, not the one you designed. 100% of labels came from the keyword fallback.
-7. Pin model versions and keep per-case outputs.
-8. Name arms by mechanism ("rules static" still called an LLM), and include a model-free arm.
-9. Scrub at collection, not at release. Before the audit, the corpus reproduced the harm it studied.
+- Predicting no harm matches or beats every arm on exact-match (0.700).
+- Predicting all four Solove groups beats every arm on Jaccard (0.175) and
+  nDCG@5 (0.237), with paired bootstrap intervals that exclude zero.
+- On micro-F1, the recorded arm leads, but no per-case data survive. The 2026
+  rerun ties the best constant, and beats it only after a post-hoc filter
+  removes out-of-taxonomy labels.
+- Five of the six arms sent an identical prompt.
+- The first research question (can heuristics estimate harm?) is still open,
+  because every training label came from a keyword fallback.
+
+Evaluation lessons:
+
+1. Pre-specify constant baselines (empty, all labels in a fixed order, modal severity), score them with the same scorer, and report oracle constants separately.
+2. Disclose empty-set conventions and the ceiling they imply. Here a perfect predictor scores Jaccard and nDCG 0.30.
+3. Field names lie, so pin the prompt-scorer contract. The prompt invited root causes into the field scored as harms.
+4. Diff what each arm actually sends. Five "different" arms sent one prompt.
+5. Make placeholders unable to pass for results. Every stored multi-arm run was a dry run, and API errors echo the prompt.
+6. Keep the gold set independent of the models under test, and keep its review auditable.
+7. Measure the label pipeline you ran. A swallowed GLiNER2 load error left 100% keyword labels.
+8. Record the model version, scorer revision, prompt hash, trial count and per-case outputs in every result file.
+
+Data-ethics lesson: scrub at collection, not at release. Before the audit, the
+corpus reproduced the harm it studied.
 
 ## Rebuild every number
 
@@ -37,7 +48,8 @@ cd paper && latexmk -pdf lessons.tex           # -> paper/lessons.pdf
 ```
 
 `reanalysis.py` asserts that its scoring path reproduces the recorded 2026
-rerun exactly before it computes anything else. Without `make fetch-data`, the
+rerun (set, ranking and ordinal metrics) and the repository's offline arm
+exactly before it reports anything. Without `make fetch-data`, the
 `release_asset_v1_0_0` fields in the JSON are `null`. The recorded 2025 arms
 come from `data/experiments/final_results_summary.md`, and the offline arm
 comes from the top-level README.

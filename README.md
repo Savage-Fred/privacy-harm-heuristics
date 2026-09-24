@@ -42,11 +42,12 @@ LLM baseline, RAG, and both hybrid combinations. The absolute numbers are low
 because the task is hard (multi-label harm assignment over a sparse taxonomy).
 
 **Read this table as a record of what was run, not as evidence that rules beat
-LLMs.** The 2026 close-out re-analysis ([`paper/`](paper/)) finds that constant
-predictors, scored with this repo's own metric code on the same 50 cases, beat
-every arm on three of the four metrics: predicting no harm gives exact-match
-0.700, and predicting all four Solove groups gives Jaccard 0.175 and nDCG@5
-0.282.
+LLMs.** The 2026 close-out re-analysis ([`paper/`](paper/)) scores constants
+fixed in advance with this repo's own metric code on the same 50 cases. They
+match or beat every arm on three of the four metrics: predicting no harm gives
+exact-match 0.700, and predicting all four Solove groups gives Jaccard 0.175
+and nDCG@5 0.237. In the committed code, five of the six arms send the same
+prompt.
 
 ### Reproducing these numbers
 
@@ -191,10 +192,9 @@ Samples are regenerable byte-for-byte with a fixed seed
 The practicum paper, **"Human vs Human vs Machine"** (Dec 2025), is the original
 writeup of the experiment. <!-- Drive link: Will to insert -->
 
-The close-out paper, [`paper/lessons.tex`](paper/lessons.tex) ("A Constant Beats
-Every Arm"), re-analyses the committed evidence offline and states what it does
-and does not support, with nine lessons for evaluating LLM-based harm
-classifiers. [`paper/README.md`](paper/README.md) lists the lessons and how to
+The close-out paper, [`paper/lessons.tex`](paper/lessons.tex) ("When Constants
+Win"), re-analyses the committed evidence offline and states what it does and
+does not support, with eight evaluation lessons and one data-ethics lesson. [`paper/README.md`](paper/README.md) lists the lessons and how to
 rebuild every number.
 
 ## Relationship to other work
