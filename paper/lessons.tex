@@ -1,0 +1,463 @@
+\documentclass[10pt,twocolumn]{article}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\setlist{nosep,leftmargin=*}
+
+% \anontrue for double-blind submission; \anonfalse for the repository copy.
+\newif\ifanon
+\anonfalse
+
+% Every re-analysis number below is in paper/reanalysis.json, produced by
+% paper/reanalysis.py from committed artifacts and paper/trials_2025/.
+
+\title{When Constants Win: Lessons from Re-analysing\\a Privacy-Harm Heuristics Evaluation}
+\author{Anonymous Author(s)}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We re-analyse a small study that asked whether interpretable heuristics can
+estimate privacy harm, and how they compare with large language models (LLMs).
+Its recorded result was that a ``rules static'' arm beat a plain LLM, a
+rules-dynamic arm, retrieval augmentation, and two hybrids on all four reported
+metrics. We made no model calls and used only the committed artifacts plus the
+recovered per-case outputs of all 18 recorded trials. We find:
+\begin{itemize}
+  \item A label-free constant that predicts all four of Solove's harm groups
+        for every case beats the headline arm on Jaccard and nDCG@5. The
+        intervals exclude zero after correcting for 15 comparisons. Predicting
+        no harm ties the arm on exact match.
+  \item On micro-F1, neither the headline arm nor a 2026 rerun is
+        distinguishable from the best constant, even after out-of-taxonomy
+        labels are removed.
+  \item Five of the six arms sent an identical prompt. Rules-static, the one
+        arm with a different prompt, did differ from the other five (one-sided
+        $p = 0.007$), but not enough to beat a constant.
+  \item The gold set was LLM-generated and mostly off-topic.
+  \item Every multi-arm result in the original public artifact came from a
+        dry run on a different gold set.
+  \item Every training label came from a keyword fallback.
+\end{itemize}
+We distil eight evaluation lessons and one data-ethics lesson.
+\end{abstract}
+
+\section{Introduction}
+
+Estimating the \emph{harm} of a privacy incident, not only detecting that one
+occurred, matters to regulators, auditors, and engineers deciding what to fix
+first. Solove's taxonomy organises privacy problems into information
+collection, processing, dissemination, and invasion~\cite{solove2006}, and
+Citron and Solove catalogue the injuries that follow~\cite{citron2022}. Recent
+work applies the taxonomy to AI incidents~\cite{lee2024}. A natural question is
+whether cheap, interpretable heuristics can apply that structure at scale, and
+whether an LLM does better.
+
+A 2025 master's practicum asked exactly that: \emph{can we estimate privacy harm
+using heuristics, given facts parsed by a small language model}, and \emph{how
+do non-language models compare with LLMs and with an LLM applying classical
+privacy frameworks}? Its public artifact records a headline table in which a
+``rules static'' arm led every metric. We re-examined the evidence offline and
+asked what it supports. The contributions are:
+\begin{itemize}
+  \item a re-analysis against label-free constant predictors. It uses the
+        per-case outputs of every recorded trial and the study's own metric
+        code, with paired, multiplicity-adjusted bootstrap intervals
+        (\S\ref{sec:baselines});
+  \item an audit of what the evaluation actually compared: its prompts, scorer
+        revisions, gold set, dry runs, and label sources (\S\ref{sec:audit});
+  \item nine lessons, each tied to its evidence (\S\ref{sec:lessons}).
+\end{itemize}
+
+\section{The original study}
+\label{sec:study}
+
+\paragraph{Pipeline.} Public incident reports (regulator and securities
+filings, news, forums, Wikipedia) were crawled, labelled with Solove categories,
+and featurised. Five interpretable model families were trained: a decision
+tree; an Explainable Boosting Machine~\cite{lou2012,lou2013,nori2019}; Bayesian
+rule lists~\cite{letham2015}; a sparse linear model; and a Chow--Liu Bayes
+net~\cite{chow1968}. The labeller was to use GLiNER2~\cite{zaratiana2025}, a
+successor to GLiNER~\cite{zaratiana2024}.
+
+\paragraph{Evaluation.} Six arms were scored on a 50-case gold set (the
+\emph{v3} set): a plain LLM baseline; \emph{rules static}, a fixed rule block in
+the prompt; \emph{rules dynamic}; RAG; and two hybrids. All were served by
+Gemini. The metrics were instance-averaged Jaccard, exact-match ratio (EMR),
+micro-F1, and nDCG@5~\cite{zhang2014,jarvelin2002} over Solove's four groups.
+
+The recorded summary is dated 2025-11-06 and says it averages five trials. Its
+numbers instead reproduce exactly from three trials per arm run on 2025-11-22,
+recorded in a trial summary and 18 per-case result files. The public artifact
+omitted these; they survived in the private predecessor repository, and we
+republish them with this paper. The trial configurations record no model
+name. Earlier runs on the same day scored unmapped gold subtypes against
+group-level predictions, got zero overlap, and were superseded by one complete
+pass. We republish those superseded runs too. All 22 scored against unmapped
+gold subtypes: ten 50-case runs reached micro-F1 of at most 0.022, and twelve
+20-case runs are the prompt-echo failures described in \S\ref{sec:audit}. We see
+no sign of selective reporting.
+
+A 2026 rerun repeated rules-static once. Its model is likewise unrecorded in
+the results file and known only from README prose. The repository also added an
+\emph{offline} arm that calls no LLM and uses the corpus keyword labeller; we
+recompute it per case.
+
+\begin{table*}[t]
+\centering\small
+\begin{tabular}{@{}lccccccc@{}}
+\toprule
+& \multicolumn{5}{c}{All 50 cases} & \multicolumn{2}{c}{15 labelled cases} \\
+\cmidrule(lr){2-6}\cmidrule(l){7-8}
+Arm & Jaccard & Jaccard$_{\emptyset=1}$ & EMR & micro-F1 & nDCG@5 & Jaccard & nDCG@5 \\
+\midrule
+\multicolumn{8}{@{}l}{\emph{Recorded 2025 arms (mean of 3 trials; per-case outputs recovered)}}\\
+Rules static                 & 0.068 & \textbf{0.721} & 0.667 & \textbf{0.391} & 0.090 & 0.226 & 0.299 \\
+LLM baseline                 & 0.056 & 0.662 & 0.620 & 0.285 & 0.072 & 0.185 & 0.239 \\
+Rules dynamic                & 0.055 & 0.641 & 0.593 & 0.281 & 0.073 & 0.182 & 0.244 \\
+Hybrid, deterministic first  & 0.053 & 0.640 & 0.593 & 0.275 & 0.068 & 0.178 & 0.227 \\
+RAG                          & 0.047 & 0.627 & 0.580 & 0.242 & 0.061 & 0.156 & 0.203 \\
+Hybrid, LLM first            & 0.036 & 0.629 & 0.600 & 0.195 & 0.049 & 0.120 & 0.164 \\
+\midrule
+\multicolumn{8}{@{}l}{\emph{Later runs}}\\
+Rules static, 2026, current scorer   & 0.105 & 0.465 & 0.360 & 0.336 & 0.176 & 0.351 & 0.587 \\
+\quad same outputs, 2025 scorer      & 0.041 & 0.401 & 0.360 & 0.167 & 0.041 & 0.136 & 0.136 \\
+\quad same outputs, filtered to groups (post hoc) & 0.158 & 0.518 & 0.400 & 0.463 & 0.202 & 0.528 & 0.675 \\
+Offline keyword arm (no LLM)         & 0.081 & 0.161 & 0.080 & 0.222 & 0.162 & 0.269 & 0.541 \\
+\midrule
+\multicolumn{8}{@{}l}{\emph{Label-free constants}}\\
+Always $\emptyset$                   & 0.000 & 0.700 & \textbf{0.700} & 0.000 & 0.000 & 0.000 & 0.000 \\
+Always all four, taxonomy order      & \textbf{0.175} & 0.175 & 0.040 & 0.298 & \textbf{0.237} & \textbf{0.583} & \textbf{0.790} \\
+\multicolumn{8}{@{}l}{\emph{Constants, best per column (selected on test labels)}}\\
+Best of 65 constants                 & 0.192 & 0.700 & 0.700 & 0.356 & 0.282 & -- & -- \\
+\midrule
+Perfect predictor (ceiling)          & 0.300 & 1.000 & 1.000 & 1.000 & 0.300 & 1.000 & 1.000 \\
+\bottomrule
+\end{tabular}
+\caption{All rows use the same 50-case gold set and the repository's metric
+code. That code reproduces every recorded 2025 trial and the 2026 run exactly.
+The 2025 rows are scored as recorded, with predictions unmapped; mapping them
+would move only the LLM-first hybrid, by about 0.001.
+It gives empty-vs-empty a Jaccard and nDCG of 0 but an EMR of 1, so a perfect
+predictor scores only 0.300 on Jaccard and nDCG; Jaccard$_{\emptyset=1}$ uses
+the other common convention. The 65 constants are every ordered subset of the
+four groups. Bold marks the best value per column among the recorded arms, the
+2026 current-scorer run, the offline arm, and the label-free constants. It
+excludes the post-hoc filtered row, the test-selected constants, and the
+ceiling.}
+\label{tab:main}
+\end{table*}
+
+\section{Constants against the arms}
+\label{sec:baselines}
+
+\paragraph{An empty-majority gold set.} Of the 50 gold cases, 35 carry no harm
+label. The other 15 carry 35 group labels (processing 13, invasion 11,
+collection 7, dissemination 4). The scorer counts an empty prediction on an
+empty case as an exact match but as a Jaccard and nDCG of 0. EMR therefore
+mostly measures how often an arm predicts nothing, and Jaccard and nDCG are
+read against a ceiling of 0.30 (Table~\ref{tab:main}).
+
+\paragraph{Label-free constants.} We compare two constants that need no labels
+to construct: the empty set, and all four groups in the taxonomy's own order.
+We fixed them while revising the analysis, after the scores of all 65
+constants had been computed, so they are label-free but not preregistered. All
+intervals come from a paired case-resampling bootstrap (4{,}000 resamples)
+that averages the three trials inside each resample. We report 15 paired
+comparisons; Bonferroni-adjusted intervals ($\alpha = 0.05/15$) are in the
+artifact, and we note below which gaps survive that adjustment.
+
+\paragraph{Against the recorded headline arm.} Using its recovered 2025 trials:
+\begin{itemize}
+  \item \emph{All four} beats rules-static on Jaccard, by $[0.049, 0.172]$,
+        and on nDCG@5, by $[0.070, 0.231]$. Both gaps survive the Bonferroni
+        adjustment.
+  \item \emph{Empty} ties it on EMR ($[-0.013, 0.093]$) and on
+        Jaccard$_{\emptyset=1}$ ($[-0.091, 0.055]$). On that convention the
+        arm's point estimate (0.721) is higher than the constant's (0.700).
+  \item On micro-F1, the arm minus the best constant, re-selected inside each
+        resample from all 16 label sets, is $[-0.173, 0.214]$: a tie.
+\end{itemize}
+So the constants beat the headline arm on two metrics and tie it on the other
+two. The arm is not significantly better than a constant on any of the four
+set metrics.
+
+\paragraph{Against the 2026 rerun and the offline arm.} Against the rerun:
+\begin{itemize}
+  \item Empty wins EMR by $[0.22, 0.48]$, and all four wins Jaccard by
+        $[0.033, 0.111]$. Both survive the adjustment.
+  \item All four also wins nDCG@5 by $[0.017, 0.112]$, but that gap's
+        adjusted lower bound touches zero ($-0.0001$), within Monte Carlo
+        error.
+  \item On micro-F1 the rerun ties the best constant ($[-0.128, 0.071]$).
+\end{itemize}
+The rerun's output contains eight labels outside the gold label space
+(root-cause terms such as \texttt{lack\_of\_consent}), and each is a
+guaranteed false positive. Dropping them post hoc lifts its micro-F1 to 0.463,
+but it still ties the best constant ($[-0.031, 0.217]$).
+
+Against the offline arm, all four wins Jaccard ($[0.042, 0.151]$, which
+survives adjustment), micro-F1 ($[0.007, 0.149]$), and nDCG@5
+($[0.009, 0.146]$).
+
+\paragraph{The labelled cases alone.} On the 15 non-empty cases, the all-four
+constant scores Jaccard 0.583 and nDCG@5 0.790. That is far above the 2025
+rules-static arm (0.226 and 0.299) and the 2026 rerun (0.351 and 0.587, or 0.528
+and 0.675 filtered). With so few informative cases, the micro-F1 intervals
+against the best constant are 0.20--0.39 wide, so modest real effects would go
+undetected~\cite{card2020}.
+
+\paragraph{Severity.} Severity (1--5) is where the LLM arms show consistent
+signal. Always predicting the modal score 1 is more \emph{accurate} (0.78) than
+2025 rules-static (0.77) or the 2026 rerun (0.50), but it has a
+quadratic-weighted $\kappa$ of 0. The arms reach $\kappa$ 0.40--0.54 in 2025
+and 0.33 ($[0.05, 0.56]$) in 2026. The gold severities are themselves
+inconsistent: four harm-labelled cases, such as ``Data warehouse'', have
+severity 1.
+
+\section{What the evaluation compared}
+\label{sec:audit}
+
+\paragraph{Five arms, one prompt.} In the committed code, the prompt differs by
+arm only for rules-static. The deterministic-first hybrid adds text only when a
+deterministic model's output exists, and the runner never supplies one. The
+prompt builder never reads its context argument, so no retrieved text could
+reach the RAG arm's prompt. Building each arm's prompt offline yields two
+distinct texts: one for rules-static, and one shared by the other five. The
+2025 trials were committed together with this runner.
+
+The five identical-prompt arms therefore measure replicate noise, and
+rules-static does stand out from them. Its paired micro-F1 gain over their mean
+is $[0.021, 0.221]$ and its EMR gain is $[0.016, 0.133]$. Neither survives the
+Bonferroni adjustment. A one-sided trial-level permutation test on micro-F1
+gives $p = 6/816 \approx 0.007$ (two-sided, 0.020). The arms also ran in
+consecutive time blocks, so arm is confounded with time of day. Rules-static's
+outputs differ from those of the other five arms, and the rule block is the
+only prompt difference. It still did not beat a constant.
+
+The ``rules'' are five generic compliance sentences, such as ``If a data breach
+occurs, affected users must be notified within 72 hours.'' They are unrelated
+to the trained models. Yet the original summary calls the arm
+``deterministic regex/keyword heuristics'', although an LLM produced every one
+of its labels.
+
+\paragraph{Scorer and prompt changed between runs.} The 2025 scorer mapped gold
+labels to the four groups but scored predictions raw. The current scorer maps
+both. The 2025 rules-static outputs are already group-level, so they score
+identically under both. They contain 59 group labels, 8 others, and no
+subtypes. Seven of the eight others are group names with text appended, such
+as ``invasion (mass surveillance)'', which a normalising parser would have
+credited (a small instance of L3).
+The 2026 prompt, revised on 2025-11-29, added a root-cause allowlist and told
+the model it may put root causes in the same field. Its outputs therefore
+depend on mapping: Jaccard is 0.041 unmapped and 0.105 mapped.
+
+Under one scorer, the 2025$\to$2026 change raised Jaccard (0.068 to 0.105) and
+nDCG@5 (0.090 to 0.176) and lowered EMR (0.667 to 0.360) and micro-F1 (0.391
+to 0.336). Those differences confound the prompt revision, one trial against
+three, and possibly the model, which neither run records; the provider default
+was the same in both. They are not evidence of model drift. Hosted-model drift
+is real~\cite{chen2023,pozzobon2023}, but this artifact cannot measure it.
+
+\paragraph{An LLM-generated, mostly off-topic gold set.} The summary records
+that the v3 gold set was generated with Gemini~2.5~Pro. Arms from the same
+family may share its errors. That is analogous to the self-preference of LLM
+judges~\cite{panickssery2024,zheng2023}, and it would favour the arms, which
+makes the constants' results more telling. Of the 50 cases, 47 are general
+Wikipedia articles; by title, none reports a specific privacy incident. The
+labelled cases mix on-topic articles (National Security Agency, Browser
+security, Profiling) with off-topic ones (the Railway Regulation Act 1844, Data
+warehouse). The JSON lists every title.
+
+No case has the \texttt{harms} field the scorer reads first, so it silently
+falls back to \texttt{root\_causes}. A code comment says that field holds
+technical causes, but in this set it holds only Solove subtypes, so the
+fallback read the right labels under the wrong name. The real contract failure
+is on the prediction side: the 2026 prompt invites root causes into the field
+the scorer treats as harms.
+
+A second, 96-case set has labels drafted by \texttt{gemini-2.5-flash} (92 of
+96) and is marked as reviewed in July 2026. Its review timestamps are bulk
+writes (median gap 1.4\,ms), so they cannot show per-case review. It has no
+empty-gold cases. By L6 below, it could serve as a benchmark only after
+independent relabelling.
+
+\paragraph{Dry runs shipped as experiments.} The artifact ships fourteen
+``comprehensive'' run directories, the largest spanning 320 configurations,
+and it omits the live trials behind the headline table. All fourteen name
+\texttt{golden\_cases.jsonl} (the file that later became the 96-case set), not
+the v3 set. Seven are flagged \texttt{dry\_run}. The five that report per-arm
+metrics are all dry runs, and within four of them every arm has an identical
+mean micro-F1; the fifth has two values. The placeholder score, 0.417, is
+higher than the headline arm's 0.391, on a different gold set. The seven live
+runs committed no per-arm metrics.
+
+Pairwise-test files show Bonferroni thresholds and Cliff's~$\delta$ in three
+directories. One file is truncated and does not parse, and 15 of the 43
+parseable entries are placeholders ($p = 1$, zero difference). A related hazard
+actually fired. The LLM client turns most API errors into a truncated echo of
+the prompt, which parses as an empty prediction. On the morning of the recorded
+trials, twelve 20-case smoke runs (two per arm) failed this way on every case.
+Each scored EMR 0.65 by predicting nothing, higher than five of the six
+recorded arms. None of the 18 recorded trials hit it, and the rerun's single
+parse failure was a malformed model reply.
+
+\paragraph{Heuristic labels in, heuristic rules out.} The labeller enables
+GLiNER2 only when no LLM provider is configured, and it silently swallows a
+GLiNER2 load failure, falling through to keyword scoring. In the released
+33{,}472-row corpus, every label's recorded source is that keyword fallback.
+61.4\% of labels are \texttt{unknown}, and 6 of the 21 other classes (e.g.\
+\texttt{regulatory\_violation}) are not Solove categories. The offline arm uses
+the same labeller and emits 46 predictions from five of those classes. The
+models were trained on seven features: a log count of affected individuals and
+six keyword flags. So they approximated one keyword heuristic from another,
+which cannot answer the study's first question, and they did so poorly:
+\begin{itemize}
+  \item Macro-F1 was 0.14 (decision tree), 0.10 (EBM), 0.20 (sparse linear),
+        and 0.04 (Bayes net).
+  \item The three 2026 models share one 984-row test split: 578, 573 and 516
+        rows correct. The Bayes net stores 984 predictions, all of one class,
+        which is 52.4\% of that split but only 2.1\% of the release.
+  \item The decision tree's exported rules imply 3{,}934 training rows, so
+        about 4{,}918 labelled rows in all, against 33{,}472 in the release.
+        The release is not the training set, and the training corpus's
+        recorded hash matches no archived copy we could find.
+  \item One of 16 per-category rule-list classifiers trained.
+  \item The exported ``heuristics'' are corrupted by an exporter bug. Each of
+        the 24 rules reports support exactly $1/3{,}934$ and a leaf size of 0
+        or 1, because the tree's per-leaf value array held class fractions,
+        not counts. The reported ``precision'' is the share of class index 1,
+        not of the predicted class. The tree file shows that the first rule
+        (``no keyword present'') actually covered 517 of 3{,}934 training rows
+        (13.1\%).
+\end{itemize}
+
+\section{Lessons}
+\label{sec:lessons}
+
+\begin{enumerate}[label=\textbf{L\arabic*}]
+  \item \textbf{Fix label-free constant baselines and score them with the same
+        scorer.} Use empty, all labels in a fixed order, and the modal score
+        for ordinal targets. Report oracle constants separately, re-selected
+        inside the bootstrap. A metric on which no arm beats the constants
+        supports no claim.
+  \item \textbf{Disclose empty-set conventions and the ceiling they imply.}
+        Report the gold empty share, and score the non-empty subset separately.
+  \item \textbf{Field names lie; pin the prompt--scorer contract.} Validate
+        predictions and gold labels against one schema, and fail on missing
+        fields or out-of-schema labels instead of falling back.
+  \item \textbf{Diff what each arm actually sends.} Arms that differ only in
+        name measure replicate noise. That is useful, but only if you know it.
+  \item \textbf{Make placeholders unable to pass for results.} Refuse to
+        aggregate or test arm-invariant outputs, keep dry runs out of results
+        directories, and fail on client errors instead of echoing the prompt.
+  \item \textbf{Keep the gold set independent and its review auditable.} Do not
+        generate it with the model family under test, and record who reviewed
+        each case and when.
+  \item \textbf{Measure the label pipeline you ran, not the one you designed.}
+        Log the share of labels from each source, and never swallow a model-load
+        failure~\cite{ratner2017,pangakis2023}.
+  \item \textbf{Ship the per-case outputs behind every reported number.} Record
+        the model version, scorer revision, prompt hash, and trial count in each
+        result file. Here the extraction kept the dry runs and dropped the live
+        trials. Make the analysis deterministic as well: an earlier draft of
+        this one drew a bootstrap candidate set in Python's hash order and
+        changed with the interpreter's seed.
+\end{enumerate}
+\noindent\textbf{A data-ethics lesson.} A pre-release audit found that the
+corpus's social-media portions republished verbatim, re-identifiable posts in
+which private individuals described legal, medical, and financial trouble.
+That is the secondary-use harm the project studied, and a tested scrub removed
+it before release. Scrub at collection, not at release.
+
+These lessons echo known failures: hypothesis-only and trivial
+baselines~\cite{gururangan2018,poliak2018}, shortcut learning~\cite{geirhos2020},
+leakage~\cite{kapoor2023}, fragile benchmark rankings~\cite{dehghani2021},
+evaluation failures across ML~\cite{liao2021}, and significance
+testing~\cite{dror2018}. What is new with LLMs is how cheaply one model family
+can produce each ingredient (gold labels, rules, predictions, and even the
+fallback text on error), and so end up on both sides of a comparison.
+
+\section{Limitations}
+
+\begin{itemize}
+  \item We made no model calls, so we cannot say how the arms would score on
+        the 96-case set.
+  \item The label-free constants were fixed after we had seen the scores of
+        all 65 constants; they are not preregistered.
+  \item The filtered sensitivity check is post hoc.
+  \item With 15 informative cases, statistical power is low.
+  \item Our judgement that the gold articles are off-topic rests on titles.
+  \item The 2025 trial files come from a private repository. We republish
+        them together with the 22 superseded runs, and the 2025 scorer
+        reproduces all 18 recorded trials exactly.
+  \item The gold file is byte-identical to its Nov-2025 version, and the
+        taxonomy that maps its subtypes to groups is unchanged.
+\end{itemize}
+
+\section{Conclusion}
+
+Label-free constants beat the recorded headline arm on Jaccard and nDCG@5 and
+tie it on exact match and micro-F1. No arm, including a 2026 rerun with its
+out-of-taxonomy labels removed, is significantly better than the best constant
+on any of the four set metrics. Rules-static's outputs do differ from the
+identical-prompt arms, and the arms carry real signal on severity. But the study's first question, whether heuristics can estimate harm,
+remains open, because every training label was itself a keyword heuristic.
+
+The study's uncertainty machinery (confidence intervals, corrected tests) ran
+only on dry runs against a different gold set, and its headline table carried
+no uncertainty at all. What it offers is a compact, reproducible case of
+evaluation failure, and nine concrete ways to avoid repeating it.
+
+\section*{Artifact availability}
+\label{sec:artifact}
+\ifanon
+The repository and the recovered trial files will be released on publication.
+\else
+The repository, including gold sets, recorded runs, the recovered 2025 trials
+and superseded runs (\texttt{paper/trials\_2025/}), trained models, and a scrubbed corpus (release
+\texttt{v1.0.0}), is public at
+\url{https://github.com/Savage-Fred/privacy-harm-heuristics}.
+\fi
+\texttt{paper/reanalysis.py} regenerates \texttt{paper/reanalysis.json}, the
+source of every re-analysis number, offline. It asserts that it reproduces the
+18 recorded 2025 trials, the recorded table, the 2026 rerun, and the offline
+arm exactly. Its output is identical under different \texttt{PYTHONHASHSEED}
+values.
+
+\begin{thebibliography}{99}\small
+\bibitem{card2020} D.~Card, P.~Henderson, U.~Khandelwal, R.~Jia, K.~Mahowald, and D.~Jurafsky. With little power comes great responsibility. In \emph{EMNLP}, 2020.
+\bibitem{chen2023} L.~Chen, M.~Zaharia, and J.~Zou. How is ChatGPT's behavior changing over time? arXiv:2307.09009, 2023.
+\bibitem{chow1968} C.~K. Chow and C.~N. Liu. Approximating discrete probability distributions with dependence trees. \emph{IEEE Trans.\ Information Theory}, 14(3):462--467, 1968.
+\bibitem{citron2022} D.~K. Citron and D.~J. Solove. Privacy harms. \emph{Boston University Law Review}, 102:793, 2022.
+\bibitem{dehghani2021} M.~Dehghani, Y.~Tay, A.~A. Gritsenko, Z.~Zhao, N.~Houlsby, F.~Diaz, D.~Metzler, and O.~Vinyals. The benchmark lottery. arXiv:2107.07002, 2021.
+\bibitem{dror2018} R.~Dror, G.~Baumer, S.~Shlomov, and R.~Reichart. The hitchhiker's guide to testing statistical significance in natural language processing. In \emph{ACL}, 2018.
+\bibitem{geirhos2020} R.~Geirhos, J.-H. Jacobsen, C.~Michaelis, R.~Zemel, W.~Brendel, M.~Bethge, and F.~A. Wichmann. Shortcut learning in deep neural networks. \emph{Nature Machine Intelligence}, 2:665--673, 2020.
+\bibitem{gururangan2018} S.~Gururangan, S.~Swayamdipta, O.~Levy, R.~Schwartz, S.~R. Bowman, and N.~A. Smith. Annotation artifacts in natural language inference data. In \emph{NAACL-HLT}, 2018.
+\bibitem{jarvelin2002} K.~J\"arvelin and J.~Kek\"al\"ainen. Cumulated gain-based evaluation of IR techniques. \emph{ACM Trans.\ Information Systems}, 20(4):422--446, 2002.
+\bibitem{kapoor2023} S.~Kapoor and A.~Narayanan. Leakage and the reproducibility crisis in machine-learning-based science. \emph{Patterns}, 4(9):100804, 2023.
+\bibitem{lee2024} H.-P. Lee, Y.-J. Yang, T.~S. von Davier, J.~Forlizzi, and S.~Das. Deepfakes, phrenology, surveillance, and more! A taxonomy of AI privacy risks. In \emph{CHI}, 2024.
+\bibitem{letham2015} B.~Letham, C.~Rudin, T.~H. McCormick, and D.~Madigan. Interpretable classifiers using rules and Bayesian analysis: Building a better stroke prediction model. \emph{Annals of Applied Statistics}, 9(3):1350--1371, 2015.
+\bibitem{liao2021} T.~Liao, R.~Taori, I.~D. Raji, and L.~Schmidt. Are we learning yet? A meta review of evaluation failures across machine learning. In \emph{NeurIPS Datasets and Benchmarks}, 2021.
+\bibitem{lou2012} Y.~Lou, R.~Caruana, and J.~Gehrke. Intelligible models for classification and regression. In \emph{KDD}, 2012.
+\bibitem{lou2013} Y.~Lou, R.~Caruana, J.~Gehrke, and G.~Hooker. Accurate intelligible models with pairwise interactions. In \emph{KDD}, 2013.
+\bibitem{nori2019} H.~Nori, S.~Jenkins, P.~Koch, and R.~Caruana. InterpretML: A unified framework for machine learning interpretability. arXiv:1909.09223, 2019.
+\bibitem{pangakis2023} N.~Pangakis, S.~Wolken, and N.~Fasching. Automated annotation with generative AI requires validation. arXiv preprint, 2023.
+\bibitem{panickssery2024} A.~Panickssery, S.~R. Bowman, and S.~Feng. LLM evaluators recognize and favor their own generations. In \emph{NeurIPS}, 2024.
+\bibitem{poliak2018} A.~Poliak, J.~Naradowsky, A.~Haldar, R.~Rudinger, and B.~Van~Durme. Hypothesis only baselines in natural language inference. In \emph{*SEM}, 2018.
+\bibitem{pozzobon2023} L.~Pozzobon, B.~Ermis, P.~Lewis, and S.~Hooker. On the challenges of using black-box APIs for toxicity evaluation in research. In \emph{EMNLP}, 2023.
+\bibitem{ratner2017} A.~Ratner, S.~H. Bach, H.~Ehrenberg, J.~Fries, S.~Wu, and C.~R\'e. Snorkel: Rapid training data creation with weak supervision. \emph{PVLDB}, 11(3):269--282, 2017.
+\bibitem{solove2006} D.~J. Solove. A taxonomy of privacy. \emph{University of Pennsylvania Law Review}, 154(3):477--564, 2006.
+\bibitem{zaratiana2024} U.~Zaratiana, N.~Tomeh, P.~Holat, and T.~Charnois. GLiNER: Generalist model for named entity recognition using bidirectional transformer. In \emph{NAACL}, 2024.
+\bibitem{zaratiana2025} U.~Zaratiana, G.~Pasternak, O.~Boyd, G.~Hurn-Maloney, and A.~Lewis. GLiNER2: Schema-driven multi-task learning for structured information extraction. In \emph{EMNLP: System Demonstrations}, pages 130--140, 2025.
+\bibitem{zhang2014} M.-L. Zhang and Z.-H. Zhou. A review on multi-label learning algorithms. \emph{IEEE Trans.\ Knowledge and Data Engineering}, 26(8):1819--1837, 2014.
+\bibitem{zheng2023} L.~Zheng et~al. Judging LLM-as-a-judge with MT-Bench and Chatbot Arena. In \emph{NeurIPS Datasets and Benchmarks}, 2023.
+\end{thebibliography}
+
+\end{document}

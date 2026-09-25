@@ -24,8 +24,9 @@ The practicum set out to answer two questions, stated here verbatim:
 
 Recorded run — `data/experiments/final_results_summary.md`, dated **2025-11-06**,
 n=50 gold cases (`golden_cases_v3.jsonl`), Solove taxonomy normalized to 4
-high-level harm categories, LLM arms served by Gemini, 5 trials per mode
-(mean scores):
+high-level harm categories, LLM arms served by Gemini, mean scores. The summary
+says 5 trials per mode; the per-trial files it was built from
+(`paper/trials_2025/`) show 3, run on 2025-11-22:
 
 | Mode | Instance Jaccard | Exact Match Ratio | Micro F1 | Ranking NDCG@5 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -39,8 +40,17 @@ high-level harm categories, LLM arms served by Gemini, 5 trials per mode
 In this run the deterministic `rules_static` mode led every metric — a static
 block of regex/keyword privacy heuristics injected into the prompt beat the plain
 LLM baseline, RAG, and both hybrid combinations. The absolute numbers are low
-because the task is hard (multi-label harm assignment over a sparse taxonomy);
-the *ranking* of approaches is the finding.
+because the task is hard (multi-label harm assignment over a sparse taxonomy).
+
+**Read this table as a record of what was run, not as evidence that rules beat
+LLMs.** The 2026 close-out re-analysis ([`paper/`](paper/)) recovered the
+per-case outputs of all 18 trials behind this table and scored label-free
+constants with this repo's own metric code:
+
+- Predicting all four Solove groups beats `rules_static` on Jaccard and nDCG@5.
+- Predicting no harm ties it on exact match.
+- On micro-F1 it is not significantly better than the best constant.
+- In the committed code, five of the six arms send the same prompt.
 
 ### Reproducing these numbers
 
@@ -135,7 +145,7 @@ Other targets:
   sample (`data/with_features.sample.jsonl`); `brl`/`bayes_net` skip cleanly if
   their optional deps aren't installed.
 - `make fetch-data` — download the full feature corpus (`with_features.jsonl`,
-  211 MB) as a `v1.0.0` GitHub **release asset** and verify it against
+  143 MB) as a `v1.0.0` GitHub **release asset** and verify it against
   `data/CHECKSUMS.txt`. This fails with a clear message until the `v1.0.0` tag is
   published; the committed sample is enough for `make reproduce` and `make train`.
 
@@ -172,7 +182,7 @@ What ships where:
   (`with_features.sample.jsonl`, `labeled_gliner2.sample.jsonl`). No committed
   file exceeds ~25 MB.
 - **Release asset (not committed)** — the full feature-engineered corpus
-  `with_features.jsonl` (211 MB) ships as a `v1.0.0` GitHub release asset via
+  `with_features.jsonl` (143 MB) ships as a `v1.0.0` GitHub release asset via
   `make fetch-data`. No Git LFS is used.
 - **Omitted** — the full GLiNER2-labeled corpus `labeled_gliner2_full.jsonl`
   (159 MB) is not released; use its `.sample.jsonl` for reproduction.
@@ -182,8 +192,13 @@ Samples are regenerable byte-for-byte with a fixed seed
 
 ## Paper
 
-The practicum paper, **"Human vs Human vs Machine"** (Dec 2025), is the primary
-writeup of the experiment and its findings. <!-- Drive link: Will to insert -->
+The practicum paper, **"Human vs Human vs Machine"** (Dec 2025), is the original
+writeup of the experiment. <!-- Drive link: Will to insert -->
+
+The close-out paper, [`paper/lessons.tex`](paper/lessons.tex) ("When Constants
+Win"), re-analyses the committed evidence offline and states what it does and
+does not support, with eight evaluation lessons and one data-ethics lesson. [`paper/README.md`](paper/README.md) lists the lessons and how to
+rebuild every number.
 
 ## Relationship to other work
 
@@ -194,17 +209,10 @@ disclosure ledger) lives elsewhere and does not depend on this code.
 
 ## Maintenance
 
-A weekly Claude Code Routine checks this artifact's health — CI on `main` and
-the integrity of the published release asset — and fixes what it safely can.
-Its contract is [`docs/ops/MAINTENANCE.md`](docs/ops/MAINTENANCE.md). It does
-not develop the artifact, and it does not make the headline numbers
-reproducible: see §"Reproducing these numbers" above for why they are not.
-
-When the routine has a write path it reports on the open issue labeled
-`maintenance-log`. It currently does not — the Routine carries no repository
-source, so each run is read-only and reports only inside its own session
-transcript. Fixing that is tracked in
-[#6](https://github.com/Savage-Fred/privacy-harm-heuristics/issues/6).
+None. The artifact was closed out on 2026-09-24 and the weekly maintenance
+routines were retired; none ever posted a run to this repository. The contract is kept for the record in
+[`docs/ops/MAINTENANCE.md`](docs/ops/MAINTENANCE.md). CI still runs on every
+push to `main` and every pull request.
 
 ## License & citation
 

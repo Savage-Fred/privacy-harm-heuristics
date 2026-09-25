@@ -1,0 +1,1376 @@
+{
+  "comprehensive_runs": {
+    "max_dry_run_micro_f1_mean": 0.41736732275921923,
+    "runs": [
+      {
+        "distinct_micro_f1_means": 0,
+        "dry_run": true,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 0,
+        "n_configs": 145,
+        "n_trials": 5,
+        "pairwise_tests": {
+          "present": false
+        },
+        "run": "comprehensive_20251201_195648"
+      },
+      {
+        "distinct_micro_f1_means": 0,
+        "dry_run": true,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 0,
+        "n_configs": 145,
+        "n_trials": 5,
+        "pairwise_tests": {
+          "present": false
+        },
+        "run": "comprehensive_20251201_195707"
+      },
+      {
+        "distinct_micro_f1_means": 1,
+        "dry_run": true,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 5,
+        "n_configs": 20,
+        "n_trials": 5,
+        "pairwise_tests": {
+          "parses": false,
+          "present": true
+        },
+        "run": "comprehensive_20251201_195824"
+      },
+      {
+        "distinct_micro_f1_means": 1,
+        "dry_run": true,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 5,
+        "n_configs": 20,
+        "n_trials": 5,
+        "pairwise_tests": {
+          "bonferroni": true,
+          "cliffs_delta": true,
+          "entries": 10,
+          "parses": true,
+          "placeholders": 10,
+          "present": true
+        },
+        "run": "comprehensive_20251201_200006"
+      },
+      {
+        "distinct_micro_f1_means": 0,
+        "dry_run": false,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 0,
+        "n_configs": 145,
+        "n_trials": 5,
+        "pairwise_tests": {
+          "present": false
+        },
+        "run": "comprehensive_20251201_200013"
+      },
+      {
+        "distinct_micro_f1_means": 0,
+        "dry_run": false,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 0,
+        "n_configs": 3,
+        "n_trials": 1,
+        "pairwise_tests": {
+          "present": false
+        },
+        "run": "comprehensive_20251201_200140"
+      },
+      {
+        "distinct_micro_f1_means": 1,
+        "dry_run": true,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 3,
+        "n_configs": 5,
+        "n_trials": 3,
+        "pairwise_tests": {
+          "bonferroni": false,
+          "cliffs_delta": false,
+          "entries": 3,
+          "parses": true,
+          "placeholders": 3,
+          "present": true
+        },
+        "run": "comprehensive_20251201_203004"
+      },
+      {
+        "distinct_micro_f1_means": 0,
+        "dry_run": false,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 0,
+        "n_configs": 145,
+        "n_trials": 5,
+        "pairwise_tests": {
+          "present": false
+        },
+        "run": "comprehensive_20251201_203011"
+      },
+      {
+        "distinct_micro_f1_means": 0,
+        "dry_run": false,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 0,
+        "n_configs": 145,
+        "n_trials": 5,
+        "pairwise_tests": {
+          "present": false
+        },
+        "run": "comprehensive_20251201_203108"
+      },
+      {
+        "distinct_micro_f1_means": 0,
+        "dry_run": false,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 0,
+        "n_configs": 3,
+        "n_trials": 1,
+        "pairwise_tests": {
+          "present": false
+        },
+        "run": "comprehensive_20251201_203239"
+      },
+      {
+        "distinct_micro_f1_means": 0,
+        "dry_run": false,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 0,
+        "n_configs": 5,
+        "n_trials": 3,
+        "pairwise_tests": {
+          "present": false
+        },
+        "run": "comprehensive_20251201_205926"
+      },
+      {
+        "distinct_micro_f1_means": 0,
+        "dry_run": false,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 0,
+        "n_configs": 145,
+        "n_trials": 5,
+        "pairwise_tests": {
+          "present": false
+        },
+        "run": "comprehensive_20251201_210943"
+      },
+      {
+        "distinct_micro_f1_means": 2,
+        "dry_run": true,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 6,
+        "n_configs": 200,
+        "n_trials": 10,
+        "pairwise_tests": {
+          "bonferroni": true,
+          "cliffs_delta": true,
+          "entries": 15,
+          "parses": true,
+          "placeholders": 1,
+          "present": true
+        },
+        "run": "comprehensive_20251202_054858"
+      },
+      {
+        "distinct_micro_f1_means": 1,
+        "dry_run": true,
+        "golden_file": "data/golden_cases.jsonl",
+        "modes_with_metrics": 6,
+        "n_configs": 320,
+        "n_trials": 10,
+        "pairwise_tests": {
+          "bonferroni": true,
+          "cliffs_delta": true,
+          "entries": 15,
+          "parses": true,
+          "placeholders": 1,
+          "present": true
+        },
+        "run": "comprehensive_20251202_054908"
+      }
+    ]
+  },
+  "gold_sets": {
+    "reviewed_base": {
+      "empty_harms": 0,
+      "gaps": 95,
+      "gaps_under_10s": 83,
+      "label_providers": {
+        "None": 4,
+        "gemini-2.5-flash": 92
+      },
+      "median_gap_seconds": 0.001399,
+      "n": 96,
+      "review_notes": {
+        "annotated": 2,
+        "confirmed": 78,
+        "corrected": 5,
+        "none": 11
+      },
+      "reviewed": 96,
+      "reviewed_at_max": "2026-07-12T17:07:00.105009+00:00",
+      "reviewed_at_min": "2026-07-12T08:25:58.026660+00:00"
+    },
+    "v3": {
+      "empty_root_causes": 35,
+      "harm_score_counts": {
+        "1": 39,
+        "2": 1,
+        "3": 1,
+        "4": 5,
+        "5": 4
+      },
+      "has_harms_field": 0,
+      "n": 50,
+      "root_causes_all_solove_subtypes": true,
+      "root_causes_values": [
+        "aggregation",
+        "decisional_interference",
+        "disclosure",
+        "distortion",
+        "exclusion",
+        "identification",
+        "insecurity",
+        "interrogation",
+        "intrusion",
+        "secondary_use",
+        "surveillance"
+      ],
+      "sources": {
+        "hn": 2,
+        "news_eff": 1,
+        "wikipedia": 47
+      },
+      "titles": [
+        {
+          "labelled": false,
+          "title": "Georgia Tech Research Institute"
+        },
+        {
+          "labelled": false,
+          "title": "Canadian tort law"
+        },
+        {
+          "labelled": false,
+          "title": "Copyright"
+        },
+        {
+          "labelled": true,
+          "title": "Data synchronization"
+        },
+        {
+          "labelled": false,
+          "title": "The death of tech idealism and rise of the homeless in North"
+        },
+        {
+          "labelled": true,
+          "title": "Profiling (information science)"
+        },
+        {
+          "labelled": false,
+          "title": "Clinical commissioning group"
+        },
+        {
+          "labelled": true,
+          "title": "Call Center Agoda Reschedule"
+        },
+        {
+          "labelled": true,
+          "title": "Railway Regulation Act 1844"
+        },
+        {
+          "labelled": true,
+          "title": "Kuwaiti nationality law"
+        },
+        {
+          "labelled": false,
+          "title": "Disinformation research"
+        },
+        {
+          "labelled": false,
+          "title": "Cura\u00e7ao"
+        },
+        {
+          "labelled": false,
+          "title": "Lawmaking"
+        },
+        {
+          "labelled": true,
+          "title": "Illegal immigration to the United States"
+        },
+        {
+          "labelled": false,
+          "title": "NXP Semiconductors"
+        },
+        {
+          "labelled": false,
+          "title": "Dasiphora fruticosa"
+        },
+        {
+          "labelled": false,
+          "title": "Letter and spirit of the law"
+        },
+        {
+          "labelled": false,
+          "title": "Chinese nationality law"
+        },
+        {
+          "labelled": false,
+          "title": "Law of Cambodia"
+        },
+        {
+          "labelled": true,
+          "title": "Data warehouse"
+        },
+        {
+          "labelled": true,
+          "title": "Dublin Regulation"
+        },
+        {
+          "labelled": false,
+          "title": "Legal Entity Identifier"
+        },
+        {
+          "labelled": false,
+          "title": "Mutual information"
+        },
+        {
+          "labelled": false,
+          "title": "Moroccan nationality law"
+        },
+        {
+          "labelled": false,
+          "title": "Icon (computing)"
+        },
+        {
+          "labelled": true,
+          "title": "Personal information management"
+        },
+        {
+          "labelled": false,
+          "title": "Institute for Information, Telecommunication and Media Law"
+        },
+        {
+          "labelled": false,
+          "title": "University of Delaware"
+        },
+        {
+          "labelled": false,
+          "title": "Edinburgh Law School"
+        },
+        {
+          "labelled": true,
+          "title": "Capacity (law)"
+        },
+        {
+          "labelled": false,
+          "title": "English criminal law"
+        },
+        {
+          "labelled": false,
+          "title": "Exclusive economic zone"
+        },
+        {
+          "labelled": false,
+          "title": "Cypriot nationality law"
+        },
+        {
+          "labelled": true,
+          "title": "EFF and Other Organizations: Keep Key Intelligence Positions Senate Confirmed"
+        },
+        {
+          "labelled": false,
+          "title": "Wikimedia Foundation"
+        },
+        {
+          "labelled": true,
+          "title": "Browser security"
+        },
+        {
+          "labelled": true,
+          "title": "Female genital mutilation laws by country"
+        },
+        {
+          "labelled": false,
+          "title": "Economic data"
+        },
+        {
+          "labelled": false,
+          "title": "Nicolas Malebranche"
+        },
+        {
+          "labelled": false,
+          "title": "Harmonisation of law"
+        },
+        {
+          "labelled": true,
+          "title": "Nationality law in the American Colonies"
+        },
+        {
+          "labelled": false,
+          "title": "Costs in English law"
+        },
+        {
+          "labelled": false,
+          "title": "Cambridge International Law Journal"
+        },
+        {
+          "labelled": true,
+          "title": "National Security Agency"
+        },
+        {
+          "labelled": false,
+          "title": "Jurisdiction"
+        },
+        {
+          "labelled": false,
+          "title": "Depository Institutions Deregulation and Monetary Control Act"
+        },
+        {
+          "labelled": false,
+          "title": "Moore's law"
+        },
+        {
+          "labelled": false,
+          "title": "Law of Germany"
+        },
+        {
+          "labelled": false,
+          "title": "The Concept of Law"
+        },
+        {
+          "labelled": false,
+          "title": "Underwater diving"
+        }
+      ]
+    }
+  },
+  "headline": {
+    "all_four_ndcg_range_over_24_orders": [
+      0.2079870443748651,
+      0.28177520490328267
+    ],
+    "best_constant_selected_on_test_labels": {
+      "exact_match_ratio": {
+        "arm": "empty",
+        "value": 0.7
+      },
+      "instance_jaccard": {
+        "arm": "processing+invasion+collection",
+        "value": 0.19166666666666665
+      },
+      "jaccard_empty_as_1": {
+        "arm": "empty",
+        "value": 0.7
+      },
+      "micro_f1": {
+        "arm": "processing+invasion",
+        "value": 0.35555555555555557
+      },
+      "ndcg@5": {
+        "arm": "processing+invasion+collection+dissemination",
+        "value": 0.28177520490328267
+      }
+    },
+    "empty_set_decomposition": {
+      "gold_empty": 35,
+      "gold_label_counts": {
+        "information_collection": 7,
+        "information_dissemination": 4,
+        "information_processing": 13,
+        "invasion": 11
+      },
+      "gold_nonempty": 15,
+      "offline_pred_labels_outside_groups": {
+        "data_handling": 11,
+        "model_inversion": 11,
+        "regulatory_violation": 11,
+        "synthetic_media_misuse": 1,
+        "training_data_extraction": 12
+      },
+      "rerun_exact_on_gold_nonempty": 0,
+      "rerun_pred_empty_on_gold_empty": 18,
+      "rerun_pred_labels_outside_groups": [
+        "deceptive_practices",
+        "inadequate_oversight",
+        "insider_threat",
+        "lack_of_access_control",
+        "lack_of_consent",
+        "scraping",
+        "state_sponsored_attack",
+        "unpatched_vulnerability"
+      ]
+    },
+    "n": 50,
+    "nonempty_subset": {
+      "2025_baseline_mean": {
+        "instance_jaccard": 0.1851851851851852,
+        "micro_f1": 0.3339831059129305,
+        "ndcg@5": 0.23879348895045016
+      },
+      "2025_hybrid_deterministic_first_mean": {
+        "instance_jaccard": 0.17777777777777778,
+        "micro_f1": 0.3391919191919192,
+        "ndcg@5": 0.227066698831164
+      },
+      "2025_hybrid_llm_first_mean": {
+        "instance_jaccard": 0.12037037037037036,
+        "micro_f1": 0.23462138953942233,
+        "ndcg@5": 0.16386516873753232
+      },
+      "2025_rag_mean": {
+        "instance_jaccard": 0.15555555555555556,
+        "micro_f1": 0.3080721747388414,
+        "ndcg@5": 0.20299258001679463
+      },
+      "2025_rules_dynamic_mean": {
+        "instance_jaccard": 0.1822222222222222,
+        "micro_f1": 0.34791666666666665,
+        "ndcg@5": 0.24414300036324055
+      },
+      "2025_rules_static_mean": {
+        "instance_jaccard": 0.2259259259259259,
+        "micro_f1": 0.4308561160313182,
+        "ndcg@5": 0.2987637302984743
+      },
+      "const_all_four_taxonomy_order": {
+        "exact_match_ratio": 0.13333333333333333,
+        "instance_jaccard": 0.5833333333333334,
+        "jaccard_empty_as_1": 0.5833333333333334,
+        "micro_f1": 0.7368421052631579,
+        "ndcg@5": 0.7900782096358884
+      },
+      "n": 15,
+      "offline_keyword_arm": {
+        "exact_match_ratio": 0.0,
+        "instance_jaccard": 0.26936507936507936,
+        "jaccard_empty_as_1": 0.26936507936507936,
+        "micro_f1": 0.43037974683544306,
+        "ndcg@5": 0.5408537637174693
+      },
+      "oracle_ceiling_perfect_predictor": {
+        "exact_match_ratio": 1.0,
+        "instance_jaccard": 1.0,
+        "jaccard_empty_as_1": 1.0,
+        "micro_f1": 1.0,
+        "ndcg@5": 1.0
+      },
+      "rerun_2025_scorer": {
+        "exact_match_ratio": 0.0,
+        "instance_jaccard": 0.13586487586487586,
+        "jaccard_empty_as_1": 0.13586487586487586,
+        "micro_f1": 0.2777777777777778,
+        "ndcg@5": 0.1359470346467784
+      },
+      "rerun_current_scorer": {
+        "exact_match_ratio": 0.0,
+        "instance_jaccard": 0.3505555555555555,
+        "jaccard_empty_as_1": 0.3505555555555555,
+        "micro_f1": 0.5747126436781609,
+        "ndcg@5": 0.5865686139750008
+      },
+      "rerun_filtered_to_groups": {
+        "exact_match_ratio": 0.13333333333333333,
+        "instance_jaccard": 0.5277777777777778,
+        "jaccard_empty_as_1": 0.5277777777777778,
+        "micro_f1": 0.746268656716418,
+        "ndcg@5": 0.6748354645375773
+      }
+    },
+    "paired_bootstrap": {
+      "B": 4000,
+      "bonferroni_ci": {
+        "2025 emr: empty - rules_static": [
+          -0.0267,
+          0.1267
+        ],
+        "2025 emr: rules_static - same_prompt_arms": [
+          -0.004,
+          0.1693
+        ],
+        "2025 jaccard: all_four - rules_static": [
+          0.0267,
+          0.2039
+        ],
+        "2025 jaccard_empty_as_1: empty - rules_static": [
+          -0.1289,
+          0.0933
+        ],
+        "2025 micro_f1: rules_static - best_constant": [
+          -0.2554,
+          0.2965
+        ],
+        "2025 micro_f1: rules_static - same_prompt_arms": [
+          -0.0445,
+          0.2684
+        ],
+        "2025 ndcg@5: all_four - rules_static": [
+          0.0423,
+          0.2777
+        ],
+        "2026 emr: empty - rerun": [
+          0.16,
+          0.54
+        ],
+        "2026 jaccard: all_four - rerun": [
+          0.02,
+          0.1342
+        ],
+        "2026 micro_f1: filtered - best_constant": [
+          -0.1161,
+          0.2642
+        ],
+        "2026 micro_f1: rerun - best_constant": [
+          -0.1877,
+          0.1111
+        ],
+        "2026 ndcg@5: all_four - rerun": [
+          -0.0001,
+          0.1398
+        ],
+        "offline jaccard: all_four - offline": [
+          0.0224,
+          0.1773
+        ],
+        "offline micro_f1: all_four - offline": [
+          -0.0256,
+          0.1817
+        ],
+        "offline ndcg@5: all_four - offline": [
+          -0.014,
+          0.1932
+        ]
+      },
+      "ci95": {
+        "2025 emr: empty - rules_static": [
+          -0.0133,
+          0.0933
+        ],
+        "2025 emr: rules_static - same_prompt_arms": [
+          0.016,
+          0.1333
+        ],
+        "2025 jaccard: all_four - rules_static": [
+          0.0494,
+          0.1717
+        ],
+        "2025 jaccard_empty_as_1: empty - rules_static": [
+          -0.0906,
+          0.055
+        ],
+        "2025 micro_f1: rules_static - best_constant": [
+          -0.1734,
+          0.2144
+        ],
+        "2025 micro_f1: rules_static - same_prompt_arms": [
+          0.0212,
+          0.2207
+        ],
+        "2025 ndcg@5: all_four - rules_static": [
+          0.0699,
+          0.2305
+        ],
+        "2026 emr: empty - rerun": [
+          0.22,
+          0.48
+        ],
+        "2026 jaccard: all_four - rerun": [
+          0.0333,
+          0.1113
+        ],
+        "2026 micro_f1: filtered - best_constant": [
+          -0.0313,
+          0.2168
+        ],
+        "2026 micro_f1: rerun - best_constant": [
+          -0.1275,
+          0.071
+        ],
+        "2026 ndcg@5: all_four - rerun": [
+          0.0174,
+          0.1116
+        ],
+        "offline jaccard: all_four - offline": [
+          0.042,
+          0.1508
+        ],
+        "offline micro_f1: all_four - offline": [
+          0.0068,
+          0.1493
+        ],
+        "offline ndcg@5: all_four - offline": [
+          0.0093,
+          0.1455
+        ],
+        "single: 2026 rerun weighted_kappa": [
+          0.0507,
+          0.5583
+        ]
+      },
+      "family_size": 15,
+      "seed": 0
+    },
+    "rerun_config": {
+      "has_resolved_model": false,
+      "model_name": null
+    },
+    "rows": {
+      "const_all_four_taxonomy_order": {
+        "exact_match_ratio": 0.04,
+        "instance_jaccard": 0.175,
+        "jaccard_empty_as_1": 0.175,
+        "micro_f1": 0.2978723404255319,
+        "ndcg@5": 0.2370234628907665
+      },
+      "const_empty": {
+        "exact_match_ratio": 0.7,
+        "instance_jaccard": 0.0,
+        "jaccard_empty_as_1": 0.7,
+        "micro_f1": 0.0,
+        "ndcg@5": 0.0
+      },
+      "offline_keyword_arm": {
+        "exact_match_ratio": 0.08,
+        "instance_jaccard": 0.0808095238095238,
+        "jaccard_empty_as_1": 0.16080952380952382,
+        "micro_f1": 0.2222222222222222,
+        "ndcg@5": 0.1622561291152408
+      },
+      "oracle_ceiling_perfect_predictor": {
+        "exact_match_ratio": 1.0,
+        "instance_jaccard": 0.3,
+        "jaccard_empty_as_1": 1.0,
+        "micro_f1": 1.0,
+        "ndcg@5": 0.3
+      },
+      "rerun_2025_scorer": {
+        "exact_match_ratio": 0.36,
+        "instance_jaccard": 0.04075946275946276,
+        "jaccard_empty_as_1": 0.4007594627594627,
+        "micro_f1": 0.16666666666666666,
+        "ndcg@5": 0.04078411039403352
+      },
+      "rerun_current_scorer": {
+        "exact_match_ratio": 0.36,
+        "instance_jaccard": 0.10516666666666666,
+        "jaccard_empty_as_1": 0.4651666666666667,
+        "micro_f1": 0.33557046979865773,
+        "ndcg@5": 0.17597058419250025
+      },
+      "rerun_filtered_to_groups": {
+        "exact_match_ratio": 0.4,
+        "instance_jaccard": 0.15833333333333333,
+        "jaccard_empty_as_1": 0.5183333333333333,
+        "micro_f1": 0.46296296296296297,
+        "ndcg@5": 0.20245063936127317
+      }
+    },
+    "rows_2025": {
+      "baseline": {
+        "config_model_names": [
+          "None"
+        ],
+        "mean_over_3_trials": {
+          "exact_match_ratio": 0.62,
+          "instance_jaccard": 0.05555555555555555,
+          "jaccard_empty_as_1": 0.6622222222222223,
+          "micro_f1": 0.2852843915343915,
+          "ndcg@5": 0.07163804668513506
+        },
+        "parse_failures": 0,
+        "severity_mean": {
+          "accuracy": 0.7133333333333333,
+          "weighted_kappa": 0.5176374032578726
+        },
+        "trial_micro_f1": [
+          0.2571428571428571,
+          0.28125,
+          0.31746031746031744
+        ]
+      },
+      "hybrid_deterministic_first": {
+        "config_model_names": [
+          "None"
+        ],
+        "mean_over_3_trials": {
+          "exact_match_ratio": 0.5933333333333334,
+          "instance_jaccard": 0.05333333333333332,
+          "jaccard_empty_as_1": 0.64,
+          "micro_f1": 0.27519463257168175,
+          "ndcg@5": 0.06812000964934921
+        },
+        "parse_failures": 0,
+        "severity_mean": {
+          "accuracy": 0.6866666666666666,
+          "weighted_kappa": 0.45093223009895445
+        },
+        "trial_micro_f1": [
+          0.21621621621621623,
+          0.3142857142857143,
+          0.29508196721311475
+        ]
+      },
+      "hybrid_llm_first": {
+        "config_model_names": [
+          "None"
+        ],
+        "mean_over_3_trials": {
+          "exact_match_ratio": 0.6,
+          "instance_jaccard": 0.03611111111111111,
+          "jaccard_empty_as_1": 0.6294444444444444,
+          "micro_f1": 0.19486385647376359,
+          "ndcg@5": 0.049159550621259686
+        },
+        "parse_failures": 0,
+        "severity_mean": {
+          "accuracy": 0.7066666666666667,
+          "weighted_kappa": 0.472633694020953
+        },
+        "trial_micro_f1": [
+          0.08823529411764706,
+          0.3384615384615385,
+          0.15789473684210525
+        ]
+      },
+      "rag": {
+        "config_model_names": [
+          "None"
+        ],
+        "mean_over_3_trials": {
+          "exact_match_ratio": 0.58,
+          "instance_jaccard": 0.04666666666666666,
+          "jaccard_empty_as_1": 0.6266666666666666,
+          "micro_f1": 0.24241464701822757,
+          "ndcg@5": 0.06089777400503838
+        },
+        "parse_failures": 0,
+        "severity_mean": {
+          "accuracy": 0.6733333333333333,
+          "weighted_kappa": 0.39624966753080476
+        },
+        "trial_micro_f1": [
+          0.11428571428571428,
+          0.29411764705882354,
+          0.3188405797101449
+        ]
+      },
+      "rules_dynamic": {
+        "config_model_names": [
+          "None"
+        ],
+        "mean_over_3_trials": {
+          "exact_match_ratio": 0.5933333333333333,
+          "instance_jaccard": 0.05466666666666666,
+          "jaccard_empty_as_1": 0.6413333333333333,
+          "micro_f1": 0.28068376068376066,
+          "ndcg@5": 0.07324290010897216
+        },
+        "parse_failures": 0,
+        "severity_mean": {
+          "accuracy": 0.7000000000000001,
+          "weighted_kappa": 0.4958035623396367
+        },
+        "trial_micro_f1": [
+          0.32,
+          0.28205128205128205,
+          0.24
+        ]
+      },
+      "rules_static": {
+        "config_model_names": [
+          "None"
+        ],
+        "mean_over_3_trials": {
+          "exact_match_ratio": 0.6666666666666666,
+          "instance_jaccard": 0.06777777777777778,
+          "jaccard_empty_as_1": 0.721111111111111,
+          "micro_f1": 0.39079231410434523,
+          "ndcg@5": 0.0896291190895423
+        },
+        "parse_failures": 0,
+        "severity_mean": {
+          "accuracy": 0.7666666666666666,
+          "weighted_kappa": 0.5393401293553823
+        },
+        "trial_micro_f1": [
+          0.3728813559322034,
+          0.4918032786885246,
+          0.3076923076923077
+        ]
+      }
+    },
+    "rules_static_2025": {
+      "label_kinds": {
+        "group": 59,
+        "other": 8
+      },
+      "mean_with_current_mapping": {
+        "exact_match_ratio": 0.6666666666666666,
+        "instance_jaccard": 0.06777777777777778,
+        "jaccard_empty_as_1": 0.721111111111111,
+        "micro_f1": 0.39079231410434523,
+        "ndcg@5": 0.0896291190895423
+      }
+    },
+    "severity": {
+      "always_1": {
+        "accuracy": 0.78,
+        "kendall_tau": 0.0,
+        "spearman_rho": 0.0,
+        "weighted_kappa": 0.0
+      },
+      "gold_severity_1": 39,
+      "harm_labelled_cases_with_severity_1": [
+        "Data synchronization",
+        "Call Center Agoda Reschedule",
+        "Data warehouse",
+        "Personal information management"
+      ],
+      "offline_keyword_arm": {
+        "accuracy": 0.16,
+        "kendall_tau": 0.024639657156339676,
+        "spearman_rho": 0.031240226156382365,
+        "weighted_kappa": 0.09117137911136752
+      },
+      "rerun": {
+        "accuracy": 0.5,
+        "kendall_tau": 0.35277617121640004,
+        "spearman_rho": 0.3833664514412743,
+        "weighted_kappa": 0.33236808236808224
+      },
+      "rerun_unparsed_predictions_scored_0": 1
+    },
+    "trial_permutation_rules_static_micro_f1": {
+      "observed_mean": 0.39079231410434523,
+      "one_sided_at_least_as_extreme": 6,
+      "p_one_sided": 0.007352941176470588,
+      "p_two_sided": 0.0196078431372549,
+      "subsets": 816,
+      "two_sided_at_least_as_extreme": 16
+    }
+  },
+  "interpretable_models": {
+    "bayes_net_v4": {
+      "accuracy": 0.524390243902439,
+      "accuracy_fraction": "43/82",
+      "correct_of_984": 516.0,
+      "distinct_test_predictions": [
+        "breach_of_confidentiality"
+      ],
+      "f1": 0.043,
+      "features": [
+        "f_individuals_log",
+        "kw_biometric",
+        "kw_location",
+        "kw_monetary_penalty",
+        "kw_privacy",
+        "kw_reg_enforcement",
+        "kw_video_surveillance"
+      ],
+      "n_test_predictions": 984,
+      "predicted_class_share_in_release": 0.0212,
+      "saved_at": "2026-02-11T21:29:42.587052Z"
+    },
+    "brl_cascade_v3": {
+      "classifiers": 16,
+      "mean_accuracy": 0.9195190468600574,
+      "mean_f1": 0.047075835475578406,
+      "successful": 1
+    },
+    "brl_v3": {
+      "features": [
+        "f_individuals_log",
+        "kw_biometric",
+        "kw_location",
+        "kw_monetary_penalty",
+        "kw_privacy",
+        "kw_reg_enforcement",
+        "kw_video_surveillance"
+      ],
+      "saved_at": "2025-11-26T00:33:23.735472Z",
+      "status": "skipped"
+    },
+    "decision_tree_v4": {
+      "accuracy": 0.5873983739837398,
+      "accuracy_fraction": "289/492",
+      "correct_of_984": 578.0,
+      "f1": 0.13872731960540902,
+      "features": [
+        "f_individuals_log",
+        "kw_biometric",
+        "kw_location",
+        "kw_monetary_penalty",
+        "kw_privacy",
+        "kw_reg_enforcement",
+        "kw_video_surveillance"
+      ],
+      "saved_at": "2026-02-11T21:25:58.648682Z"
+    },
+    "decision_tree_v4_exported_rules": {
+      "distinct_support": [
+        0.00025419420437214026,
+        0.0002541942043721403
+      ],
+      "labelled_rows_train_plus_984_test": 4918,
+      "leaf_samples": [
+        0,
+        1
+      ],
+      "n_rules": 24,
+      "rule_1_release_share": 0.6137,
+      "rule_1_training_rows": 517.0,
+      "rule_1_training_share": 0.13141840366039653,
+      "training_rows_from_1_over_support": 3934
+    },
+    "ebm_v4": {
+      "accuracy": 0.5823170731707317,
+      "accuracy_fraction": "191/328",
+      "correct_of_984": 573.0,
+      "f1": 0.10174158046537196,
+      "features": [
+        "f_individuals_log",
+        "kw_biometric",
+        "kw_location",
+        "kw_monetary_penalty",
+        "kw_privacy",
+        "kw_reg_enforcement",
+        "kw_video_surveillance"
+      ],
+      "saved_at": "2026-02-11T21:29:41.110964Z"
+    },
+    "sparse_linear_v3": {
+      "accuracy": 0.6222222222222222,
+      "accuracy_fraction": "28/45",
+      "correct_of_984": 612.266667,
+      "f1": 0.19863387978142077,
+      "features": [
+        "f_individuals_log",
+        "kw_biometric",
+        "kw_location",
+        "kw_monetary_penalty",
+        "kw_privacy",
+        "kw_reg_enforcement",
+        "kw_video_surveillance"
+      ],
+      "saved_at": "2025-11-26T00:33:17.720464Z"
+    }
+  },
+  "label_sources": {
+    "committed_sample": {
+      "harm_category_source": {
+        "heuristic": 2549
+      },
+      "labelled_classes": 21,
+      "n": 2549,
+      "non_solove_classes": [
+        "data_handling",
+        "model_inversion",
+        "provenance_failure",
+        "regulatory_violation",
+        "synthetic_media_misuse",
+        "training_data_extraction"
+      ],
+      "unknown_share": 0.6022
+    },
+    "release_asset_v1_0_0": {
+      "harm_category_source": {
+        "heuristic": 33472
+      },
+      "labelled_classes": 21,
+      "n": 33472,
+      "non_solove_classes": [
+        "data_handling",
+        "model_inversion",
+        "provenance_failure",
+        "regulatory_violation",
+        "synthetic_media_misuse",
+        "training_data_extraction"
+      ],
+      "unknown_share": 0.6139
+    }
+  },
+  "prompt_identity": {
+    "distinct_prompts": 2,
+    "expert_framework_rules": [
+      "If data is collected from minors, strict consent is required.",
+      "If location data is stored, it must be encrypted at rest.",
+      "If personal data is shared with third parties, a data processing agreement must be in place.",
+      "If automated decision-making is used, the user must have the right to opt-out.",
+      "If a data breach occurs, affected users must be notified within 72 hours."
+    ],
+    "modes_by_prompt": [
+      [
+        "baseline",
+        "rules_dynamic",
+        "rag",
+        "hybrid_deterministic_first",
+        "hybrid_llm_first"
+      ],
+      [
+        "rules_static"
+      ]
+    ]
+  },
+  "recorded_2025": {
+    "Baseline": {
+      "emr_x150": 93.0,
+      "emr_x250": 155.0,
+      "exact_match_ratio": 0.62,
+      "instance_jaccard": 0.0556,
+      "micro_f1": 0.2853,
+      "ndcg@5": 0.0716
+    },
+    "Hybrid (Det. First)": {
+      "emr_x150": 89.0,
+      "emr_x250": 148.33,
+      "exact_match_ratio": 0.5933,
+      "instance_jaccard": 0.0533,
+      "micro_f1": 0.2752,
+      "ndcg@5": 0.0681
+    },
+    "Hybrid (LLM First)": {
+      "emr_x150": 90.0,
+      "emr_x250": 150.0,
+      "exact_match_ratio": 0.6,
+      "instance_jaccard": 0.0361,
+      "micro_f1": 0.1949,
+      "ndcg@5": 0.0492
+    },
+    "RAG": {
+      "emr_x150": 87.0,
+      "emr_x250": 145.0,
+      "exact_match_ratio": 0.58,
+      "instance_jaccard": 0.0467,
+      "micro_f1": 0.2424,
+      "ndcg@5": 0.0609
+    },
+    "Rules Dynamic": {
+      "emr_x150": 89.0,
+      "emr_x250": 148.33,
+      "exact_match_ratio": 0.5933,
+      "instance_jaccard": 0.0547,
+      "micro_f1": 0.2807,
+      "ndcg@5": 0.0732
+    },
+    "Rules Static": {
+      "emr_x150": 100.0,
+      "emr_x250": 166.67,
+      "exact_match_ratio": 0.6667,
+      "instance_jaccard": 0.0678,
+      "micro_f1": 0.3908,
+      "ndcg@5": 0.0896
+    }
+  },
+  "superseded_2025_runs": {
+    "echo_runs_all_empty": 12,
+    "echo_runs_emr": [
+      0.65
+    ],
+    "files": 22,
+    "runs": [
+      {
+        "all_predictions_empty": false,
+        "exact_match_ratio": 0.56,
+        "file": "results_baseline_20251122_093207.json",
+        "gold_unmapped_subtypes": true,
+        "micro_f1": 0.0,
+        "n": 50,
+        "prompt_echo_failures": 0
+      },
+      {
+        "all_predictions_empty": false,
+        "exact_match_ratio": 0.58,
+        "file": "results_baseline_20251122_094314.json",
+        "gold_unmapped_subtypes": true,
+        "micro_f1": 0.02197802197802198,
+        "n": 50,
+        "prompt_echo_failures": 0
+      },
+      {
+        "all_predictions_empty": false,
+        "exact_match_ratio": 0.6,
+        "file": "results_baseline_20251122_095352.json",
+        "gold_unmapped_subtypes": true,
+        "micro_f1": 0.0,
+        "n": 50,
+        "prompt_echo_failures": 0
+      },
+      {
+        "all_predictions_empty": false,
+        "exact_match_ratio": 0.6,
+        "file": "results_baseline_20251122_100402.json",
+        "gold_unmapped_subtypes": true,
+        "micro_f1": 0.0,
+        "n": 50,
+        "prompt_echo_failures": 0
+      },
+      {
+        "all_predictions_empty": true,
+        "exact_match_ratio": 0.65,
+        "file": "results_baseline_20251122_101100.json",
+        "gold_unmapped_subtypes": true,
+        "micro_f1": 0.0,
+        "n": 20,
+        "prompt_echo_failures": 20
+      },
+      {
+        "all_predictions_empty": true,
+        "exact_match_ratio": 0.65,
+        "file": "results_baseline_20251122_101107.json",
+        "gold_unmapped_subtypes": true,
+        "micro_f1": 0.0,
+        "n": 20,
+        "prompt_echo_failures": 20
+      },
+      {
+        "all_predictions_empty": false,
+        "exact_match_ratio": 0.58,
+        "file": "results_baseline_20251122_101407.json",
+        "gold_unmapped_subtypes": true,
+        "micro_f1": 0.0,
+        "n": 50,
+        "prompt_echo_failures": 0
+      },
+      {
+        "all_predictions_empty": true,
+        "exact_match_ratio": 0.65,
+        "file": "results_hybrid_deterministic_first_20251122_101139.json",
+        "gold_unmapped_subtypes": true,
+        "micro_f1": 0.0,
+        "n": 20,
+        "prompt_echo_failures": 20
+      },
+      {
+        "all_predictions_empty": true,
+        "exact_match_ratio": 0.65,
+        "file": "results_hybrid_deterministic_first_20251122_101144.json",
+        "gold_unmapped_subtypes": true,
+        "micro_f1": 0.0,
+        "n": 20,
+        "prompt_echo_failures": 20
+      },
+      {
+        "all_predictions_empty": true,
+        "exact_match_ratio": 0.65,
+        "file": "results_hybrid_llm_first_20251122_101149.json",
+        "gold_unmapped_subtypes": true,
+        "micro_f1": 0.0,
+        "n": 20,
+        "prompt_echo_failures": 20
+      },
+      {
+        "all_predictions_empty": true,
+        "exact_match_ratio": 0.65,
+        "file": "results_hybrid_llm_first_20251122_101153.json",
+        "gold_unmapped_subtypes": true,
+        "micro_f1": 0.0,
+        "n": 20,
+        "prompt_echo_failures": 20
+      },
+      {
+        "all_predictions_empty": true,
+        "exact_match_ratio": 0.65,
+        "file": "results_rag_20251122_101130.json",
+        "gold_unmapped_subtypes": true,
+        "micro_f1": 0.0,
+        "n": 20,
+        "prompt_echo_failures": 20
+      },
+      {
+        "all_predictions_empty": true,
+        "exact_match_ratio": 0.65,
+        "file": "results_rag_20251122_101135.json",
+        "gold_unmapped_subtypes": true,
+        "micro_f1": 0.0,
+        "n": 20,
+        "prompt_echo_failures": 20
+      },
+      {
+        "all_predictions_empty": true,
+        "exact_match_ratio": 0.65,
+        "file": "results_rules_dynamic_20251122_101120.json",
+        "gold_unmapped_subtypes": true,
+        "micro_f1": 0.0,
+        "n": 20,
+        "prompt_echo_failures": 20
+      },
+      {
+        "all_predictions_empty": true,
+        "exact_match_ratio": 0.65,
+        "file": "results_rules_dynamic_20251122_101124.json",
+        "gold_unmapped_subtypes": true,
+        "micro_f1": 0.0,
+        "n": 20,
+        "prompt_echo_failures": 20
+      },
+      {
+        "all_predictions_empty": true,
+        "exact_match_ratio": 0.65,
+        "file": "results_rules_static_20251122_101111.json",
+        "gold_unmapped_subtypes": true,
+        "micro_f1": 0.0,
+        "n": 20,
+        "prompt_echo_failures": 20
+      },
+      {
+        "all_predictions_empty": true,
+        "exact_match_ratio": 0.65,
+        "file": "results_rules_static_20251122_101116.json",
+        "gold_unmapped_subtypes": true,
+        "micro_f1": 0.0,
+        "n": 20,
+        "prompt_echo_failures": 20
+      },
+      {
+        "all_predictions_empty": false,
+        "exact_match_ratio": 0.66,
+        "file": "results_rules_static_20251122_102345.json",
+        "gold_unmapped_subtypes": true,
+        "micro_f1": 0.0,
+        "n": 50,
+        "prompt_echo_failures": 0
+      },
+      {
+        "all_predictions_empty": false,
+        "exact_match_ratio": 0.64,
+        "file": "results_rules_static_20251122_103326.json",
+        "gold_unmapped_subtypes": true,
+        "micro_f1": 0.0,
+        "n": 50,
+        "prompt_echo_failures": 0
+      },
+      {
+        "all_predictions_empty": false,
+        "exact_match_ratio": 0.68,
+        "file": "results_rules_static_20251122_104307.json",
+        "gold_unmapped_subtypes": true,
+        "micro_f1": 0.0,
+        "n": 50,
+        "prompt_echo_failures": 0
+      },
+      {
+        "all_predictions_empty": false,
+        "exact_match_ratio": 0.68,
+        "file": "results_rules_static_20251122_105244.json",
+        "gold_unmapped_subtypes": true,
+        "micro_f1": 0.0,
+        "n": 50,
+        "prompt_echo_failures": 0
+      },
+      {
+        "all_predictions_empty": false,
+        "exact_match_ratio": 0.66,
+        "file": "results_rules_static_20251122_110234.json",
+        "gold_unmapped_subtypes": true,
+        "micro_f1": 0.0,
+        "n": 50,
+        "prompt_echo_failures": 0
+      }
+    ],
+    "unmapped_gold_runs": 22,
+    "unmapped_gold_runs_micro_f1_max": 0.02197802197802198
+  }
+}
