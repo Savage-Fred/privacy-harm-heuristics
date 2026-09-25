@@ -10,15 +10,17 @@ venue that requires it.
 ## What we learned
 
 The headline, that a static rule block in the prompt beats LLM baselines, does
-not survive constants fixed in advance. On the same 50 gold cases:
+not survive label-free constants. On the same 50 gold cases, using the
+recovered per-case outputs of all 18 recorded trials:
 
-- Predicting no harm matches or beats every arm on exact-match (0.700).
-- Predicting all four Solove groups beats every arm on Jaccard (0.175) and
-  nDCG@5 (0.237), with paired bootstrap intervals that exclude zero.
-- On micro-F1, the recorded arm leads, but no per-case data survive. The 2026
-  rerun ties the best constant, and beats it only after a post-hoc filter
-  removes out-of-taxonomy labels.
-- Five of the six arms sent an identical prompt.
+- Predicting all four Solove groups beats the headline arm on Jaccard and
+  nDCG@5. The paired bootstrap intervals exclude zero even after correcting
+  for 15 comparisons.
+- Predicting no harm ties the arm on exact match.
+- On micro-F1, neither the headline arm nor the 2026 rerun is significantly
+  better than the best constant, even with out-of-taxonomy labels filtered.
+- Five of the six arms sent an identical prompt. The rule block did change
+  outputs (p = 0.007), but not enough to beat a constant.
 - The first research question (can heuristics estimate harm?) is still open,
   because every training label came from a keyword fallback.
 
@@ -28,10 +30,10 @@ Evaluation lessons:
 2. Disclose empty-set conventions and the ceiling they imply. Here a perfect predictor scores Jaccard and nDCG 0.30.
 3. Field names lie, so pin the prompt-scorer contract. The prompt invited root causes into the field scored as harms.
 4. Diff what each arm actually sends. Five "different" arms sent one prompt.
-5. Make placeholders unable to pass for results. Every stored multi-arm run was a dry run, and API errors echo the prompt.
+5. Make placeholders unable to pass for results. The multi-arm runs shipped with the artifact were all dry runs, and API errors echo the prompt.
 6. Keep the gold set independent of the models under test, and keep its review auditable.
 7. Measure the label pipeline you ran. A swallowed GLiNER2 load error left 100% keyword labels.
-8. Record the model version, scorer revision, prompt hash, trial count and per-case outputs in every result file.
+8. Ship the per-case outputs behind every reported number. The extraction kept the dry runs and dropped the live trials. Also make the analysis deterministic.
 
 Data-ethics lesson: scrub at collection, not at release. Before the audit, the
 corpus reproduced the harm it studied.
@@ -47,12 +49,23 @@ PYTHONPATH=src .venv/bin/python paper/reanalysis.py   # -> paper/reanalysis.json
 cd paper && latexmk -pdf lessons.tex           # -> paper/lessons.pdf
 ```
 
-`reanalysis.py` asserts that its scoring path reproduces the recorded 2026
-rerun (set, ranking and ordinal metrics) and the repository's offline arm
-exactly before it reports anything. Without `make fetch-data`, the
-`release_asset_v1_0_0` fields in the JSON are `null`. The recorded 2025 arms
-come from `data/experiments/final_results_summary.md`, and the offline arm
-comes from the top-level README.
+Before it reports anything, `reanalysis.py` asserts that it exactly reproduces:
+
+- all 18 recorded 2025 trial files, and their means against the recorded table;
+- the 2026 rerun (set, ranking and ordinal metrics);
+- the repository's offline arm.
+
+It also asserts that its fast bootstrap metrics equal the repository scorer.
+
+Its output does not depend on the hash seed. To check, run it twice with
+different `PYTHONHASHSEED` values and `cmp` the JSON. Without
+`make fetch-data`, the `release_asset_v1_0_0` fields are `null`.
+
+`trials_2025/` holds the trial summary and the 18 per-case result files behind
+the recorded 2025 table. They were harvested read-only from the private
+predecessor repository at commit `d1d38594` (2025-11-24) and are unchanged.
+
+For double-blind submission, set `\anontrue` near the top of `lessons.tex`.
 
 ## Status
 

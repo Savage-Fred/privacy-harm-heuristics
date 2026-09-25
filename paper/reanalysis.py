@@ -3,11 +3,15 @@
 Recomputes every number the paper states from committed artifacts and writes
 them to ``paper/reanalysis.json``. Full-corpus fields need the v1.0.0 release
 asset (``make fetch-data`` -> ``data/with_features.jsonl``); without it they
-are ``null``.
+are ``null``. ``paper/trials_2025/`` holds the per-case outputs behind the
+recorded 2025 table (harvested read-only from the predecessor repository).
 
 Self-checks (fail loudly): the scoring path must reproduce the recorded 2026
-rerun exactly (set, ranking and ordinal metrics), and the per-case offline arm
-must reproduce ``cli._run_deterministic_offline`` exactly.
+rerun and all 18 recorded 2025 trial files exactly, the 2025 trial means must
+reproduce the recorded table, the per-case offline arm must reproduce
+``cli._run_deterministic_offline``, and the fast bootstrap metrics must equal
+the repository scorer on the full sample. Output must not depend on
+``PYTHONHASHSEED`` (run twice with different seeds and diff the JSON).
 
 Run from the repo root:  PYTHONPATH=src python paper/reanalysis.py [corpus.jsonl]
 """
@@ -22,7 +26,7 @@ import sys
 from collections import Counter
 from datetime import datetime
 from fractions import Fraction
-from itertools import permutations
+from itertools import combinations, permutations
 from pathlib import Path
 
 from privacy_harm_heuristics.cli import OFFLINE_DET_THRESHOLD, _run_deterministic_offline
@@ -37,10 +41,11 @@ from privacy_harm_heuristics.models.hybrid import HybridMode, HybridModel
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
+TRIALS = ROOT / "paper/trials_2025"
 RERUN = DATA / "experiments/rerun_20260721/results_rules_static_20260721_212152.json"
 SUMMARY = DATA / "experiments/final_results_summary.md"
 GROUPS = list(TAXONOMY_SOLOVE)  # taxonomy order: collection, processing, dissemination, invasion
-B, SEED = 2000, 0
+B, SEED, ALPHA = 4000, 0, 0.05
 
 # Copied from evals/hybrid_runner.py `custom_map`; the rerun self-check fails
 # if this copy stops matching the scorer.
@@ -95,20 +100,47 @@ def case_title(case: dict) -> str:
     return case.get("title") or (case.get("description") or "")[:60]
 
 
-def jaccard_empty_as_one(T, P) -> float:
-    """Instance Jaccard with the other common convention: empty vs empty = 1."""
-    return sum(1.0 if not t and not p else len(t & p) / len(t | p) for t, p in zip(T, P)) / len(T)
+def fast(T, P, idx) -> dict[str, float]:
+    """Set metrics with the repo scorer's conventions, in plain Python (for the bootstrap)."""
+    jac = j1 = emr = inter_sum = size_sum = 0.0
+    for i in idx:
+        t, p = T[i], P[i]
+        inter, union = len(t & p), len(t | p)
+        jac += inter / union if union else 0.0
+        j1 += inter / union if union else 1.0
+        emr += t == p
+        inter_sum += inter
+        size_sum += len(t) + len(p)
+    n = len(idx)
+    return {
+        "instance_jaccard": jac / n,
+        "jaccard_empty_as_1": j1 / n,
+        "exact_match_ratio": emr / n,
+        "micro_f1": 2 * inter_sum / size_sum if size_sum else 0.0,
+    }
+
+
+def ndcg(TR, PR, idx) -> float:
+    return calculate_ranking_metrics([TR[i] for i in idx], [PR[i] for i in idx])["ndcg@5"]
 
 
 def score(T, TR, P, PR) -> dict[str, float]:
+    """Repository scorer (sklearn) plus the empty-as-1 Jaccard convention."""
     mlc = calculate_mlc_metrics(T, P)
+    idx = range(len(T))
     return {
         "instance_jaccard": mlc["instance_jaccard"],
-        "jaccard_empty_as_1": jaccard_empty_as_one(T, P),
+        "jaccard_empty_as_1": fast(T, P, idx)["jaccard_empty_as_1"],
         "exact_match_ratio": mlc["exact_match_ratio"],
         "micro_f1": mlc["micro_f1"],
-        "ndcg@5": calculate_ranking_metrics(TR, PR)["ndcg@5"],
+        "ndcg@5": ndcg(TR, PR, idx),
     }
+
+
+def check_fast(T, P) -> None:
+    ref, got = calculate_mlc_metrics(T, P), fast(T, P, range(len(T)))
+    for key in ("instance_jaccard", "exact_match_ratio", "micro_f1"):
+        assert abs(ref[key] - got[key]) < 1e-12, f"fast metric drift on {key}"
 
 
 def constant_arms() -> list[tuple[str, set[str], list[str]]]:
@@ -116,9 +148,8 @@ def constant_arms() -> list[tuple[str, set[str], list[str]]]:
     arms = []
     for k in range(len(GROUPS) + 1):
         for order in permutations(GROUPS, k):
-            arms.append(
-                ("+".join(g.split("_")[-1] for g in order) or "empty", set(order), list(order))
-            )
+            name = "+".join(g.split("_")[-1] for g in order) or "empty"
+            arms.append((name, set(order), list(order)))
     return arms
 
 
@@ -150,17 +181,58 @@ def recorded_2025() -> dict:
     for line in SUMMARY.read_text().splitlines():
         cells = [c.strip(" *") for c in line.strip().strip("|").split("|")]
         if len(cells) == 5 and re.fullmatch(r"0\.\d{4}", cells[1]):
-            j, emr, f1, ndcg = (float(c) for c in cells[1:])
+            j, emr, f1, nd = (float(c) for c in cells[1:])
             rows[cells[0]] = {
                 "instance_jaccard": j,
                 "exact_match_ratio": emr,
                 "micro_f1": f1,
-                "ndcg@5": ndcg,
-                # The summary says 5 trials x 50 cases (250 case-evaluations).
-                "emr_x250": round(emr * 250, 2),
+                "ndcg@5": nd,
+                "emr_x250": round(emr * 250, 2),  # the summary claims 5 trials x 50 cases
                 "emr_x150": round(emr * 150, 2),
             }
     return rows
+
+
+def load_trials(T_gold, ids) -> dict:
+    """The 18 recorded 2025 trial files named in trials_summary.json, self-checked."""
+    summary = json.loads((TRIALS / "trials_summary.json").read_text())
+    trials: dict[str, list[dict]] = {}
+    for mode, v in summary.items():
+        assert v["trials"] == len(v["runs"]) == 3, mode
+        for run in v["runs"]:
+            d = json.loads((TRIALS / Path(run["file"]).name).read_text())
+            det = d["details"]
+            assert [str(r["case_id"]) for r in det] == ids, "trial case order"
+            assert [set(r["true"]["causes"]) for r in det] == T_gold, "trial gold"
+            P = [set(r["pred"]["root_causes"]) for r in det]
+            PR = [list(r["pred"]["ranking"]) for r in det]
+            S = [r["pred"]["harm_score"] for r in det]
+            # 2025 scorer: gold mapped to groups, predictions scored raw.
+            got = score(T_gold, [r["true"]["ranking"] for r in det], P, PR)
+            rec = d["metrics"]
+            for key, want in [
+                ("instance_jaccard", rec["mlc"]["instance_jaccard"]),
+                ("exact_match_ratio", rec["mlc"]["exact_match_ratio"]),
+                ("micro_f1", rec["mlc"]["micro_f1"]),
+                ("ndcg@5", rec["ranking"]["ndcg@5"]),
+            ]:
+                assert abs(got[key] - want) < 1e-12, f"2025 scorer drift {run['file']} {key}"
+            trials.setdefault(mode, []).append(
+                {
+                    "file": Path(run["file"]).name,
+                    "config_model_name": d["config"].get("model_name"),
+                    "P": P,
+                    "PR": PR,
+                    "S": S,
+                    "metrics": got,
+                    "parse_failures": sum(
+                        1
+                        for r in det
+                        if (r["pred"].get("rationale") or "").startswith("Failed to parse")
+                    ),
+                }
+            )
+    return trials
 
 
 def headline() -> dict:
@@ -173,9 +245,10 @@ def headline() -> dict:
     raw_P = [r["pred"]["root_causes"] for r in det]
     raw_PR = [r["pred"]["ranking"] for r in det]
     ps = [r["pred"]["harm_score"] for r in det]
+    ids = [str(r["case_id"]) for r in det]
 
     cases = [json.loads(line) for line in open(DATA / "golden_cases_v3.jsonl")]
-    assert [str(c["id"]) for c in cases] == [str(r["case_id"]) for r in det], "case order"
+    assert [str(c["id"]) for c in cases] == ids, "case order"
     off_P, off_PR, off_S = offline_arm(cases, m)
 
     arms = {
@@ -183,10 +256,9 @@ def headline() -> dict:
             [set(to_parents(p, m)) for p in raw_P],
             [to_parents(p, m) for p in raw_PR],
         ),
-        # Earliest committed runner (2025-11-24) mapped gold labels to parents
-        # but scored raw predicted labels and rankings.
-        "rerun_nov2025_scorer": ([set(p) for p in raw_P], [list(p) for p in raw_PR]),
-        # Sensitivity: drop predicted labels outside the four gold groups.
+        # The 2025 scorer: gold mapped to groups, predictions scored raw.
+        "rerun_2025_scorer": ([set(p) for p in raw_P], [list(p) for p in raw_PR]),
+        # Post-hoc sensitivity: drop predicted labels outside the four groups.
         "rerun_filtered_to_groups": (
             [set(to_parents(p, m)) & set(GROUPS) for p in raw_P],
             [[x for x in to_parents(p, m) if x in GROUPS] for p in raw_PR],
@@ -194,10 +266,9 @@ def headline() -> dict:
         "offline_keyword_arm": (off_P, off_PR),
     }
 
-    # Self-checks.
+    # Self-checks against recorded outputs.
     rec = run["metrics"]
     got = score(T, TR, *arms["rerun_current_scorer"])
-    got_ord = calculate_ordinal_metrics(ys, ps)
     for key, want in [
         ("instance_jaccard", rec["mlc"]["instance_jaccard"]),
         ("exact_match_ratio", rec["mlc"]["exact_match_ratio"]),
@@ -205,115 +276,206 @@ def headline() -> dict:
         ("ndcg@5", rec["ranking"]["ndcg@5"]),
     ]:
         assert abs(got[key] - want) < 1e-12, f"scorer drift on {key}"
-    for key in ("weighted_kappa", "accuracy"):
+    got_ord = calculate_ordinal_metrics(ys, ps)
+    for key in ("weighted_kappa", "accuracy", "spearman_rho", "kendall_tau"):
         assert abs(got_ord[key] - rec["ordinal"][key]) < 1e-12, f"ordinal drift on {key}"
     ref = _run_deterministic_offline(cases, m)
     got_off = score(T, TR, off_P, off_PR)
     for key in ("instance_jaccard", "exact_match_ratio", "micro_f1", "ndcg@5"):
         assert abs(got_off[key] - ref[key]) < 1e-12, f"offline arm drift on {key}"
 
+    trials = load_trials(T, ids)
+    recorded = recorded_2025()
+    label_of = {
+        "baseline": "Baseline",
+        "rules_static": "Rules Static",
+        "rules_dynamic": "Rules Dynamic",
+        "rag": "RAG",
+        "hybrid_deterministic_first": "Hybrid (Det. First)",
+        "hybrid_llm_first": "Hybrid (LLM First)",
+    }
+    arms_2025 = {}
+    for mode, runs in trials.items():
+        mean = {k: statistics.fmean(r["metrics"][k] for r in runs) for k in runs[0]["metrics"]}
+        for key in ("instance_jaccard", "exact_match_ratio", "micro_f1", "ndcg@5"):
+            assert round(mean[key], 4) == recorded[label_of[mode]][key], f"table {mode} {key}"
+        sev = [calculate_ordinal_metrics(ys, r["S"]) for r in runs]
+        arms_2025[mode] = {
+            "mean_over_3_trials": mean,
+            "severity_mean": {
+                k: statistics.fmean(s[k] for s in sev) for k in ("accuracy", "weighted_kappa")
+            },
+            "trial_micro_f1": [r["metrics"]["micro_f1"] for r in runs],
+            "parse_failures": sum(r["parse_failures"] for r in runs),
+            "config_model_names": sorted({str(r["config_model_name"]) for r in runs}),
+        }
+        for r in runs:
+            check_fast(T, r["P"])
+    rs_labels = Counter(
+        "group" if x in GROUPS else "subtype" if x in solove_subtypes() else "other"
+        for r in trials["rules_static"]
+        for p in r["P"]
+        for x in p
+    )
+    rs_mapped = [
+        score(
+            T,
+            TR,
+            [set(to_parents(list(p), m)) for p in r["P"]],
+            [to_parents(p, m) for p in r["PR"]],
+        )
+        for r in trials["rules_static"]
+    ]
+    rs_mapped_mean = {k: statistics.fmean(s[k] for s in rs_mapped) for k in rs_mapped[0]}
+
     consts = constant_arms()
     rows = {name: score(T, TR, P, PR) for name, (P, PR) in arms.items()}
     rows["const_empty"] = score(T, TR, [set()] * n, [[]] * n)
     rows["const_all_four_taxonomy_order"] = score(T, TR, [set(GROUPS)] * n, [GROUPS] * n)
     rows["oracle_ceiling_perfect_predictor"] = score(T, TR, T, TR)
+    for name, (P, _) in arms.items():
+        check_fast(T, P)
 
     all_scores = {name: score(T, TR, [s] * n, [o] * n) for name, s, o in consts}
     best = {}
-    for metric in ("instance_jaccard", "exact_match_ratio", "micro_f1", "ndcg@5"):
-        name = max(all_scores, key=lambda a: all_scores[a][metric])
+    for metric in (
+        "instance_jaccard",
+        "jaccard_empty_as_1",
+        "exact_match_ratio",
+        "micro_f1",
+        "ndcg@5",
+    ):
+        name = max(all_scores, key=lambda a: (all_scores[a][metric], a))
         best[metric] = {"arm": name, "value": all_scores[name][metric]}
     four_orders = [all_scores[a]["ndcg@5"] for a, s, _ in consts if len(s) == 4]
 
     ne = [i for i, t in enumerate(T) if t]
 
     def subset(P, PR, idx):
-        return score(
-            [T[i] for i in idx], [TR[i] for i in idx], [P[i] for i in idx], [PR[i] for i in idx]
-        )
+        return {**fast(T, P, idx), "ndcg@5": ndcg(TR, PR, idx)}
 
     nonempty = {name: subset(P, PR, ne) for name, (P, PR) in arms.items()}
     nonempty["const_all_four_taxonomy_order"] = subset([set(GROUPS)] * n, [GROUPS] * n, ne)
+    nonempty["oracle_ceiling_perfect_predictor"] = subset(T, TR, ne)
+    for mode, runs in trials.items():
+        nonempty[f"2025_{mode}_mean"] = {
+            k: statistics.fmean(subset(r["P"], r["PR"], ne)[k] for r in runs)
+            for k in ("instance_jaccard", "micro_f1", "ndcg@5")
+        }
 
-    # Paired case-resampling bootstrap.
+    # Paired case-resampling bootstrap. Every candidate constant is a frozenset,
+    # so nothing below depends on set iteration order (PYTHONHASHSEED).
+    label_sets = sorted({frozenset(s) for _, s, _ in consts}, key=lambda s: sorted(s))
+    all4, empty = [set(GROUPS)] * n, [set()] * n
+    rs25 = trials["rules_static"]
+    same_prompt = [r for mode, runs in trials.items() if mode != "rules_static" for r in runs]
     rng = random.Random(SEED)
-    base = {
-        **arms,
-        "const_empty": ([set()] * n, [[]] * n),
-        "const_all_four": ([set(GROUPS)] * n, [GROUPS] * n),
-    }
-    subsets = {name: s for name, s, _ in consts if list(s) == sorted(s, key=GROUPS.index)}
-    diffs: dict[str, list[float]] = {
-        k: []
-        for k in (
-            "emr: const_empty - rerun",
-            "jaccard: const_all_four - rerun",
-            "ndcg@5: const_all_four - rerun",
-            "micro_f1: rerun - best_constant_reselected",
-            "micro_f1: filtered - best_constant_reselected",
-            "jaccard: const_all_four - offline",
-            "ndcg@5: const_all_four - offline",
-            "micro_f1: const_all_four - offline",
-            "rerun micro_f1",
-            "rerun weighted_kappa",
-        )
-    }
+    draws: dict[str, list[float]] = {}
+
+    def add(key, value):
+        draws.setdefault(key, []).append(value)
+
     for _ in range(B):
         idx = [rng.randrange(n) for _ in range(n)]
-
-        def s(name, _idx=idx):
-            P, PR = base[name]
-            return subset(P, PR, _idx)
-
-        r, f, o = s("rerun_current_scorer"), s("rerun_filtered_to_groups"), s("offline_keyword_arm")
-        e, a = s("const_empty"), s("const_all_four")
-        t = [T[i] for i in idx]
-        best_f1 = max(calculate_mlc_metrics(t, [st] * n)["micro_f1"] for st in subsets.values())
-        diffs["emr: const_empty - rerun"].append(e["exact_match_ratio"] - r["exact_match_ratio"])
-        diffs["jaccard: const_all_four - rerun"].append(
-            a["instance_jaccard"] - r["instance_jaccard"]
+        best_f1 = max(fast(T, [s] * n, idx)["micro_f1"] for s in label_sets)
+        a, e = fast(T, all4, idx), fast(T, empty, idx)
+        a_nd = ndcg(TR, [GROUPS] * n, idx)
+        r = fast(T, arms["rerun_current_scorer"][0], idx)
+        r_nd = ndcg(TR, arms["rerun_current_scorer"][1], idx)
+        f = fast(T, arms["rerun_filtered_to_groups"][0], idx)
+        o = fast(T, off_P, idx)
+        o_nd = ndcg(TR, off_PR, idx)
+        add("2026 emr: empty - rerun", e["exact_match_ratio"] - r["exact_match_ratio"])
+        add("2026 jaccard: all_four - rerun", a["instance_jaccard"] - r["instance_jaccard"])
+        add("2026 ndcg@5: all_four - rerun", a_nd - r_nd)
+        add("2026 micro_f1: rerun - best_constant", r["micro_f1"] - best_f1)
+        add("2026 micro_f1: filtered - best_constant", f["micro_f1"] - best_f1)
+        add("offline jaccard: all_four - offline", a["instance_jaccard"] - o["instance_jaccard"])
+        add("offline micro_f1: all_four - offline", a["micro_f1"] - o["micro_f1"])
+        add("offline ndcg@5: all_four - offline", a_nd - o_nd)
+        rs = [fast(T, t["P"], idx) for t in rs25]
+        rs_m = {k: statistics.fmean(x[k] for x in rs) for k in rs[0]}
+        rs_nd = statistics.fmean(ndcg(TR, t["PR"], idx) for t in rs25)
+        sp = [fast(T, t["P"], idx) for t in same_prompt]
+        sp_m = {k: statistics.fmean(x[k] for x in sp) for k in ("micro_f1", "exact_match_ratio")}
+        add(
+            "2025 jaccard: all_four - rules_static",
+            a["instance_jaccard"] - rs_m["instance_jaccard"],
         )
-        diffs["ndcg@5: const_all_four - rerun"].append(a["ndcg@5"] - r["ndcg@5"])
-        diffs["micro_f1: rerun - best_constant_reselected"].append(r["micro_f1"] - best_f1)
-        diffs["micro_f1: filtered - best_constant_reselected"].append(f["micro_f1"] - best_f1)
-        diffs["jaccard: const_all_four - offline"].append(
-            a["instance_jaccard"] - o["instance_jaccard"]
+        add("2025 ndcg@5: all_four - rules_static", a_nd - rs_nd)
+        add("2025 emr: empty - rules_static", e["exact_match_ratio"] - rs_m["exact_match_ratio"])
+        add(
+            "2025 jaccard_empty_as_1: empty - rules_static",
+            e["jaccard_empty_as_1"] - rs_m["jaccard_empty_as_1"],
         )
-        diffs["ndcg@5: const_all_four - offline"].append(a["ndcg@5"] - o["ndcg@5"])
-        diffs["micro_f1: const_all_four - offline"].append(a["micro_f1"] - o["micro_f1"])
-        diffs["rerun micro_f1"].append(r["micro_f1"])
-        diffs["rerun weighted_kappa"].append(
-            calculate_ordinal_metrics([ys[i] for i in idx], [ps[i] for i in idx])["weighted_kappa"]
+        add("2025 micro_f1: rules_static - best_constant", rs_m["micro_f1"] - best_f1)
+        add("2025 micro_f1: rules_static - same_prompt_arms", rs_m["micro_f1"] - sp_m["micro_f1"])
+        add(
+            "2025 emr: rules_static - same_prompt_arms",
+            rs_m["exact_match_ratio"] - sp_m["exact_match_ratio"],
         )
-    ci = {}
-    for k, v in diffs.items():
-        v.sort()
-        ci[k] = [round(v[int(0.025 * B)], 4), round(v[int(0.975 * B) - 1], 4)]
+        add(
+            "single: 2026 rerun weighted_kappa",
+            calculate_ordinal_metrics([ys[i] for i in idx], [ps[i] for i in idx])["weighted_kappa"],
+        )
 
-    empty = [i for i, t in enumerate(T) if not t]
+    def interval(values, alpha):
+        v = sorted(values)
+        return [round(v[int(alpha / 2 * B)], 4), round(v[int((1 - alpha / 2) * B) - 1], 4)]
+
+    family = [k for k in draws if not k.startswith("single")]
+    ci95 = {k: interval(v, ALPHA) for k, v in draws.items()}
+    bonf = {k: interval(draws[k], ALPHA / len(family)) for k in family}
+
+    # Trial-level permutation test: are the 3 rules-static trials exchangeable
+    # with the 15 identical-prompt trials on micro-F1?
+    trial_f1 = [(mode, x) for mode, v in arms_2025.items() for x in v["trial_micro_f1"]]
+    obs = statistics.fmean(x for mode, x in trial_f1 if mode == "rules_static")
+    combos = list(combinations(range(len(trial_f1)), 3))
+    extreme = sum(1 for c in combos if statistics.fmean(trial_f1[i][1] for i in c) >= obs - 1e-12)
+
+    empty_idx = [i for i, t in enumerate(T) if not t]
     P_cur = arms["rerun_current_scorer"][0]
-    harm_sev1 = [case_title(cases[i]) for i in ne if ys[i] == 1]
+    off_out = Counter(x for p in off_P for x in p if x not in GROUPS)
     return {
         "n": n,
         "rows": rows,
+        "rows_2025": arms_2025,
+        "rules_static_2025": {
+            "label_kinds": dict(rs_labels),
+            "mean_with_current_mapping": rs_mapped_mean,
+        },
         "best_constant_selected_on_test_labels": best,
         "all_four_ndcg_range_over_24_orders": [min(four_orders), max(four_orders)],
         "nonempty_subset": {"n": len(ne), **nonempty},
-        "paired_bootstrap_95ci": {"B": B, "seed": SEED, **ci},
+        "paired_bootstrap": {
+            "B": B,
+            "seed": SEED,
+            "family_size": len(family),
+            "ci95": ci95,
+            "bonferroni_ci": bonf,
+        },
+        "trial_permutation_rules_static_micro_f1": {
+            "observed_mean": obs,
+            "subsets": len(combos),
+            "at_least_as_extreme": extreme,
+            "p": extreme / len(combos),
+        },
         "empty_set_decomposition": {
-            "gold_empty": len(empty),
+            "gold_empty": len(empty_idx),
             "gold_nonempty": len(ne),
-            "rerun_pred_empty_on_gold_empty": sum(1 for i in empty if not P_cur[i]),
+            "rerun_pred_empty_on_gold_empty": sum(1 for i in empty_idx if not P_cur[i]),
             "rerun_exact_on_gold_nonempty": sum(1 for i in ne if P_cur[i] == T[i]),
-            "gold_label_counts": dict(Counter(x for t in T for x in t).most_common()),
+            "gold_label_counts": dict(Counter(x for t in T for x in t)),
             "rerun_pred_labels_outside_groups": sorted({x for p in P_cur for x in p} - set(GROUPS)),
+            "offline_pred_labels_outside_groups": dict(off_out),
         },
         "severity": {
             "rerun": run["metrics"]["ordinal"],
             "always_1": calculate_ordinal_metrics(ys, [1] * n),
             "offline_keyword_arm": calculate_ordinal_metrics(ys, off_S),
             "gold_severity_1": ys.count(1),
-            "harm_labelled_cases_with_severity_1": harm_sev1,
+            "harm_labelled_cases_with_severity_1": [case_title(cases[i]) for i in ne if ys[i] == 1],
             "rerun_unparsed_predictions_scored_0": ps.count(0),
         },
         "rerun_config": {
@@ -360,7 +522,7 @@ def gold_sets() -> dict:
     return {
         "v3": {
             "n": len(v3),
-            "sources": dict(Counter(r["source"] for r in v3).most_common()),
+            "sources": dict(Counter(r["source"] for r in v3)),
             "empty_root_causes": sum(1 for r in v3 if not r["root_causes"]),
             "has_harms_field": sum(1 for r in v3 if "harms" in r),
             "root_causes_values": rc,
@@ -393,9 +555,8 @@ def comprehensive_runs() -> dict:
                 means[mode] = v["metrics"]["mlc.micro_f1"]["mean"]
         pair = {"present": (d / "pairwise_tests.json").exists()}
         if pair["present"]:
-            text = (d / "pairwise_tests.json").read_text()
             try:
-                tests = json.loads(text)
+                tests = json.loads((d / "pairwise_tests.json").read_text())
             except json.JSONDecodeError:
                 pair["parses"] = False
             else:
@@ -437,6 +598,7 @@ def interpretable_models(corpus: list[dict] | None) -> dict:
         if "accuracy" in metrics:
             frac = Fraction(metrics["accuracy"]).limit_denominator(1000)
             row["accuracy_fraction"] = f"{frac.numerator}/{frac.denominator}"
+            row["correct_of_984"] = round(metrics["accuracy"] * 984, 6)
         if "n_successful" in metrics:
             row.update(
                 mean_accuracy=metrics["mean_accuracy"],
@@ -446,26 +608,44 @@ def interpretable_models(corpus: list[dict] | None) -> dict:
             )
         if "status" in metrics:
             row["status"] = metrics["status"]
+        prov = d / "provenance.json"
+        if prov.exists():
+            row["saved_at"] = json.loads(prov.read_text()).get("saved_at")
         extra = d / "extra.json"
         if extra.exists():
             preds = json.loads(extra.read_text()).get("predictions")
             if isinstance(preds, str):
-                row["distinct_test_predictions"] = sorted(set(re.findall(r"'([^']+)'", preds)))
+                items = re.findall(r"'([^']+)'", preds)
+                row["n_test_predictions"] = len(items)
+                row["distinct_test_predictions"] = sorted(set(items))
         if (d / "feature_names.json").exists():
             row["features"] = json.loads((d / "feature_names.json").read_text())
         out[d.name] = row
-    heur = (ROOT / "trained_models/decision_tree_v4/HEURISTICS.md").read_text()
-    support = [float(s) for s in re.findall(r"support=([0-9.]+)", heur)]
-    precision = [float(s) for s in re.findall(r"precision=([0-9.]+)", heur)]
-    rule1 = {"n_rules": len(support), "max_support": max(support), "max_precision": max(precision)}
+
+    dt = ROOT / "trained_models/decision_tree_v4"
+    rules = [json.loads(line) for line in open(dt / "heuristics.jsonl")]
+    support = sorted({r["support"] for r in rules})
+    node = json.loads((dt / "heuristics_tree.json").read_text())
+    while node.get("left"):
+        node = node["left"]  # leftmost leaf = rule 1: no keyword present
+    train_rows = round(1 / support[0])
+    exported = {
+        "n_rules": len(rules),
+        "distinct_support": support,
+        "training_rows_from_1_over_support": train_rows,
+        "leaf_samples": sorted({r["extra"]["leaf_samples"] for r in rules}),
+        "rule_1_training_share": node["weight"],
+        "rule_1_training_rows": round(node["weight"] * train_rows, 6),
+        "labelled_rows_train_plus_984_test": train_rows + 984,
+    }
     if corpus is not None:
         kws = ["kw_privacy", "kw_monetary_penalty", "kw_biometric", "kw_reg_enforcement"]
         kws += ["kw_video_surveillance", "kw_location"]
         hits = sum(1 for r in corpus if all((r.get(k) or 0) <= 0.5 for k in kws))
-        rule1["rule_1_release_coverage"] = round(hits / len(corpus), 4)
+        exported["rule_1_release_share"] = round(hits / len(corpus), 4)
         boc = sum(1 for r in corpus if r.get("harm_category") == "breach_of_confidentiality")
         out["bayes_net_v4"]["predicted_class_share_in_release"] = round(boc / len(corpus), 4)
-    out["decision_tree_v4_exported_rules"] = rule1
+    out["decision_tree_v4_exported_rules"] = exported
     return out
 
 

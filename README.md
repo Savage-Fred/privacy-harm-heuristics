@@ -24,8 +24,9 @@ The practicum set out to answer two questions, stated here verbatim:
 
 Recorded run — `data/experiments/final_results_summary.md`, dated **2025-11-06**,
 n=50 gold cases (`golden_cases_v3.jsonl`), Solove taxonomy normalized to 4
-high-level harm categories, LLM arms served by Gemini, 5 trials per mode
-(mean scores):
+high-level harm categories, LLM arms served by Gemini, mean scores. The summary
+says 5 trials per mode; the per-trial files it was built from
+(`paper/trials_2025/`) show 3, run on 2025-11-22:
 
 | Mode | Instance Jaccard | Exact Match Ratio | Micro F1 | Ranking NDCG@5 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -42,12 +43,14 @@ LLM baseline, RAG, and both hybrid combinations. The absolute numbers are low
 because the task is hard (multi-label harm assignment over a sparse taxonomy).
 
 **Read this table as a record of what was run, not as evidence that rules beat
-LLMs.** The 2026 close-out re-analysis ([`paper/`](paper/)) scores constants
-fixed in advance with this repo's own metric code on the same 50 cases. They
-match or beat every arm on three of the four metrics: predicting no harm gives
-exact-match 0.700, and predicting all four Solove groups gives Jaccard 0.175
-and nDCG@5 0.237. In the committed code, five of the six arms send the same
-prompt.
+LLMs.** The 2026 close-out re-analysis ([`paper/`](paper/)) recovered the
+per-case outputs of all 18 trials behind this table and scored label-free
+constants with this repo's own metric code:
+
+- Predicting all four Solove groups beats `rules_static` on Jaccard and nDCG@5.
+- Predicting no harm ties it on exact match.
+- On micro-F1 it is not significantly better than the best constant.
+- In the committed code, five of the six arms send the same prompt.
 
 ### Reproducing these numbers
 
