@@ -37,11 +37,12 @@ recovered per-case outputs of all 18 recorded trials. We find:
   \item On micro-F1, neither the headline arm nor a 2026 rerun is
         distinguishable from the best constant, even after out-of-taxonomy
         labels are removed.
-  \item Five of the six arms sent an identical prompt. The rule block did
-        change outputs ($p = 0.007$), but not enough to beat a constant.
+  \item Five of the six arms sent an identical prompt. Rules-static, the one
+        arm with a different prompt, did differ from the other five (one-sided
+        $p = 0.007$), but not enough to beat a constant.
   \item The gold set was LLM-generated and mostly off-topic.
-  \item The multi-arm runs shipped with the artifact were dry runs on a
-        different gold set.
+  \item Every multi-arm result in the original public artifact came from a
+        dry run on a different gold set.
   \item Every training label came from a keyword fallback.
 \end{itemize}
 We distil eight evaluation lessons and one data-ethics lesson.
@@ -98,7 +99,10 @@ omitted these; they survived in the private predecessor repository, and we
 republish them with this paper. The trial configurations record no model
 name. Earlier runs on the same day scored unmapped gold subtypes against
 group-level predictions, got zero overlap, and were superseded by one complete
-pass. We see no sign of selective reporting.
+pass. We republish those superseded runs too. All 22 scored against unmapped
+gold subtypes: ten 50-case runs reached micro-F1 of at most 0.022, and twelve
+20-case runs are the prompt-echo failures described in \S\ref{sec:audit}. We see
+no sign of selective reporting.
 
 A 2026 rerun repeated rules-static once. Its model is likewise unrecorded in
 the results file and known only from README prose. The repository also added an
@@ -138,6 +142,8 @@ Perfect predictor (ceiling)          & 0.300 & 1.000 & 1.000 & 1.000 & 0.300 & 1
 \end{tabular}
 \caption{All rows use the same 50-case gold set and the repository's metric
 code. That code reproduces every recorded 2025 trial and the 2026 run exactly.
+The 2025 rows are scored as recorded, with predictions unmapped; mapping them
+would move only the LLM-first hybrid, by about 0.001.
 It gives empty-vs-empty a Jaccard and nDCG of 0 but an EMR of 1, so a perfect
 predictor scores only 0.300 on Jaccard and nDCG; Jaccard$_{\emptyset=1}$ uses
 the other common convention. The 65 constants are every ordered subset of the
@@ -179,13 +185,16 @@ artifact, and we note below which gaps survive that adjustment.
         resample from all 16 label sets, is $[-0.173, 0.214]$: a tie.
 \end{itemize}
 So the constants beat the headline arm on two metrics and tie it on the other
-two. The arm is not significantly better than a constant on any metric.
+two. The arm is not significantly better than a constant on any of the four
+set metrics.
 
 \paragraph{Against the 2026 rerun and the offline arm.} Against the rerun:
 \begin{itemize}
-  \item Empty wins EMR by $[0.22, 0.48]$.
-  \item All four wins Jaccard by $[0.033, 0.111]$ and nDCG@5 by
-        $[0.017, 0.112]$. The nDCG gap's adjusted lower bound touches zero.
+  \item Empty wins EMR by $[0.22, 0.48]$, and all four wins Jaccard by
+        $[0.033, 0.111]$. Both survive the adjustment.
+  \item All four also wins nDCG@5 by $[0.017, 0.112]$, but that gap's
+        adjusted lower bound touches zero ($-0.0001$), within Monte Carlo
+        error.
   \item On micro-F1 the rerun ties the best constant ($[-0.128, 0.071]$).
 \end{itemize}
 The rerun's output contains eight labels outside the gold label space
@@ -226,9 +235,11 @@ distinct texts: one for rules-static, and one shared by the other five. The
 The five identical-prompt arms therefore measure replicate noise, and
 rules-static does stand out from them. Its paired micro-F1 gain over their mean
 is $[0.021, 0.221]$ and its EMR gain is $[0.016, 0.133]$. Neither survives the
-Bonferroni adjustment, but a trial-level permutation test on micro-F1 gives
-$p = 6/816 \approx 0.007$. The rule block changed outputs, but not enough to beat
-a constant.
+Bonferroni adjustment. A one-sided trial-level permutation test on micro-F1
+gives $p = 6/816 \approx 0.007$ (two-sided, 0.020). The arms also ran in
+consecutive time blocks, so arm is confounded with time of day. Rules-static's
+outputs differ from those of the other five arms, and the rule block is the
+only prompt difference. It still did not beat a constant.
 
 The ``rules'' are five generic compliance sentences, such as ``If a data breach
 occurs, affected users must be notified within 72 hours.'' They are unrelated
@@ -238,8 +249,11 @@ of its labels.
 
 \paragraph{Scorer and prompt changed between runs.} The 2025 scorer mapped gold
 labels to the four groups but scored predictions raw. The current scorer maps
-both. The 2025 rules-static outputs are already group-level (59 group labels,
-8 free-text descriptions, no subtypes), so they score identically under both.
+both. The 2025 rules-static outputs are already group-level, so they score
+identically under both. They contain 59 group labels, 8 others, and no
+subtypes. Seven of the eight others are group names with text appended, such
+as ``invasion (mass surveillance)'', which a normalising parser would have
+credited (a small instance of L3).
 The 2026 prompt, revised on 2025-11-29, added a root-cause allowlist and told
 the model it may put root causes in the same field. Its outputs therefore
 depend on mapping: Jaccard is 0.041 unmapped and 0.105 mapped.
@@ -287,10 +301,12 @@ runs committed no per-arm metrics.
 Pairwise-test files show Bonferroni thresholds and Cliff's~$\delta$ in three
 directories. One file is truncated and does not parse, and 15 of the 43
 parseable entries are placeholders ($p = 1$, zero difference). A related hazard
-is that the LLM client turns most API errors into a truncated echo of the
-prompt. That parses as an empty prediction and so earns EMR credit on 70\% of
-cases. None of the 18 recorded trials hit it, and the rerun's single parse
-failure was a malformed model reply.
+actually fired. The LLM client turns most API errors into a truncated echo of
+the prompt, which parses as an empty prediction. On the morning of the recorded
+trials, twelve 20-case smoke runs (two per arm) failed this way on every case.
+Each scored EMR 0.65 by predicting nothing, higher than five of the six
+recorded arms. None of the 18 recorded trials hit it, and the rerun's single
+parse failure was a malformed model reply.
 
 \paragraph{Heuristic labels in, heuristic rules out.} The labeller enables
 GLiNER2 only when no LLM provider is configured, and it silently swallows a
@@ -379,7 +395,8 @@ fallback text on error), and so end up on both sides of a comparison.
   \item With 15 informative cases, statistical power is low.
   \item Our judgement that the gold articles are off-topic rests on titles.
   \item The 2025 trial files come from a private repository. We republish
-        them, and the 2025 scorer reproduces all 18 exactly.
+        them together with the 22 superseded runs, and the 2025 scorer
+        reproduces all 18 recorded trials exactly.
   \item The gold file is byte-identical to its Nov-2025 version, and the
         taxonomy that maps its subtypes to groups is unchanged.
 \end{itemize}
@@ -389,9 +406,8 @@ fallback text on error), and so end up on both sides of a comparison.
 Label-free constants beat the recorded headline arm on Jaccard and nDCG@5 and
 tie it on exact match and micro-F1. No arm, including a 2026 rerun with its
 out-of-taxonomy labels removed, is significantly better than the best constant
-on any metric. The rule
-block did change the LLM's outputs, and the arms carry real signal on
-severity. But the study's first question, whether heuristics can estimate harm,
+on any of the four set metrics. Rules-static's outputs do differ from the
+identical-prompt arms, and the arms carry real signal on severity. But the study's first question, whether heuristics can estimate harm,
 remains open, because every training label was itself a keyword heuristic.
 
 The study's uncertainty machinery (confidence intervals, corrected tests) ran
@@ -405,7 +421,7 @@ evaluation failure, and nine concrete ways to avoid repeating it.
 The repository and the recovered trial files will be released on publication.
 \else
 The repository, including gold sets, recorded runs, the recovered 2025 trials
-(\texttt{paper/trials\_2025/}), trained models, and a scrubbed corpus (release
+and superseded runs (\texttt{paper/trials\_2025/}), trained models, and a scrubbed corpus (release
 \texttt{v1.0.0}), is public at
 \url{https://github.com/Savage-Fred/privacy-harm-heuristics}.
 \fi

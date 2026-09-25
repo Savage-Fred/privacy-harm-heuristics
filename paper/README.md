@@ -3,9 +3,9 @@
 `lessons.tex` / `lessons.pdf` is a short (5-page) negative-results paper. It
 re-analyses this repository's committed evidence offline and records what the
 practicum does and does not support. It was revised after an adversarial
-peer-style review (see PR #10). It is anonymised for double-blind review;
-remove the repository URL in §"Artifact availability" before submitting to a
-venue that requires it.
+peer-style review over three rounds (see PR #10). For double-blind
+submission, set `\anontrue` near the top of `lessons.tex`. That anonymises the
+"Artifact availability" section.
 
 ## What we learned
 
@@ -19,8 +19,9 @@ recovered per-case outputs of all 18 recorded trials:
 - Predicting no harm ties the arm on exact match.
 - On micro-F1, neither the headline arm nor the 2026 rerun is significantly
   better than the best constant, even with out-of-taxonomy labels filtered.
-- Five of the six arms sent an identical prompt. The rule block did change
-  outputs (p = 0.007), but not enough to beat a constant.
+- Five of the six arms sent an identical prompt. Rules-static, the one arm
+  with a different prompt, differs from them (one-sided p = 0.007), but not
+  enough to beat a constant.
 - The first research question (can heuristics estimate harm?) is still open,
   because every training label came from a keyword fallback.
 
@@ -30,9 +31,9 @@ Evaluation lessons:
 2. Disclose empty-set conventions and the ceiling they imply. Here a perfect predictor scores Jaccard and nDCG 0.30.
 3. Field names lie, so pin the prompt-scorer contract. The prompt invited root causes into the field scored as harms.
 4. Diff what each arm actually sends. Five "different" arms sent one prompt.
-5. Make placeholders unable to pass for results. The multi-arm runs shipped with the artifact were all dry runs, and API errors echo the prompt.
+5. Make placeholders unable to pass for results. Every multi-arm result in the original public artifact came from a dry run. API errors echo the prompt, and twelve smoke runs scored exact-match 0.65 by predicting nothing.
 6. Keep the gold set independent of the models under test, and keep its review auditable.
-7. Measure the label pipeline you ran. A swallowed GLiNER2 load error left 100% keyword labels.
+7. Measure the label pipeline you ran. 100% of training labels came from the keyword fallback, either because an LLM provider was configured (which disables GLiNER2) or because a GLiNER2 load failure was silently swallowed.
 8. Ship the per-case outputs behind every reported number. The extraction kept the dry runs and dropped the live trials. Also make the analysis deterministic.
 
 Data-ethics lesson: scrub at collection, not at release. Before the audit, the
@@ -62,10 +63,10 @@ different `PYTHONHASHSEED` values and `cmp` the JSON. Without
 `make fetch-data`, the `release_asset_v1_0_0` fields are `null`.
 
 `trials_2025/` holds the trial summary and the 18 per-case result files behind
-the recorded 2025 table. They were harvested read-only from the private
+the recorded 2025 table. `trials_2025/superseded/` holds the 22 same-day runs
+that the summary did not use. They were harvested read-only from the private
 predecessor repository at commit `d1d38594` (2025-11-24) and are unchanged.
 
-For double-blind submission, set `\anontrue` near the top of `lessons.tex`.
 
 ## Status
 

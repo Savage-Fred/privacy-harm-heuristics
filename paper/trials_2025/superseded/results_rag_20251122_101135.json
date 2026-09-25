@@ -1,0 +1,412 @@
+{
+  "config": {
+    "mode": "rag",
+    "ruleset": {
+      "name": "expert_framework",
+      "version": "1.0",
+      "description": "Initial set of expert privacy rules derived from GDPR and NIST.",
+      "file": "data/rules/expert_framework.v1.0.json",
+      "rules": [
+        "If data is collected from minors, strict consent is required.",
+        "If location data is stored, it must be encrypted at rest.",
+        "If personal data is shared with third parties, a data processing agreement must be in place.",
+        "If automated decision-making is used, the user must have the right to opt-out.",
+        "If a data breach occurs, affected users must be notified within 72 hours."
+      ]
+    },
+    "provider": "gemini",
+    "model_name": null
+  },
+  "metrics": {
+    "mode": "rag",
+    "mlc": {
+      "instance_jaccard": 0.0,
+      "instance_f1": 0.0,
+      "micro_f1": 0.0,
+      "macro_f1": 0.0,
+      "hamming_loss": 0.135,
+      "exact_match_ratio": 0.65
+    },
+    "ranking": {
+      "ndcg@5": 0.0,
+      "map@5": 0.0,
+      "mrr": 0.0
+    },
+    "ordinal": {
+      "weighted_kappa": 0.0,
+      "spearman_rho": 0.0,
+      "kendall_tau": 0.0,
+      "accuracy": 0.0
+    }
+  },
+  "details": [
+    {
+      "case_id": "4424567",
+      "text": "The Georgia Tech Research Institute (GTRI) is the nonprofit applied research arm of the Georgia Inst...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 0,
+        "rationale": "Failed to parse response. Raw: You are a privacy expert. Analyze the following scenario to identify privacy harms.\nOutput ONLY a valid JSON object. Do not include any other text.\nThe JSON must have the following keys:\n- root_causes..."
+      }
+    },
+    {
+      "case_id": "3729759",
+      "text": "Canadian tort law is composed of two parallel systems: a common law framework outside Qu\u00e9bec and a c...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 0,
+        "rationale": "Failed to parse response. Raw: You are a privacy expert. Analyze the following scenario to identify privacy harms.\nOutput ONLY a valid JSON object. Do not include any other text.\nThe JSON must have the following keys:\n- root_causes..."
+      }
+    },
+    {
+      "case_id": "5278",
+      "text": "A copyright is a type of intellectual property that gives its owner the exclusive legal right to cop...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 0,
+        "rationale": "Failed to parse response. Raw: You are a privacy expert. Analyze the following scenario to identify privacy harms.\nOutput ONLY a valid JSON object. Do not include any other text.\nThe JSON must have the following keys:\n- root_causes..."
+      }
+    },
+    {
+      "case_id": "7360695",
+      "text": "Data synchronization is the process of establishing consistency between source and target data store...",
+      "true": {
+        "causes": [
+          "secondary_use",
+          "disclosure",
+          "insecurity"
+        ],
+        "ranking": [
+          "insecurity",
+          "secondary_use",
+          "disclosure"
+        ],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 0,
+        "rationale": "Failed to parse response. Raw: You are a privacy expert. Analyze the following scenario to identify privacy harms.\nOutput ONLY a valid JSON object. Do not include any other text.\nThe JSON must have the following keys:\n- root_causes..."
+      }
+    },
+    {
+      "case_id": "46011521",
+      "text": "The death of tech idealism and rise of the homeless in Northern California...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 0,
+        "rationale": "Failed to parse response. Raw: You are a privacy expert. Analyze the following scenario to identify privacy harms.\nOutput ONLY a valid JSON object. Do not include any other text.\nThe JSON must have the following keys:\n- root_causes..."
+      }
+    },
+    {
+      "case_id": "21462612",
+      "text": "In information science, profiling refers to the process of construction and application of user prof...",
+      "true": {
+        "causes": [
+          "aggregation",
+          "secondary_use",
+          "exclusion",
+          "distortion",
+          "decisional_interference",
+          "surveillance",
+          "identification"
+        ],
+        "ranking": [
+          "aggregation",
+          "identification",
+          "distortion",
+          "exclusion",
+          "decisional_interference",
+          "surveillance",
+          "secondary_use"
+        ],
+        "score": 4
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 0,
+        "rationale": "Failed to parse response. Raw: You are a privacy expert. Analyze the following scenario to identify privacy harms.\nOutput ONLY a valid JSON object. Do not include any other text.\nThe JSON must have the following keys:\n- root_causes..."
+      }
+    },
+    {
+      "case_id": "36720255",
+      "text": "Clinical commissioning groups (CCGs) were National Health Service (NHS) organisations set up by the ...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 0,
+        "rationale": "Failed to parse response. Raw: You are a privacy expert. Analyze the following scenario to identify privacy harms.\nOutput ONLY a valid JSON object. Do not include any other text.\nThe JSON must have the following keys:\n- root_causes..."
+      }
+    },
+    {
+      "case_id": "46011719",
+      "text": "Call Center Agoda Reschedule...",
+      "true": {
+        "causes": [
+          "surveillance",
+          "interrogation",
+          "secondary_use",
+          "identification"
+        ],
+        "ranking": [
+          "interrogation",
+          "identification",
+          "surveillance",
+          "secondary_use"
+        ],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 0,
+        "rationale": "Failed to parse response. Raw: You are a privacy expert. Analyze the following scenario to identify privacy harms.\nOutput ONLY a valid JSON object. Do not include any other text.\nThe JSON must have the following keys:\n- root_causes..."
+      }
+    },
+    {
+      "case_id": "13866197",
+      "text": "The Railway Regulation Act 1844 (7 & 8 Vict. c. 85) was an act of the Parliament of the United Kingd...",
+      "true": {
+        "causes": [
+          "exclusion",
+          "decisional_interference"
+        ],
+        "ranking": [
+          "exclusion",
+          "decisional_interference"
+        ],
+        "score": 3
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 0,
+        "rationale": "Failed to parse response. Raw: You are a privacy expert. Analyze the following scenario to identify privacy harms.\nOutput ONLY a valid JSON object. Do not include any other text.\nThe JSON must have the following keys:\n- root_causes..."
+      }
+    },
+    {
+      "case_id": "41739202",
+      "text": "The Kuwaiti nationality law is the legal pathway for non-nationals to become citizens of the State o...",
+      "true": {
+        "causes": [
+          "exclusion",
+          "distortion",
+          "decisional_interference"
+        ],
+        "ranking": [
+          "exclusion",
+          "decisional_interference",
+          "distortion"
+        ],
+        "score": 5
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 0,
+        "rationale": "Failed to parse response. Raw: You are a privacy expert. Analyze the following scenario to identify privacy harms.\nOutput ONLY a valid JSON object. Do not include any other text.\nThe JSON must have the following keys:\n- root_causes..."
+      }
+    },
+    {
+      "case_id": "78615991",
+      "text": "Disinformation research, also called disinformation studies or misinformation research, is an academ...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 0,
+        "rationale": "Failed to parse response. Raw: You are a privacy expert. Analyze the following scenario to identify privacy harms.\nOutput ONLY a valid JSON object. Do not include any other text.\nThe JSON must have the following keys:\n- root_causes..."
+      }
+    },
+    {
+      "case_id": "65205",
+      "text": "Cura\u00e7ao, officially the Country of Cura\u00e7ao, is a constituent island country within the Kingdom of th...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 0,
+        "rationale": "Failed to parse response. Raw: You are a privacy expert. Analyze the following scenario to identify privacy harms.\nOutput ONLY a valid JSON object. Do not include any other text.\nThe JSON must have the following keys:\n- root_causes..."
+      }
+    },
+    {
+      "case_id": "764323",
+      "text": "Lawmaking is the process of crafting legislation.  In its purest sense, it is the basis of governanc...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 0,
+        "rationale": "Failed to parse response. Raw: You are a privacy expert. Analyze the following scenario to identify privacy harms.\nOutput ONLY a valid JSON object. Do not include any other text.\nThe JSON must have the following keys:\n- root_causes..."
+      }
+    },
+    {
+      "case_id": "5044573",
+      "text": "Illegal immigration, or unauthorized immigration, occurs when foreign nationals, known as aliens, vi...",
+      "true": {
+        "causes": [
+          "aggregation",
+          "exclusion",
+          "distortion",
+          "decisional_interference",
+          "surveillance",
+          "identification"
+        ],
+        "ranking": [
+          "exclusion",
+          "identification",
+          "decisional_interference",
+          "aggregation",
+          "surveillance",
+          "distortion"
+        ],
+        "score": 4
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 0,
+        "rationale": "Failed to parse response. Raw: You are a privacy expert. Analyze the following scenario to identify privacy harms.\nOutput ONLY a valid JSON object. Do not include any other text.\nThe JSON must have the following keys:\n- root_causes..."
+      }
+    },
+    {
+      "case_id": "6794062",
+      "text": "NXP Semiconductors N.V. is a Dutch semiconductor manufacturing and design company with headquarters ...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 0,
+        "rationale": "Failed to parse response. Raw: You are a privacy expert. Analyze the following scenario to identify privacy harms.\nOutput ONLY a valid JSON object. Do not include any other text.\nThe JSON must have the following keys:\n- root_causes..."
+      }
+    },
+    {
+      "case_id": "913154",
+      "text": "Dasiphora fruticosa is a species of hardy deciduous flowering shrub in the family Rosaceae, native t...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 0,
+        "rationale": "Failed to parse response. Raw: You are a privacy expert. Analyze the following scenario to identify privacy harms.\nOutput ONLY a valid JSON object. Do not include any other text.\nThe JSON must have the following keys:\n- root_causes..."
+      }
+    },
+    {
+      "case_id": "8343903",
+      "text": "The letter of the law and the spirit of the law are two possible ways to regard rules or laws. To ob...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 0,
+        "rationale": "Failed to parse response. Raw: You are a privacy expert. Analyze the following scenario to identify privacy harms.\nOutput ONLY a valid JSON object. Do not include any other text.\nThe JSON must have the following keys:\n- root_causes..."
+      }
+    },
+    {
+      "case_id": "4600725",
+      "text": "Chinese nationality law details the conditions by which a person holds nationality of the People's R...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 0,
+        "rationale": "Failed to parse response. Raw: You are a privacy expert. Analyze the following scenario to identify privacy harms.\nOutput ONLY a valid JSON object. Do not include any other text.\nThe JSON must have the following keys:\n- root_causes..."
+      }
+    },
+    {
+      "case_id": "70587885",
+      "text": "The law of Cambodia refers to the legal system of the judiciary of Cambodia, which is primarily base...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 0,
+        "rationale": "Failed to parse response. Raw: You are a privacy expert. Analyze the following scenario to identify privacy harms.\nOutput ONLY a valid JSON object. Do not include any other text.\nThe JSON must have the following keys:\n- root_causes..."
+      }
+    },
+    {
+      "case_id": "7990",
+      "text": "In computing, a data warehouse (DW or DWH), also known as an enterprise data warehouse (EDW), is a s...",
+      "true": {
+        "causes": [
+          "aggregation",
+          "secondary_use"
+        ],
+        "ranking": [
+          "aggregation",
+          "secondary_use"
+        ],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 0,
+        "rationale": "Failed to parse response. Raw: You are a privacy expert. Analyze the following scenario to identify privacy harms.\nOutput ONLY a valid JSON object. Do not include any other text.\nThe JSON must have the following keys:\n- root_causes..."
+      }
+    }
+  ]
+}

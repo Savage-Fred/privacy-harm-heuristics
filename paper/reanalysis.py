@@ -432,7 +432,15 @@ def headline() -> dict:
     trial_f1 = [(mode, x) for mode, v in arms_2025.items() for x in v["trial_micro_f1"]]
     obs = statistics.fmean(x for mode, x in trial_f1 if mode == "rules_static")
     combos = list(combinations(range(len(trial_f1)), 3))
-    extreme = sum(1 for c in combos if statistics.fmean(trial_f1[i][1] for i in c) >= obs - 1e-12)
+
+    def gap(c):  # mean of the chosen 3 trials minus mean of the other 15
+        rest = [x for i, (_, x) in enumerate(trial_f1) if i not in c]
+        return statistics.fmean(trial_f1[i][1] for i in c) - statistics.fmean(rest)
+
+    rs_idx = tuple(i for i, (mode, _) in enumerate(trial_f1) if mode == "rules_static")
+    obs_gap = gap(rs_idx)
+    extreme = sum(1 for c in combos if gap(c) >= obs_gap - 1e-12)
+    extreme_2 = sum(1 for c in combos if abs(gap(c)) >= abs(obs_gap) - 1e-12)
 
     empty_idx = [i for i, t in enumerate(T) if not t]
     P_cur = arms["rerun_current_scorer"][0]
@@ -458,8 +466,10 @@ def headline() -> dict:
         "trial_permutation_rules_static_micro_f1": {
             "observed_mean": obs,
             "subsets": len(combos),
-            "at_least_as_extreme": extreme,
-            "p": extreme / len(combos),
+            "one_sided_at_least_as_extreme": extreme,
+            "p_one_sided": extreme / len(combos),
+            "two_sided_at_least_as_extreme": extreme_2,
+            "p_two_sided": extreme_2 / len(combos),
         },
         "empty_set_decomposition": {
             "gold_empty": len(empty_idx),
@@ -482,6 +492,42 @@ def headline() -> dict:
             "model_name": run["config"].get("model_name"),
             "has_resolved_model": "resolved_model" in run["config"],
         },
+    }
+
+
+def superseded_runs() -> dict:
+    """The 22 same-day trial files the 2025 summary did not use (paper/trials_2025/superseded)."""
+    subtypes = solove_subtypes()
+    rows = []
+    for f in sorted((TRIALS / "superseded").glob("results_*.json")):
+        d = json.loads(f.read_text())
+        det, rec = d["details"], d["metrics"]["mlc"]
+        rows.append(
+            {
+                "file": f.name,
+                "n": len(det),
+                "exact_match_ratio": rec["exact_match_ratio"],
+                "micro_f1": rec["micro_f1"],
+                "all_predictions_empty": all(not r["pred"]["root_causes"] for r in det),
+                "prompt_echo_failures": sum(
+                    1
+                    for r in det
+                    if (r["pred"].get("rationale") or "").startswith("Failed to parse")
+                ),
+                "gold_unmapped_subtypes": all(set(r["true"]["causes"]) <= subtypes for r in det)
+                and any(r["true"]["causes"] for r in det),
+            }
+        )
+    echo = [r for r in rows if r["all_predictions_empty"]]
+    unmapped = [r for r in rows if r["gold_unmapped_subtypes"]]
+    assert all(r["all_predictions_empty"] or r["gold_unmapped_subtypes"] for r in rows)
+    return {
+        "files": len(rows),
+        "echo_runs_all_empty": len(echo),
+        "echo_runs_emr": sorted({r["exact_match_ratio"] for r in echo}),
+        "unmapped_gold_runs": len(unmapped),
+        "unmapped_gold_runs_micro_f1_max": max(r["micro_f1"] for r in unmapped),
+        "runs": rows,
     }
 
 
@@ -674,6 +720,7 @@ def main() -> None:
     result = {
         "recorded_2025": recorded_2025(),
         "headline": headline(),
+        "superseded_2025_runs": superseded_runs(),
         "prompt_identity": prompt_identity(),
         "gold_sets": gold_sets(),
         "comprehensive_runs": comprehensive_runs(),
