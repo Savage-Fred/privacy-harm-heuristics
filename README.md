@@ -8,8 +8,9 @@ This repository is the frozen companion artifact to the masters practicum
 **"Human vs Human vs Machine"** (Dec 2025). It collects public
 breach/incident reports, labels them against Solove's harm taxonomy, engineers
 features, trains a portfolio of interpretable models that export human-readable
-heuristics, and evaluates those heuristics head-to-head against LLM baselines and
-LLM-applied classical privacy frameworks.
+heuristics, and was designed to evaluate those heuristics head-to-head against LLM
+baselines and LLM-applied classical privacy frameworks. As run, the trained
+heuristics never reached the evaluated arms; see [`paper/`](paper/).
 
 ## Research questions
 
@@ -77,7 +78,7 @@ Be clear about what the offline reproduce path does and does not give you:
   gold set) gives different numbers — full table in
   [`data/experiments/rerun_20260721/README.md`](data/experiments/rerun_20260721/README.md):
 
-  | metric | recorded (late 2025, model unpinned) | rerun 2026-07-21 (`gemini-2.5-flash`) |
+  | metric | recorded (late 2025, model unpinned) | rerun 2026-07-21 (model unrecorded) |
   | :--- | :--- | :--- |
   | instance_jaccard | 0.0678 | 0.1052 |
   | exact_match_ratio | 0.6667 | 0.3600 |

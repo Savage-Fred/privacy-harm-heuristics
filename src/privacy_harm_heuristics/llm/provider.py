@@ -321,8 +321,8 @@ def complete(
         # This avoids a direct call to genai.configure which can cause linting errors.
         os.environ["GOOGLE_API_KEY"] = api_key
         model_name = _resolve_gemini_model(model)
-        # Log the resolved model at call time: Dec 2025's runs went out unpinned
-        # (recorded only "provider: gemini") and later drifted -- see
+        # Log the resolved model at call time: neither the Dec 2025 runs nor the
+        # 2026 rerun recorded which model answered (only "provider: gemini") -- see
         # data/experiments/rerun_20260721/README.md.
         logger.info("Gemini completion resolved model=%s", model_name)
         try:
