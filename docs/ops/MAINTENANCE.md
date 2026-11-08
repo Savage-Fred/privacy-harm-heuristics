@@ -1,5 +1,8 @@
 # Scheduled maintenance Routine (issue #6)
 
+> **Retired 2026-09-24.** No run ever posted here. The artifact was closed out (#9); no
+> routine maintains it. This file is kept as the record of the contract.
+
 A Claude Code Remote Routine opens a fresh cloud session once a week, checks
 this repository's health from GitHub, fixes what it safely can, and reports on
 the rolling `maintenance-log` issue. This file is the contract the routine

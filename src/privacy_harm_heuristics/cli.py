@@ -15,8 +15,8 @@ Two commands make up the "runnable story" for this practicum artifact:
   ``rules_static`` row against a reference (``--reference``):
     * ``recorded-2025`` (default): the recorded headline numbers in
       ``data/experiments/final_results_summary.md``. Offline this MISMATCHES
-      by construction (see the IMPORTANT note below); the honest root-cause /
-      provider-drift explanation is printed.
+      by construction (see the IMPORTANT note below); the root-cause and
+      changed-prompt/scorer explanation is printed.
     * ``rerun-2026``: the live 2026-07-21 rerun in
       ``data/experiments/rerun_20260721/`` with a looser tolerance (0.05, for
       LLM stochasticity). This is the regression guard for *live* runs (real
@@ -516,8 +516,8 @@ def load_rerun_reference(rerun_dir: Path) -> Optional[Dict[str, float]]:
 
     Reads the newest ``results_rules_static_*.json`` in ``rerun_dir`` (written
     by ``evals/hybrid_runner.py``) and returns the four headline columns. This
-    is the *live* regression reference; see ``rerun_20260721/README.md`` for the
-    provider-drift story that motivated pinning the model.
+    is the *live* regression reference; see ``rerun_20260721/README.md`` for why
+    it differs from the 2025 table (prompt and scorer changed; model unrecorded).
     """
     candidates = sorted(rerun_dir.glob("results_rules_static_*.json"))
     if not candidates:
@@ -721,22 +721,21 @@ def _print_check_root_cause(reference: str) -> None:
     if reference == "recorded-2025":
         typer.echo(
             "The recorded 2025 numbers (final_results_summary.md) were produced by a live Gemini\n"
-            "call whose model was never pinned -- recorded only as 'provider: gemini'. That model\n"
-            "has since drifted: the 2026-07-21 rerun (data/experiments/rerun_20260721/README.md)\n"
-            "shows EMR halving while Jaccard/NDCG roughly double under the current default\n"
-            "gemini-2.5-flash. So even a live run today will not reproduce the 2025 table exactly.\n"
-            "This is a structural property of the extracted code plus provider drift, not a bug in\n"
-            "offline wiring -- see the P2 report. For a live regression guard use\n"
+            "call whose model was never recorded -- only 'provider: gemini'. A live run today\n"
+            "will not reproduce them either: the prompt was revised on 2025-11-29 and the scorer\n"
+            "now maps predictions to groups (data/experiments/rerun_20260721/README.md, paper/).\n"
+            "This is a structural property of the extracted code plus a changed prompt and scorer,\n"
+            "not a bug in offline wiring -- see the P2 report. For a live regression guard use\n"
             "`--reference rerun-2026`; for a genuinely reproducible offline arm see\n"
             "'offline_deterministic' in the table above."
         )
     else:
         typer.echo(
             "The rerun-2026 reference (data/experiments/rerun_20260721/) was produced by a live\n"
-            "Gemini call against the now-pinned gemini-2.5-flash. It is the regression guard for\n"
+            "Gemini call (provider default, model not recorded). It is the regression guard for\n"
             "*live* runs (real GEMINI_API_KEY); offline it cannot match for the same reason above.\n"
-            "See rerun_20260721/README.md for the provider-drift story that motivated pinning the\n"
-            "model. For a genuinely reproducible offline arm see 'offline_deterministic'."
+            "See rerun_20260721/README.md for why it differs from the 2025 table (prompt and\n"
+            "scorer changed). For a genuinely reproducible offline arm see 'offline_deterministic'."
         )
 
 

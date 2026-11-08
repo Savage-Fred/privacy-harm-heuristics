@@ -1,0 +1,972 @@
+{
+  "config": {
+    "mode": "baseline",
+    "ruleset": {
+      "name": "expert_framework",
+      "version": "1.0",
+      "description": "Initial set of expert privacy rules derived from GDPR and NIST.",
+      "file": "data/rules/expert_framework.v1.0.json",
+      "rules": [
+        "If data is collected from minors, strict consent is required.",
+        "If location data is stored, it must be encrypted at rest.",
+        "If personal data is shared with third parties, a data processing agreement must be in place.",
+        "If automated decision-making is used, the user must have the right to opt-out.",
+        "If a data breach occurs, affected users must be notified within 72 hours."
+      ]
+    },
+    "provider": "gemini",
+    "model_name": null
+  },
+  "metrics": {
+    "mode": "baseline",
+    "mlc": {
+      "instance_jaccard": 0.06333333333333332,
+      "instance_f1": 0.076,
+      "micro_f1": 0.31746031746031744,
+      "macro_f1": 0.10828081232492998,
+      "hamming_loss": 0.07166666666666667,
+      "exact_match_ratio": 0.64
+    },
+    "ranking": {
+      "ndcg@5": 0.0824039931165978,
+      "map@5": 0.07444444444444444,
+      "mrr": 0.09
+    },
+    "ordinal": {
+      "weighted_kappa": 0.5319982585981715,
+      "spearman_rho": 0.4076940798440499,
+      "kendall_tau": 0.3752673775528481,
+      "accuracy": 0.72
+    }
+  },
+  "details": [
+    {
+      "case_id": "4424567",
+      "text": "The Georgia Tech Research Institute (GTRI) is the nonprofit applied research arm of the Georgia Inst...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided text is a general description of the Georgia Tech Research Institute (GTRI), including its history, funding sources, and areas of research. It does not describe any specific systems, technologies, or data handling practices that would constitute an identifiable privacy harm."
+      }
+    },
+    {
+      "case_id": "3729759",
+      "text": "Canadian tort law is composed of two parallel systems: a common law framework outside Qu\u00e9bec and a c...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided text is a general, descriptive overview of Canadian tort law. It does not describe a specific scenario, system, or action involving personal data or individuals, and therefore presents no identifiable privacy harms."
+      }
+    },
+    {
+      "case_id": "5278",
+      "text": "A copyright is a type of intellectual property that gives its owner the exclusive legal right to cop...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided text is a factual description of copyright law. It does not describe a system, service, or scenario involving the collection, processing, or dissemination of personal information, and therefore presents no identifiable privacy harms."
+      }
+    },
+    {
+      "case_id": "7360695",
+      "text": "Data synchronization is the process of establishing consistency between source and target data store...",
+      "true": {
+        "causes": [
+          "information_processing",
+          "information_dissemination"
+        ],
+        "ranking": [
+          "information_processing",
+          "information_dissemination"
+        ],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The scenario provides a neutral, technical definition of data synchronization. It does not describe a specific implementation, the type of data involved, or any handling of personal information. Therefore, no specific privacy harms can be identified from the text provided."
+      }
+    },
+    {
+      "case_id": "46011521",
+      "text": "The death of tech idealism and rise of the homeless in Northern California...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided scenario is a socio-economic statement about a regional issue. It does not describe a specific system, technology, or action that constitutes a direct privacy harm such as data collection, processing, dissemination, or invasion."
+      }
+    },
+    {
+      "case_id": "21462612",
+      "text": "In information science, profiling refers to the process of construction and application of user prof...",
+      "true": {
+        "causes": [
+          "information_dissemination",
+          "information_processing",
+          "information_collection",
+          "invasion"
+        ],
+        "ranking": [
+          "information_processing",
+          "information_dissemination",
+          "invasion",
+          "information_collection"
+        ],
+        "score": 4
+      },
+      "pred": {
+        "root_causes": [
+          "information_processing: automated decision-making and discrimination",
+          "invasion: pre-emptive judgment and social sorting",
+          "information_processing: creation of inferred profiles without consent"
+        ],
+        "ranking": [
+          "information_processing: automated decision-making and discrimination",
+          "invasion: pre-emptive judgment and social sorting",
+          "information_processing: creation of inferred profiles without consent"
+        ],
+        "harm_score": 5,
+        "rationale": "Profiling enables automated decision-making based on inferred data, leading to severe harms like discrimination (credit scoring, price discrimination) and pre-emptive judgment (identification as a security risk). This process creates and applies profiles to individuals without their knowledge or consent, subjecting them to social sorting and limiting their autonomy based on potentially inaccurate or biased classifications."
+      }
+    },
+    {
+      "case_id": "36720255",
+      "text": "Clinical commissioning groups (CCGs) were National Health Service (NHS) organisations set up by the ...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The scenario describes a legislative and organizational change within the NHS. It is a factual statement about the restructuring of administrative bodies and does not mention any collection, processing, or dissemination of personal data that would constitute a privacy harm."
+      }
+    },
+    {
+      "case_id": "46011719",
+      "text": "Call Center Agoda Reschedule...",
+      "true": {
+        "causes": [
+          "information_processing",
+          "information_collection"
+        ],
+        "ranking": [
+          "information_collection",
+          "information_processing"
+        ],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [
+          "information_dissemination",
+          "information_processing",
+          "invasion",
+          "information_collection"
+        ],
+        "ranking": [
+          "information_dissemination",
+          "information_processing",
+          "invasion",
+          "information_collection"
+        ],
+        "harm_score": 4,
+        "rationale": "The human-operated call center creates a significant vector for social engineering, allowing an attacker to potentially manipulate an agent to access or modify sensitive travel itineraries and personal data. This risk of unauthorized disclosure (information_dissemination) is amplified by potentially inadequate identity verification processes (information_processing). The interaction also inherently involves an invasion of the user's personal travel plans and may include the collection of sensitive voice data via call recording."
+      }
+    },
+    {
+      "case_id": "13866197",
+      "text": "The Railway Regulation Act 1844 (7 & 8 Vict. c. 85) was an act of the Parliament of the United Kingd...",
+      "true": {
+        "causes": [
+          "information_processing",
+          "invasion"
+        ],
+        "ranking": [
+          "information_processing",
+          "invasion"
+        ],
+        "score": 3
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The scenario describes an 1844 economic regulation regarding affordable rail travel to promote social mobility. The text provides no information about personal data collection, processing, dissemination, or any form of invasion into individuals' private lives. The act focuses on service standards and pricing, not data handling."
+      }
+    },
+    {
+      "case_id": "41739202",
+      "text": "The Kuwaiti nationality law is the legal pathway for non-nationals to become citizens of the State o...",
+      "true": {
+        "causes": [
+          "information_dissemination",
+          "information_processing",
+          "invasion"
+        ],
+        "ranking": [
+          "information_processing",
+          "invasion",
+          "information_dissemination"
+        ],
+        "score": 5
+      },
+      "pred": {
+        "root_causes": [
+          "Exclusion",
+          "Opaque information processing"
+        ],
+        "ranking": [
+          "Exclusion",
+          "Opaque information processing"
+        ],
+        "harm_score": 5,
+        "rationale": "The arbitrary and non-transparent processing of citizenship applications creates an opaque system where individuals have no visibility or recourse. This lack of procedural fairness leads to the severe and life-altering harm of exclusion, preventing non-nationals from obtaining citizenship and the fundamental rights and opportunities associated with it."
+      }
+    },
+    {
+      "case_id": "78615991",
+      "text": "Disinformation research, also called disinformation studies or misinformation research, is an academ...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The scenario describes an academic field of study, not a specific system, product, or action. While the practice of disinformation research could potentially involve privacy-implicating data collection (e.g., analyzing social media posts), the provided definition of the field itself does not constitute a privacy harm."
+      }
+    },
+    {
+      "case_id": "65205",
+      "text": "Cura\u00e7ao, officially the Country of Cura\u00e7ao, is a constituent island country within the Kingdom of th...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided text is a factual and historical description of the country of Cura\u00e7ao. It does not contain any information about systems, processes, or actions that involve the collection, processing, or dissemination of personal data, and therefore presents no identifiable privacy harms."
+      }
+    },
+    {
+      "case_id": "764323",
+      "text": "Lawmaking is the process of crafting legislation.  In its purest sense, it is the basis of governanc...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The scenario describes the abstract political process of lawmaking. It does not mention any specific collection, processing, or dissemination of personal information, nor does it describe any actions that would constitute a privacy harm."
+      }
+    },
+    {
+      "case_id": "5044573",
+      "text": "Illegal immigration, or unauthorized immigration, occurs when foreign nationals, known as aliens, vi...",
+      "true": {
+        "causes": [
+          "information_dissemination",
+          "information_processing",
+          "information_collection",
+          "invasion"
+        ],
+        "ranking": [
+          "information_processing",
+          "invasion",
+          "information_collection",
+          "information_dissemination"
+        ],
+        "score": 4
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided text is a descriptive and statistical overview of immigration trends and research findings. It does not describe a specific system, technology, or event involving the collection, processing, or dissemination of personal data. Therefore, no specific privacy harms can be identified from the text itself."
+      }
+    },
+    {
+      "case_id": "6794062",
+      "text": "NXP Semiconductors N.V. is a Dutch semiconductor manufacturing and design company with headquarters ...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided text is a factual, high-level corporate summary. It does not describe any specific actions, products, or data handling practices that would constitute a privacy harm. The information presented is public knowledge and does not involve personal data of individuals."
+      }
+    },
+    {
+      "case_id": "913154",
+      "text": "Dasiphora fruticosa is a species of hardy deciduous flowering shrub in the family Rosaceae, native t...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided text is a botanical description of a plant species, Dasiphora fruticosa. It does not contain any personal information, describe any data processing activities involving individuals, or present any scenario that could result in a privacy harm."
+      }
+    },
+    {
+      "case_id": "8343903",
+      "text": "The letter of the law and the spirit of the law are two possible ways to regard rules or laws. To ob...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided text is a conceptual definition of a legal principle. It does not describe a specific scenario involving individuals, data collection, processing, or dissemination, and therefore contains no identifiable privacy harms."
+      }
+    },
+    {
+      "case_id": "4600725",
+      "text": "Chinese nationality law details the conditions by which a person holds nationality of the People's R...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [
+          "information_processing",
+          "information_collection"
+        ],
+        "ranking": [
+          "information_processing",
+          "information_collection"
+        ],
+        "harm_score": 4,
+        "rationale": "The legal framework requires the processing of personal information (e.g., domicile via hukou, lineage) to classify individuals. This classification, a form of information processing, directly determines fundamental rights like freedom of movement and voting, and can conflict with an individual's self-identification, particularly in the case of residents of Taiwan being claimed as citizens. This system is predicated on the collection of sensitive personal data to determine and enforce nationality status."
+      }
+    },
+    {
+      "case_id": "70587885",
+      "text": "The law of Cambodia refers to the legal system of the judiciary of Cambodia, which is primarily base...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided scenario is a general, descriptive overview of the Cambodian legal system. It does not contain any information about specific actions, technologies, or data practices involving personal information. Therefore, no privacy harms can be identified from the text."
+      }
+    },
+    {
+      "case_id": "7990",
+      "text": "In computing, a data warehouse (DW or DWH), also known as an enterprise data warehouse (EDW), is a s...",
+      "true": {
+        "causes": [
+          "information_processing"
+        ],
+        "ranking": [
+          "information_processing"
+        ],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [
+          "information_processing",
+          "information_collection"
+        ],
+        "ranking": [
+          "information_processing",
+          "information_collection"
+        ],
+        "harm_score": 4,
+        "rationale": "The system's core function is to aggregate current and historical data from disparate sources (e.g., marketing, sales) into a central repository. This practice inherently facilitates secondary use and large-scale profiling, as data is repurposed for broad analysis beyond its original collection context. This aggregation creates detailed dossiers on individuals without their awareness or consent. Additionally, the centralization of vast amounts of data creates a high-value target (honeypot), significantly increasing the potential impact and severity of a data breach."
+      }
+    },
+    {
+      "case_id": "1529390",
+      "text": "The Dublin Regulation (Regulation No. 604/2013; sometimes the Dublin III Regulation; previously the ...",
+      "true": {
+        "causes": [
+          "information_processing",
+          "information_collection",
+          "invasion"
+        ],
+        "ranking": [
+          "invasion",
+          "information_processing",
+          "information_collection"
+        ],
+        "score": 5
+      },
+      "pred": {
+        "root_causes": [
+          "information_collection",
+          "information_dissemination",
+          "invasion"
+        ],
+        "ranking": [
+          "information_collection",
+          "information_dissemination",
+          "invasion"
+        ],
+        "harm_score": 5,
+        "rationale": "The system mandates the coercive collection of sensitive biometric data (fingerprints) from a highly vulnerable population. This data is stored in a centralized, pan-European database (Eurodac) and widely disseminated among member states. This creates a system of mass surveillance and control, leading to an invasion of personal autonomy by restricting movement and enabling the forced transfer of individuals based on their data."
+      }
+    },
+    {
+      "case_id": "31314287",
+      "text": "The Legal Entity Identifier (LEI) is a unique global identifier for legal entities participating in ...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [
+          "information_dissemination"
+        ],
+        "ranking": [
+          "information_dissemination"
+        ],
+        "harm_score": 3,
+        "rationale": "The system creates a publicly accessible global directory that reveals ownership structures ('who owns whom'). While targeted at legal entities, this can inadvertently expose the personal information of individuals who own or control smaller companies, partnerships, or trusts. This public dissemination of financial ownership links specific individuals to business activities, potentially exposing them to unwanted scrutiny, targeting, or security risks without a direct, individual-level opt-out mechanism."
+      }
+    },
+    {
+      "case_id": "427282",
+      "text": "In probability theory and information theory, the mutual information (MI) of two random variables is...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided text is a theoretical and academic definition of 'mutual information' from information theory. It does not describe a specific system, data practice, or scenario involving personal data. Therefore, no privacy harms can be identified."
+      }
+    },
+    {
+      "case_id": "8904199",
+      "text": "Moroccan nationality law is regulated by the Constitution of Morocco, as amended; the Moroccan Natio...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided text is a neutral, descriptive overview of Moroccan nationality law. It does not describe a specific system, technology, or action involving the collection, processing, or dissemination of personal data. Therefore, no specific privacy harms can be identified from the scenario as written."
+      }
+    },
+    {
+      "case_id": "355011",
+      "text": "In computing, an icon is a pictogram or ideogram displayed on a computer screen in order to help the...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The scenario provides a general, definitional description of a computer icon. It does not describe any specific implementation, data collection, processing, or dissemination activities that would constitute a privacy harm."
+      }
+    },
+    {
+      "case_id": "283329",
+      "text": "Personal information management (PIM) is the study and implementation of the activities that people ...",
+      "true": {
+        "causes": [
+          "information_processing"
+        ],
+        "ranking": [
+          "information_processing"
+        ],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The scenario provides a neutral, academic definition of Personal Information Management (PIM). It describes user-centric activities for managing one's own information. It does not describe a specific system, implementation, or event that results in a privacy harm. The potential for harm exists in the tools one might use for PIM (e.g., insecure cloud services), but the scenario itself is purely descriptive and does not present a privacy violation."
+      }
+    },
+    {
+      "case_id": "29342174",
+      "text": "The Institute for Information, Telecommunication and Media Law or ITM (German: Institut f\u00fcr Informat...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The scenario provides a factual, public-domain description of a research institute, its funding source, and its scientific council members. No collection, processing, or dissemination of private personal information is described. The individuals listed are public figures in their professional capacity, and their affiliation is not a privacy violation."
+      }
+    },
+    {
+      "case_id": "308722",
+      "text": "The University of Delaware (colloquially known as UD, UDel, or Delaware) is a privately governed, st...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided text is a general, public-facing description of a university. It does not describe any specific system, action, or data handling practice that involves personal information, and therefore presents no identifiable privacy harms."
+      }
+    },
+    {
+      "case_id": "1524798",
+      "text": "Edinburgh Law School is a department within the College of Arts, Humanities and Social Sciences at t...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The scenario consists entirely of publicly available, historical, and institutional information about the Edinburgh Law School. It does not describe any collection, processing, or dissemination of personal data, and therefore no privacy harms are identified."
+      }
+    },
+    {
+      "case_id": "808982",
+      "text": "Legal capacity is a quality denoting either the legal aptitude of a person to have rights and liabil...",
+      "true": {
+        "causes": [
+          "information_processing",
+          "invasion"
+        ],
+        "ranking": [
+          "invasion",
+          "information_processing"
+        ],
+        "score": 2
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided text is a legal definition and does not describe a system, action, or scenario involving the collection, processing, or dissemination of personal information. Therefore, no privacy harms are identified."
+      }
+    },
+    {
+      "case_id": "12779402",
+      "text": "English criminal law concerns offences, their prevention and the consequences, in England and Wales....",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided text is a general, encyclopedic description of the English criminal law system. It does not describe a specific scenario, action, technology, or data processing event that would constitute an identifiable privacy harm."
+      }
+    },
+    {
+      "case_id": "916345",
+      "text": "An exclusive economic zone (EEZ), as prescribed by the 1982 United Nations Convention on the Law of ...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The scenario describes the legal and geographical definition of an Exclusive Economic Zone (EEZ) under international maritime law. It does not involve any individuals, personal data, or systems that collect, process, or disseminate information about people. Therefore, no privacy harms are present."
+      }
+    },
+    {
+      "case_id": "16995787",
+      "text": "The primary law governing nationality of Cyprus is the Republic of Cyprus Citizenship Law, 1967, whi...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided text is a factual description of a legal framework for citizenship. It does not describe any specific system, technology, or action involving the collection, processing, or dissemination of personal information. Therefore, no privacy harms can be identified from the scenario."
+      }
+    },
+    {
+      "case_id": "news_eff_45b8c28f7966bcef04c1c3d229ee8db5868d66223c353a0ab5c54f30060a8705",
+      "text": "Electronic Frontier Foundation: EFF and Other Organizations: Keep Key Intelligence Positions Senate ...",
+      "true": {
+        "causes": [
+          "information_collection",
+          "invasion"
+        ],
+        "ranking": [
+          "invasion",
+          "information_collection"
+        ],
+        "score": 4
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided text is a snippet of a public article title and its beginning. It describes a public advocacy effort and does not contain any information about data collection, processing, dissemination, or any other activity that would constitute a privacy harm."
+      }
+    },
+    {
+      "case_id": "18618509",
+      "text": "The Wikimedia Foundation, Inc. (WMF) is an American 501(c)(3) nonprofit organization headquartered i...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [
+          "information_dissemination",
+          "information_collection",
+          "invasion"
+        ],
+        "ranking": [
+          "information_dissemination",
+          "invasion",
+          "information_collection"
+        ],
+        "harm_score": 3,
+        "rationale": "The platform's model requires the public and permanent dissemination of all contributions made by volunteer editors, linked directly to their username or IP address. This creates a detailed, publicly accessible history of an individual's interests, activities, and potentially sensitive beliefs. This can lead to an invasion of personal thought and association, chilling effects on speech, and risks of de-anonymization or harassment. The necessary collection of user and donor data, while standard, is a secondary contributing factor to the overall privacy risk profile."
+      }
+    },
+    {
+      "case_id": "34973773",
+      "text": "Browser security is the application of Internet security to web browsers in order to protect network...",
+      "true": {
+        "causes": [
+          "information_processing",
+          "information_collection",
+          "invasion"
+        ],
+        "ranking": [
+          "information_processing",
+          "information_collection",
+          "invasion"
+        ],
+        "score": 4
+      },
+      "pred": {
+        "root_causes": [
+          "invasion",
+          "information_collection"
+        ],
+        "ranking": [
+          "invasion",
+          "information_collection"
+        ],
+        "harm_score": 5,
+        "rationale": "Browser security vulnerabilities allow malicious actors to bypass user consent and directly invade a user's private digital space. This intrusion is the primary harm, which then enables secondary harms like the unauthorized collection of sensitive personal data, credentials, and browsing history, leading to potential identity theft, financial loss, and a complete compromise of privacy."
+      }
+    },
+    {
+      "case_id": "63842027",
+      "text": "The legal status of female genital mutilation (FGM), also known as female genital cutting (FGC), dif...",
+      "true": {
+        "causes": [
+          "invasion"
+        ],
+        "ranking": [
+          "invasion"
+        ],
+        "score": 5
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The scenario is a general statement of fact about differing legal frameworks. It does not describe any specific action, system, or data handling process that involves personal information. Therefore, no privacy harms can be identified from the text provided."
+      }
+    },
+    {
+      "case_id": "322317",
+      "text": "Economic data are data describing an actual economy, past or present. These are typically found in t...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [
+          "information_collection_sensitive_financial_data",
+          "information_processing_reidentification_risk",
+          "information_dissemination_exposure_of_raw_data"
+        ],
+        "ranking": [
+          "information_dissemination_exposure_of_raw_data",
+          "information_processing_reidentification_risk",
+          "information_collection_sensitive_financial_data"
+        ],
+        "harm_score": 2,
+        "rationale": "While most economic data described is aggregated and low-risk, the scenario explicitly mentions collecting data from surveys of individuals and households (e.g., consumption and income levels). This raw microdata is sensitive. The primary potential harms stem from the possibility of this data being disseminated (e.g., in data archives for research replicability) without sufficient anonymization, or the re-identification of individuals through sophisticated statistical processing. The harm score is low because the scenario describes standard practices for official statistics, which typically have strong regulatory and methodological privacy controls, making the identified harms potential rather than realized."
+      }
+    },
+    {
+      "case_id": "174019",
+      "text": "Nicolas Malebranche  ( mal-BRONSH; French: [nik\u0254la malb\u0281\u0251\u0303\u0283]; 6 August 1638 \u2013 13 October 1715) was a...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The scenario presents public, historical, and biographical information about a deceased individual. Privacy rights and harms typically apply to living persons. The dissemination of this information does not constitute a privacy violation."
+      }
+    },
+    {
+      "case_id": "12850023",
+      "text": "In the European Union, harmonisation of law (or simply harmonisation) is the process of creating com...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided scenario describes a legal and political process for standardizing laws within the EU. It does not mention any specific data collection, processing, or dissemination activities, nor does it describe any system or action that results in a privacy harm."
+      }
+    },
+    {
+      "case_id": "35544702",
+      "text": "Nationality law in the American colonies preceding the Articles of Confederation was a decentralized...",
+      "true": {
+        "causes": [
+          "information_processing",
+          "invasion"
+        ],
+        "ranking": [
+          "information_processing",
+          "invasion"
+        ],
+        "score": 4
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The scenario describes a historical legal framework. It does not detail any specific practices involving the collection, processing, or dissemination of personal information that would constitute a privacy harm."
+      }
+    },
+    {
+      "case_id": "221832",
+      "text": "In English civil litigation, costs are the lawyers' fees and disbursements of the parties.\nIn the ab...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The scenario describes a legal and financial framework for allocating costs in civil litigation. It does not detail any specific data collection, processing, or dissemination practices that would constitute a privacy harm. The processes described are standard, overt legal procedures within the justice system."
+      }
+    },
+    {
+      "case_id": "46492304",
+      "text": "The Cambridge International Law Journal (formerly Cambridge Journal of International and Comparative...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The scenario describes the public operations and history of an academic journal. All information mentioned, such as the names of editors, authors, and the nature of published content, is within the expected scope of public, professional, and academic discourse. There is no information provided that suggests any non-consensual or excessive collection, processing, or dissemination of personal data."
+      }
+    },
+    {
+      "case_id": "21939",
+      "text": "The National Security Agency (NSA) is an intelligence agency of the United States Department of Defe...",
+      "true": {
+        "causes": [
+          "information_processing",
+          "information_collection",
+          "invasion"
+        ],
+        "ranking": [
+          "information_collection",
+          "invasion",
+          "information_processing"
+        ],
+        "score": 5
+      },
+      "pred": {
+        "root_causes": [
+          "information_collection",
+          "invasion",
+          "information_processing"
+        ],
+        "ranking": [
+          "information_collection",
+          "invasion",
+          "information_processing"
+        ],
+        "harm_score": 5,
+        "rationale": "The agency conducts clandestine, worldwide mass data collection, intercepting and storing the communications and location data of over a billion people without consent. This is compounded by severe physical invasions, including burglary and wiretapping, to facilitate this collection. The processing of this vast dataset creates a system of pervasive surveillance with a demonstrated potential for misuse, fundamentally undermining privacy and freedom on a global scale."
+      }
+    },
+    {
+      "case_id": "16392",
+      "text": "Jurisdiction (from Latin juris 'law' and dictio 'speech' or 'declaration') is the legal term for the...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided text is a legal definition of the term 'jurisdiction'. It is a conceptual explanation and does not describe any system, action, or scenario involving the collection, processing, or dissemination of personal information. Therefore, no privacy harms are present."
+      }
+    },
+    {
+      "case_id": "1690499",
+      "text": "The Depository Institutions Deregulation and Monetary Control Act of 1980 (H.R. 4986, Pub. L. 96\u2013221...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided text is a factual description of a public law. It does not contain any information about specific actions, systems, or data practices that would constitute an identifiable privacy harm."
+      }
+    },
+    {
+      "case_id": "39418",
+      "text": "Moore's law is the observation that the number of transistors in an integrated circuit (IC) doubles ...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided text is a description of Moore's law, a historical and technical trend in the semiconductor industry. It does not describe any system, action, or scenario that involves the collection, processing, or dissemination of personal data, and therefore presents no identifiable privacy harms."
+      }
+    },
+    {
+      "case_id": "3263705",
+      "text": "The law of Germany (German: Deutsches Recht), that being the modern German legal system (German: deu...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided text is a general, informational description of the German legal system. It does not describe a specific scenario, technology, or data practice that involves the collection, processing, or dissemination of personal information, and therefore presents no identifiable privacy harms."
+      }
+    },
+    {
+      "case_id": "1407832",
+      "text": "The Concept of Law is a 1961 book by the legal philosopher H. L. A. Hart and his most famous work. T...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided text is a summary of a book on legal philosophy. It does not describe any system, action, or event that involves the collection, processing, or dissemination of personal information, nor does it constitute an invasion of privacy. Therefore, no privacy harms were identified."
+      }
+    },
+    {
+      "case_id": "3543130",
+      "text": "Underwater diving,  as a human activity, is the practice of descending below the water's surface to ...",
+      "true": {
+        "causes": [],
+        "ranking": [],
+        "score": 1
+      },
+      "pred": {
+        "root_causes": [],
+        "ranking": [],
+        "harm_score": 1,
+        "rationale": "The provided text is a factual description of the activity of underwater diving. It does not describe any system, technology, or process that involves the collection, processing, or dissemination of personal information. Therefore, no privacy harms can be identified from the scenario."
+      }
+    }
+  ]
+}

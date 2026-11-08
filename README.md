@@ -8,8 +8,9 @@ This repository is the frozen companion artifact to the masters practicum
 **"Human vs Human vs Machine"** (Dec 2025). It collects public
 breach/incident reports, labels them against Solove's harm taxonomy, engineers
 features, trains a portfolio of interpretable models that export human-readable
-heuristics, and evaluates those heuristics head-to-head against LLM baselines and
-LLM-applied classical privacy frameworks.
+heuristics, and was designed to evaluate those heuristics head-to-head against LLM
+baselines and LLM-applied classical privacy frameworks. As run, the trained
+heuristics never reached the evaluated arms; see [`paper/`](paper/).
 
 ## Research questions
 
@@ -24,8 +25,9 @@ The practicum set out to answer two questions, stated here verbatim:
 
 Recorded run — `data/experiments/final_results_summary.md`, dated **2025-11-06**,
 n=50 gold cases (`golden_cases_v3.jsonl`), Solove taxonomy normalized to 4
-high-level harm categories, LLM arms served by Gemini, 5 trials per mode
-(mean scores):
+high-level harm categories, LLM arms served by Gemini, mean scores. The summary
+says 5 trials per mode; the per-trial files it was built from
+(`paper/trials_2025/`) show 3, run on 2025-11-22:
 
 | Mode | Instance Jaccard | Exact Match Ratio | Micro F1 | Ranking NDCG@5 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -36,11 +38,21 @@ high-level harm categories, LLM arms served by Gemini, 5 trials per mode
 | RAG | 0.0467 | 0.5800 | 0.2424 | 0.0609 |
 | Hybrid (LLM first) | 0.0361 | 0.6000 | 0.1949 | 0.0492 |
 
-In this run the deterministic `rules_static` mode led every metric — a static
-block of regex/keyword privacy heuristics injected into the prompt beat the plain
+In this run the `rules_static` mode led every metric. Despite its name it is an
+LLM arm: a static block of five generic compliance sentences ("rules") is
+injected into the prompt, and the LLM produces every label. It beat the plain
 LLM baseline, RAG, and both hybrid combinations. The absolute numbers are low
-because the task is hard (multi-label harm assignment over a sparse taxonomy);
-the *ranking* of approaches is the finding.
+because the task is hard (multi-label harm assignment over a sparse taxonomy).
+
+**Read this table as a record of what was run, not as evidence that rules beat
+LLMs.** The 2026 close-out re-analysis ([`paper/`](paper/)) recovered the
+per-case outputs of all 18 trials behind this table and scored label-free
+constants with this repo's own metric code:
+
+- Predicting all four Solove groups beats `rules_static` on Jaccard and nDCG@5.
+- Predicting no harm ties it on exact match.
+- On micro-F1 it is not significantly better than the best constant.
+- In the committed code, five of the six arms send the same prompt.
 
 ### Reproducing these numbers
 
@@ -59,27 +71,28 @@ Be clear about what the offline reproduce path does and does not give you:
   to near-zero. The recorded numbers above were produced by a live cloud LLM call.
   See the `reproduce` docstring in `src/privacy_harm_heuristics/cli.py` for the
   full root-cause writeup.
-- The recorded numbers also came from an **unpinned** cloud model in late 2025 —
-  the experiment logs recorded only `provider: gemini`, with no model string. A
-  pinned re-run on **2026-07-21** (`gemini-2.5-flash`, same `rules_static` arm,
-  same n=50 gold set) lands in the **same regime** but with **materially drifted**
-  values — full table and analysis in
+- The recorded numbers came from a cloud model whose version was never
+  recorded: the 2025 logs show only `provider: gemini`, and the 2026 rerun's
+  config has `model_name: null` too (the provider default, `gemini-2.5-flash`,
+  was the same in both). A rerun on **2026-07-21** (`rules_static`, same n=50
+  gold set) gives different numbers — full table in
   [`data/experiments/rerun_20260721/README.md`](data/experiments/rerun_20260721/README.md):
 
-  | metric | recorded (late 2025, model unpinned) | rerun 2026-07-21 (`gemini-2.5-flash`) |
+  | metric | recorded (late 2025, model unpinned) | rerun 2026-07-21 (model unrecorded) |
   | :--- | :--- | :--- |
   | instance_jaccard | 0.0678 | 0.1052 |
   | exact_match_ratio | 0.6667 | 0.3600 |
   | micro_f1 | 0.3908 | 0.3356 |
   | ndcg@5 | 0.0896 | 0.1760 |
 
-  Today's model predicts non-empty harm sets far more often than the late-2025
-  model, so exact-match (dominated by empty-set agreement) roughly halves while
-  Jaccard and NDCG roughly double. This is presented as a **finding about
-  evaluating against moving cloud LLMs**, not an apology: a headline number pinned
-  to an unversioned hosted model is not reproducible by construction. The lesson
-  applied here is to pin the model string and treat the recorded table as a dated
-  historical artifact.
+  These differences are **not evidence of model drift**. Between the two runs
+  the prompt was revised (2025-11-29: a root-cause allowlist, and permission to
+  put root causes in the scored field), the scorer changed (it now maps
+  predictions to groups as well as gold), and one trial is compared against
+  three; the model may or may not have changed, and neither run records it. See
+  [`paper/`](paper/) §"Scorer and prompt changed between runs". The lesson is to
+  record the model string, prompt and scorer with every run, and to treat the
+  recorded table as a dated historical artifact.
 
 - Because the LLM arms are not offline-reproducible, this repo also ships an
   `offline_deterministic` arm (added in wave P3-D): a genuinely pure-rules
@@ -115,10 +128,12 @@ flowchart LR
     I[LLM baseline · RAG] --> H
 ```
 
-Facts are parsed by a small LLM (GLiNER2), turned into features, and fed to five
-interpretable model families. Each model exports human-readable heuristics; those
-heuristics feed the hybrid arms, which are scored on the same gold set as the LLM
-baseline, the RAG arm, and the classical-framework evaluators.
+As designed, facts are parsed by a small LLM (GLiNER2), turned into features, and
+fed to five interpretable model families, whose exported heuristics feed the
+hybrid arms. As run, the close-out re-analysis ([`paper/`](paper/)) found that
+every label in the released corpus came from the keyword fallback, not GLiNER2,
+and that the runner never passed a trained model's output to a hybrid arm, so
+the evaluated arms did not use the trained heuristics.
 
 ## Quickstart
 
@@ -135,9 +150,10 @@ Other targets:
   sample (`data/with_features.sample.jsonl`); `brl`/`bayes_net` skip cleanly if
   their optional deps aren't installed.
 - `make fetch-data` — download the full feature corpus (`with_features.jsonl`,
-  211 MB) as a `v1.0.0` GitHub **release asset** and verify it against
-  `data/CHECKSUMS.txt`. This fails with a clear message until the `v1.0.0` tag is
-  published; the committed sample is enough for `make reproduce` and `make train`.
+  143 MB) as a `v1.0.0` GitHub **release asset** and verify it against
+  `data/CHECKSUMS.txt` (published 2026-07-22). The committed sample is enough for
+  `make reproduce` and `make train`; `paper/reanalysis.py` needs the full corpus
+  only for its release-corpus counts (label sources and class shares).
 
 ## Repo map
 
@@ -172,7 +188,7 @@ What ships where:
   (`with_features.sample.jsonl`, `labeled_gliner2.sample.jsonl`). No committed
   file exceeds ~25 MB.
 - **Release asset (not committed)** — the full feature-engineered corpus
-  `with_features.jsonl` (211 MB) ships as a `v1.0.0` GitHub release asset via
+  `with_features.jsonl` (143 MB) ships as a `v1.0.0` GitHub release asset via
   `make fetch-data`. No Git LFS is used.
 - **Omitted** — the full GLiNER2-labeled corpus `labeled_gliner2_full.jsonl`
   (159 MB) is not released; use its `.sample.jsonl` for reproduction.
@@ -182,8 +198,13 @@ Samples are regenerable byte-for-byte with a fixed seed
 
 ## Paper
 
-The practicum paper, **"Human vs Human vs Machine"** (Dec 2025), is the primary
-writeup of the experiment and its findings. <!-- Drive link: Will to insert -->
+The practicum paper, **"Human vs Human vs Machine"** (Dec 2025), is the original
+writeup of the experiment. <!-- Drive link: Will to insert -->
+
+The close-out paper, [`paper/lessons.tex`](paper/lessons.tex) ("When Constants
+Win"), re-analyses the committed evidence offline and states what it does and
+does not support, with eight evaluation lessons and one data-ethics lesson. [`paper/README.md`](paper/README.md) lists the lessons and how to
+rebuild every number.
 
 ## Relationship to other work
 
@@ -194,17 +215,10 @@ disclosure ledger) lives elsewhere and does not depend on this code.
 
 ## Maintenance
 
-A weekly Claude Code Routine checks this artifact's health — CI on `main` and
-the integrity of the published release asset — and fixes what it safely can.
-Its contract is [`docs/ops/MAINTENANCE.md`](docs/ops/MAINTENANCE.md). It does
-not develop the artifact, and it does not make the headline numbers
-reproducible: see §"Reproducing these numbers" above for why they are not.
-
-When the routine has a write path it reports on the open issue labeled
-`maintenance-log`. It currently does not — the Routine carries no repository
-source, so each run is read-only and reports only inside its own session
-transcript. Fixing that is tracked in
-[#6](https://github.com/Savage-Fred/privacy-harm-heuristics/issues/6).
+None. The artifact was closed out on 2026-09-24 and the weekly maintenance
+routines were retired; none ever posted a run to this repository. The contract is kept for the record in
+[`docs/ops/MAINTENANCE.md`](docs/ops/MAINTENANCE.md). CI still runs on every
+push to `main` and every pull request.
 
 ## License & citation
 

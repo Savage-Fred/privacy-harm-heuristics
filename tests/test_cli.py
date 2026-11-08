@@ -194,7 +194,7 @@ def test_offline_deterministic_arm_is_reproducible(tmp_path: Path):
 
 def test_reproduce_check_rerun_reference_mismatch(tmp_path: Path):
     """--reference rerun-2026 uses the 0.05 tolerance and still mismatches
-    offline (near-zero fallback), citing the provider-drift story."""
+    offline (near-zero fallback), citing the changed prompt and scorer."""
     golden = tmp_path / "golden.jsonl"
     _write_golden_cases(golden)
     result = runner.invoke(
@@ -217,7 +217,7 @@ def test_reproduce_check_rerun_reference_mismatch(tmp_path: Path):
     assert result.exit_code == 1
     assert "rerun-2026" in result.output
     assert "0.05" in result.output
-    assert "provider-drift" in result.output.replace("\n", " ")
+    assert "prompt and scorer changed" in result.output.replace("\n", " ")
 
 
 def test_reproduce_rejects_unknown_reference(tmp_path: Path):

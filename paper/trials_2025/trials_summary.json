@@ -1,0 +1,1040 @@
+{
+  "baseline": {
+    "trials": 3,
+    "aggregated": {
+      "mlc.instance_jaccard": {
+        "mean": 0.05555555555555555,
+        "std": 0.005665577237325312,
+        "min": 0.05,
+        "max": 0.06333333333333332,
+        "samples": 3
+      },
+      "mlc.instance_f1": {
+        "mean": 0.06631746031746032,
+        "std": 0.007066612472873669,
+        "min": 0.059333333333333335,
+        "max": 0.076,
+        "samples": 3
+      },
+      "mlc.micro_f1": {
+        "mean": 0.2852843915343915,
+        "std": 0.024789194434627865,
+        "min": 0.2571428571428571,
+        "max": 0.31746031746031744,
+        "samples": 3
+      },
+      "mlc.macro_f1": {
+        "mean": 0.08765380860969096,
+        "std": 0.01947311435212234,
+        "min": 0.06153846153846154,
+        "max": 0.10828081232492998,
+        "samples": 3
+      },
+      "mlc.hamming_loss": {
+        "mean": 0.06505291005291004,
+        "std": 0.005689368562858883,
+        "min": 0.057777777777777775,
+        "max": 0.07166666666666667,
+        "samples": 3
+      },
+      "mlc.exact_match_ratio": {
+        "mean": 0.62,
+        "std": 0.016329931618554536,
+        "min": 0.6,
+        "max": 0.64,
+        "samples": 3
+      },
+      "ranking.ndcg@5": {
+        "mean": 0.07163804668513506,
+        "std": 0.008918169458456877,
+        "min": 0.060565484924457264,
+        "max": 0.0824039931165978,
+        "samples": 3
+      },
+      "ranking.map@5": {
+        "mean": 0.06518518518518518,
+        "std": 0.00912119285631463,
+        "min": 0.05277777777777777,
+        "max": 0.07444444444444444,
+        "samples": 3
+      },
+      "ranking.mrr": {
+        "mean": 0.07666666666666667,
+        "std": 0.012472191289246471,
+        "min": 0.06,
+        "max": 0.09,
+        "samples": 3
+      },
+      "ordinal.weighted_kappa": {
+        "mean": 0.5176374032578726,
+        "std": 0.03912859798347582,
+        "min": 0.4641763625229639,
+        "max": 0.5567375886524822,
+        "samples": 3
+      },
+      "ordinal.spearman_rho": {
+        "mean": 0.39529423982022194,
+        "std": 0.017575644317575603,
+        "min": 0.3704385462970194,
+        "max": 0.4077500933195966,
+        "samples": 3
+      },
+      "ordinal.kendall_tau": {
+        "mean": 0.36403022967115267,
+        "std": 0.01646136674121505,
+        "min": 0.3407549353922339,
+        "max": 0.376068376068376,
+        "samples": 3
+      },
+      "ordinal.accuracy": {
+        "mean": 0.7133333333333333,
+        "std": 0.009428090415820642,
+        "min": 0.7,
+        "max": 0.72,
+        "samples": 3
+      }
+    },
+    "runs": [
+      {
+        "file": "data/experiments/trials/results_baseline_20251122_111642.json",
+        "metrics": {
+          "mode": "baseline",
+          "mlc": {
+            "instance_jaccard": 0.05333333333333333,
+            "instance_f1": 0.06361904761904763,
+            "micro_f1": 0.2571428571428571,
+            "macro_f1": 0.06153846153846154,
+            "hamming_loss": 0.057777777777777775,
+            "exact_match_ratio": 0.6
+          },
+          "ranking": {
+            "ndcg@5": 0.07194466201435008,
+            "map@5": 0.06833333333333333,
+            "mrr": 0.08
+          },
+          "ordinal": {
+            "weighted_kappa": 0.4641763625229639,
+            "spearman_rho": 0.3704385462970194,
+            "kendall_tau": 0.3407549353922339,
+            "accuracy": 0.7
+          }
+        }
+      },
+      {
+        "file": "data/experiments/trials/results_baseline_20251122_112646.json",
+        "metrics": {
+          "mode": "baseline",
+          "mlc": {
+            "instance_jaccard": 0.05,
+            "instance_f1": 0.059333333333333335,
+            "micro_f1": 0.28125,
+            "macro_f1": 0.09314215196568139,
+            "hamming_loss": 0.06571428571428571,
+            "exact_match_ratio": 0.62
+          },
+          "ranking": {
+            "ndcg@5": 0.060565484924457264,
+            "map@5": 0.05277777777777777,
+            "mrr": 0.06
+          },
+          "ordinal": {
+            "weighted_kappa": 0.5567375886524822,
+            "spearman_rho": 0.4077500933195966,
+            "kendall_tau": 0.376068376068376,
+            "accuracy": 0.72
+          }
+        }
+      },
+      {
+        "file": "data/experiments/trials/results_baseline_20251122_113626.json",
+        "metrics": {
+          "mode": "baseline",
+          "mlc": {
+            "instance_jaccard": 0.06333333333333332,
+            "instance_f1": 0.076,
+            "micro_f1": 0.31746031746031744,
+            "macro_f1": 0.10828081232492998,
+            "hamming_loss": 0.07166666666666667,
+            "exact_match_ratio": 0.64
+          },
+          "ranking": {
+            "ndcg@5": 0.0824039931165978,
+            "map@5": 0.07444444444444444,
+            "mrr": 0.09
+          },
+          "ordinal": {
+            "weighted_kappa": 0.5319982585981715,
+            "spearman_rho": 0.4076940798440499,
+            "kendall_tau": 0.3752673775528481,
+            "accuracy": 0.72
+          }
+        }
+      }
+    ]
+  },
+  "rules_static": {
+    "trials": 3,
+    "aggregated": {
+      "mlc.instance_jaccard": {
+        "mean": 0.06777777777777777,
+        "std": 0.017550632221034788,
+        "min": 0.05,
+        "max": 0.09166666666666666,
+        "samples": 3
+      },
+      "mlc.instance_f1": {
+        "mean": 0.08225396825396826,
+        "std": 0.015153402205033141,
+        "min": 0.066,
+        "max": 0.10247619047619048,
+        "samples": 3
+      },
+      "mlc.micro_f1": {
+        "mean": 0.39079231410434523,
+        "std": 0.07622254359123078,
+        "min": 0.3076923076923077,
+        "max": 0.4918032786885246,
+        "samples": 3
+      },
+      "mlc.macro_f1": {
+        "mean": 0.25744753612400667,
+        "std": 0.1420723397494932,
+        "min": 0.13573232323232323,
+        "max": 0.45674603174603173,
+        "samples": 3
+      },
+      "mlc.hamming_loss": {
+        "mean": 0.1125,
+        "std": 0.03006936425444786,
+        "min": 0.09,
+        "max": 0.155,
+        "samples": 3
+      },
+      "mlc.exact_match_ratio": {
+        "mean": 0.6666666666666666,
+        "std": 0.009428090415820642,
+        "min": 0.66,
+        "max": 0.68,
+        "samples": 3
+      },
+      "ranking.ndcg@5": {
+        "mean": 0.0896291190895423,
+        "std": 0.01520433053015775,
+        "min": 0.07129496410722962,
+        "max": 0.10852510048190123,
+        "samples": 3
+      },
+      "ranking.map@5": {
+        "mean": 0.08166666666666667,
+        "std": 0.01705112139246978,
+        "min": 0.06166666666666666,
+        "max": 0.10333333333333332,
+        "samples": 3
+      },
+      "ranking.mrr": {
+        "mean": 0.10333333333333333,
+        "std": 0.009428090415820637,
+        "min": 0.09,
+        "max": 0.11,
+        "samples": 3
+      },
+      "ordinal.weighted_kappa": {
+        "mean": 0.5393401293553823,
+        "std": 0.027319131318202596,
+        "min": 0.5008419533317297,
+        "max": 0.5614035087719298,
+        "samples": 3
+      },
+      "ordinal.spearman_rho": {
+        "mean": 0.41390726170612896,
+        "std": 0.046526737615456865,
+        "min": 0.351630156427952,
+        "max": 0.4634381385141337,
+        "samples": 3
+      },
+      "ordinal.kendall_tau": {
+        "mean": 0.3884224667712151,
+        "std": 0.04647812084460766,
+        "min": 0.32644410765201026,
+        "max": 0.43836780170412804,
+        "samples": 3
+      },
+      "ordinal.accuracy": {
+        "mean": 0.7666666666666666,
+        "std": 0.018856180831641284,
+        "min": 0.74,
+        "max": 0.78,
+        "samples": 3
+      }
+    },
+    "runs": [
+      {
+        "file": "data/experiments/trials/results_rules_static_20251122_114630.json",
+        "metrics": {
+          "mode": "rules_static",
+          "mlc": {
+            "instance_jaccard": 0.06166666666666667,
+            "instance_f1": 0.07828571428571428,
+            "micro_f1": 0.3728813559322034,
+            "macro_f1": 0.17986425339366516,
+            "hamming_loss": 0.0925,
+            "exact_match_ratio": 0.66
+          },
+          "ranking": {
+            "ndcg@5": 0.08906729267949604,
+            "map@5": 0.08,
+            "mrr": 0.11
+          },
+          "ordinal": {
+            "weighted_kappa": 0.5614035087719298,
+            "spearman_rho": 0.4634381385141337,
+            "kendall_tau": 0.43836780170412804,
+            "accuracy": 0.78
+          }
+        }
+      },
+      {
+        "file": "data/experiments/trials/results_rules_static_20251122_115617.json",
+        "metrics": {
+          "mode": "rules_static",
+          "mlc": {
+            "instance_jaccard": 0.09166666666666666,
+            "instance_f1": 0.10247619047619048,
+            "micro_f1": 0.4918032786885246,
+            "macro_f1": 0.45674603174603173,
+            "hamming_loss": 0.155,
+            "exact_match_ratio": 0.68
+          },
+          "ranking": {
+            "ndcg@5": 0.10852510048190123,
+            "map@5": 0.10333333333333332,
+            "mrr": 0.11
+          },
+          "ordinal": {
+            "weighted_kappa": 0.5008419533317297,
+            "spearman_rho": 0.351630156427952,
+            "kendall_tau": 0.32644410765201026,
+            "accuracy": 0.74
+          }
+        }
+      },
+      {
+        "file": "data/experiments/trials/results_rules_static_20251122_120526.json",
+        "metrics": {
+          "mode": "rules_static",
+          "mlc": {
+            "instance_jaccard": 0.05,
+            "instance_f1": 0.066,
+            "micro_f1": 0.3076923076923077,
+            "macro_f1": 0.13573232323232323,
+            "hamming_loss": 0.09,
+            "exact_match_ratio": 0.66
+          },
+          "ranking": {
+            "ndcg@5": 0.07129496410722962,
+            "map@5": 0.06166666666666666,
+            "mrr": 0.09
+          },
+          "ordinal": {
+            "weighted_kappa": 0.5557749259624876,
+            "spearman_rho": 0.4266534901763011,
+            "kendall_tau": 0.400455490957507,
+            "accuracy": 0.78
+          }
+        }
+      }
+    ]
+  },
+  "rules_dynamic": {
+    "trials": 3,
+    "aggregated": {
+      "mlc.instance_jaccard": {
+        "mean": 0.05466666666666666,
+        "std": 0.006820448556987912,
+        "min": 0.04666666666666666,
+        "max": 0.06333333333333332,
+        "samples": 3
+      },
+      "mlc.instance_f1": {
+        "mean": 0.06796825396825396,
+        "std": 0.006496854676326932,
+        "min": 0.0618095238095238,
+        "max": 0.07695238095238094,
+        "samples": 3
+      },
+      "mlc.micro_f1": {
+        "mean": 0.28068376068376066,
+        "std": 0.03267417518487622,
+        "min": 0.24,
+        "max": 0.32,
+        "samples": 3
+      },
+      "mlc.macro_f1": {
+        "mean": 0.07351006936533253,
+        "std": 0.012717441894902986,
+        "min": 0.055714285714285716,
+        "max": 0.08466241360978204,
+        "samples": 3
+      },
+      "mlc.hamming_loss": {
+        "mean": 0.061222222222222226,
+        "std": 0.006208317797644,
+        "min": 0.056666666666666664,
+        "max": 0.07,
+        "samples": 3
+      },
+      "mlc.exact_match_ratio": {
+        "mean": 0.5933333333333333,
+        "std": 0.018856180831641284,
+        "min": 0.58,
+        "max": 0.62,
+        "samples": 3
+      },
+      "ranking.ndcg@5": {
+        "mean": 0.07324290010897216,
+        "std": 0.004431469005425538,
+        "min": 0.06780988860088702,
+        "max": 0.07866470913322893,
+        "samples": 3
+      },
+      "ranking.map@5": {
+        "mean": 0.06370370370370369,
+        "std": 0.005743726821952156,
+        "min": 0.056111111111111105,
+        "max": 0.06999999999999999,
+        "samples": 3
+      },
+      "ranking.mrr": {
+        "mean": 0.08777777777777777,
+        "std": 0.009558139185602924,
+        "min": 0.07666666666666666,
+        "max": 0.1,
+        "samples": 3
+      },
+      "ordinal.weighted_kappa": {
+        "mean": 0.4958035623396367,
+        "std": 0.04360149016463388,
+        "min": 0.45489097819563906,
+        "max": 0.5562130177514792,
+        "samples": 3
+      },
+      "ordinal.spearman_rho": {
+        "mean": 0.384958907148276,
+        "std": 0.04505356686509938,
+        "min": 0.3251538010242051,
+        "max": 0.43389426851645563,
+        "samples": 3
+      },
+      "ordinal.kendall_tau": {
+        "mean": 0.356275372370306,
+        "std": 0.04214010162075827,
+        "min": 0.30002540748840717,
+        "max": 0.40144847303587516,
+        "samples": 3
+      },
+      "ordinal.accuracy": {
+        "mean": 0.6999999999999998,
+        "std": 0.016329931618554488,
+        "min": 0.68,
+        "max": 0.72,
+        "samples": 3
+      }
+    },
+    "runs": [
+      {
+        "file": "data/experiments/trials/results_rules_dynamic_20251122_121534.json",
+        "metrics": {
+          "mode": "rules_dynamic",
+          "mlc": {
+            "instance_jaccard": 0.06333333333333332,
+            "instance_f1": 0.07695238095238094,
+            "micro_f1": 0.32,
+            "macro_f1": 0.08466241360978204,
+            "hamming_loss": 0.056666666666666664,
+            "exact_match_ratio": 0.58
+          },
+          "ranking": {
+            "ndcg@5": 0.07866470913322893,
+            "map@5": 0.06999999999999999,
+            "mrr": 0.08666666666666666
+          },
+          "ordinal": {
+            "weighted_kappa": 0.45489097819563906,
+            "spearman_rho": 0.3251538010242051,
+            "kendall_tau": 0.30002540748840717,
+            "accuracy": 0.68
+          }
+        }
+      },
+      {
+        "file": "data/experiments/trials/results_rules_dynamic_20251122_122526.json",
+        "metrics": {
+          "mode": "rules_dynamic",
+          "mlc": {
+            "instance_jaccard": 0.054000000000000006,
+            "instance_f1": 0.06514285714285714,
+            "micro_f1": 0.28205128205128205,
+            "macro_f1": 0.08015350877192982,
+            "hamming_loss": 0.07,
+            "exact_match_ratio": 0.62
+          },
+          "ranking": {
+            "ndcg@5": 0.07325410259280055,
+            "map@5": 0.06499999999999999,
+            "mrr": 0.07666666666666666
+          },
+          "ordinal": {
+            "weighted_kappa": 0.4763066910717918,
+            "spearman_rho": 0.39582865190416755,
+            "kendall_tau": 0.3673522365866356,
+            "accuracy": 0.72
+          }
+        }
+      },
+      {
+        "file": "data/experiments/trials/results_rules_dynamic_20251122_123528.json",
+        "metrics": {
+          "mode": "rules_dynamic",
+          "mlc": {
+            "instance_jaccard": 0.04666666666666666,
+            "instance_f1": 0.0618095238095238,
+            "micro_f1": 0.24,
+            "macro_f1": 0.055714285714285716,
+            "hamming_loss": 0.057,
+            "exact_match_ratio": 0.58
+          },
+          "ranking": {
+            "ndcg@5": 0.06780988860088702,
+            "map@5": 0.056111111111111105,
+            "mrr": 0.1
+          },
+          "ordinal": {
+            "weighted_kappa": 0.5562130177514792,
+            "spearman_rho": 0.43389426851645563,
+            "kendall_tau": 0.40144847303587516,
+            "accuracy": 0.7
+          }
+        }
+      }
+    ]
+  },
+  "rag": {
+    "trials": 3,
+    "aggregated": {
+      "mlc.instance_jaccard": {
+        "mean": 0.04666666666666666,
+        "std": 0.014207457613938245,
+        "min": 0.026666666666666665,
+        "max": 0.05833333333333333,
+        "samples": 3
+      },
+      "mlc.instance_f1": {
+        "mean": 0.059873015873015877,
+        "std": 0.01646569687548523,
+        "min": 0.03666666666666666,
+        "max": 0.07314285714285713,
+        "samples": 3
+      },
+      "mlc.micro_f1": {
+        "mean": 0.24241464701822757,
+        "std": 0.09116129808239215,
+        "min": 0.11428571428571428,
+        "max": 0.3188405797101449,
+        "samples": 3
+      },
+      "mlc.macro_f1": {
+        "mean": 0.08431554720258937,
+        "std": 0.0485333196677423,
+        "min": 0.02413929560743965,
+        "max": 0.1429928096594763,
+        "samples": 3
+      },
+      "mlc.hamming_loss": {
+        "mean": 0.07790253411306043,
+        "std": 0.01877504806911168,
+        "min": 0.064,
+        "max": 0.10444444444444445,
+        "samples": 3
+      },
+      "mlc.exact_match_ratio": {
+        "mean": 0.5800000000000001,
+        "std": 0.016329931618554488,
+        "min": 0.56,
+        "max": 0.6,
+        "samples": 3
+      },
+      "ranking.ndcg@5": {
+        "mean": 0.060897774005038395,
+        "std": 0.013771731720479994,
+        "min": 0.04211922329511176,
+        "max": 0.07476090863330791,
+        "samples": 3
+      },
+      "ranking.map@5": {
+        "mean": 0.05203703703703703,
+        "std": 0.011691625272344143,
+        "min": 0.03666666666666667,
+        "max": 0.06499999999999999,
+        "samples": 3
+      },
+      "ranking.mrr": {
+        "mean": 0.07555555555555556,
+        "std": 0.01133115447465063,
+        "min": 0.06,
+        "max": 0.08666666666666666,
+        "samples": 3
+      },
+      "ordinal.weighted_kappa": {
+        "mean": 0.39624966753080476,
+        "std": 0.0608699536972667,
+        "min": 0.31038113287007785,
+        "max": 0.4444444444444444,
+        "samples": 3
+      },
+      "ordinal.spearman_rho": {
+        "mean": 0.3078249972579729,
+        "std": 0.06441419921253362,
+        "min": 0.2169607221845379,
+        "max": 0.35887373757771734,
+        "samples": 3
+      },
+      "ordinal.kendall_tau": {
+        "mean": 0.2813678226453098,
+        "std": 0.06139221210148452,
+        "min": 0.19494238237740116,
+        "max": 0.3317560578091495,
+        "samples": 3
+      },
+      "ordinal.accuracy": {
+        "mean": 0.6733333333333333,
+        "std": 0.024944382578492925,
+        "min": 0.64,
+        "max": 0.7,
+        "samples": 3
+      }
+    },
+    "runs": [
+      {
+        "file": "data/experiments/trials/results_rag_20251122_124517.json",
+        "metrics": {
+          "mode": "rag",
+          "mlc": {
+            "instance_jaccard": 0.026666666666666665,
+            "instance_f1": 0.03666666666666666,
+            "micro_f1": 0.11428571428571428,
+            "macro_f1": 0.02413929560743965,
+            "hamming_loss": 0.06526315789473684,
+            "exact_match_ratio": 0.56
+          },
+          "ranking": {
+            "ndcg@5": 0.04211922329511176,
+            "map@5": 0.03666666666666667,
+            "mrr": 0.06
+          },
+          "ordinal": {
+            "weighted_kappa": 0.31038113287007785,
+            "spearman_rho": 0.2169607221845379,
+            "kendall_tau": 0.19494238237740116,
+            "accuracy": 0.64
+          }
+        }
+      },
+      {
+        "file": "data/experiments/trials/results_rag_20251122_125508.json",
+        "metrics": {
+          "mode": "rag",
+          "mlc": {
+            "instance_jaccard": 0.055,
+            "instance_f1": 0.06980952380952381,
+            "micro_f1": 0.29411764705882354,
+            "macro_f1": 0.08581453634085213,
+            "hamming_loss": 0.064,
+            "exact_match_ratio": 0.6
+          },
+          "ranking": {
+            "ndcg@5": 0.06581319008669549,
+            "map@5": 0.05444444444444445,
+            "mrr": 0.08
+          },
+          "ordinal": {
+            "weighted_kappa": 0.4444444444444444,
+            "spearman_rho": 0.35887373757771734,
+            "kendall_tau": 0.3317560578091495,
+            "accuracy": 0.7
+          }
+        }
+      },
+      {
+        "file": "data/experiments/trials/results_rag_20251122_130524.json",
+        "metrics": {
+          "mode": "rag",
+          "mlc": {
+            "instance_jaccard": 0.05833333333333333,
+            "instance_f1": 0.07314285714285713,
+            "micro_f1": 0.3188405797101449,
+            "macro_f1": 0.1429928096594763,
+            "hamming_loss": 0.10444444444444445,
+            "exact_match_ratio": 0.58
+          },
+          "ranking": {
+            "ndcg@5": 0.07476090863330791,
+            "map@5": 0.06499999999999999,
+            "mrr": 0.08666666666666666
+          },
+          "ordinal": {
+            "weighted_kappa": 0.43392342527789207,
+            "spearman_rho": 0.3476405320116634,
+            "kendall_tau": 0.3174050277493787,
+            "accuracy": 0.68
+          }
+        }
+      }
+    ]
+  },
+  "hybrid_deterministic_first": {
+    "trials": 3,
+    "aggregated": {
+      "mlc.instance_jaccard": {
+        "mean": 0.05333333333333334,
+        "std": 0.005931710140017394,
+        "min": 0.045,
+        "max": 0.05833333333333333,
+        "samples": 3
+      },
+      "mlc.instance_f1": {
+        "mean": 0.06603174603174604,
+        "std": 0.006789050511898672,
+        "min": 0.05647619047619047,
+        "max": 0.07161904761904761,
+        "samples": 3
+      },
+      "mlc.micro_f1": {
+        "mean": 0.27519463257168175,
+        "std": 0.04243454702838303,
+        "min": 0.21621621621621623,
+        "max": 0.3142857142857143,
+        "samples": 3
+      },
+      "mlc.macro_f1": {
+        "mean": 0.07695453650046014,
+        "std": 0.017255152268330513,
+        "min": 0.055882352941176466,
+        "max": 0.09814814814814814,
+        "samples": 3
+      },
+      "mlc.hamming_loss": {
+        "mean": 0.06347609219126248,
+        "std": 0.009263408697118848,
+        "min": 0.05052631578947368,
+        "max": 0.07166666666666667,
+        "samples": 3
+      },
+      "mlc.exact_match_ratio": {
+        "mean": 0.5933333333333334,
+        "std": 0.03771236166328251,
+        "min": 0.54,
+        "max": 0.62,
+        "samples": 3
+      },
+      "ranking.ndcg@5": {
+        "mean": 0.06812000964934921,
+        "std": 0.009427531656987186,
+        "min": 0.055198764607150626,
+        "max": 0.07742643603488421,
+        "samples": 3
+      },
+      "ranking.map@5": {
+        "mean": 0.06,
+        "std": 0.009813067629253167,
+        "min": 0.04666666666666666,
+        "max": 0.07,
+        "samples": 3
+      },
+      "ranking.mrr": {
+        "mean": 0.08333333333333333,
+        "std": 0.012472191289246471,
+        "min": 0.07,
+        "max": 0.1,
+        "samples": 3
+      },
+      "ordinal.weighted_kappa": {
+        "mean": 0.45093223009895445,
+        "std": 0.017854597073190547,
+        "min": 0.43249701314217437,
+        "max": 0.4750926307122272,
+        "samples": 3
+      },
+      "ordinal.spearman_rho": {
+        "mean": 0.32355724845051786,
+        "std": 0.03546723449464816,
+        "min": 0.2845889701360285,
+        "max": 0.3703908308918756,
+        "samples": 3
+      },
+      "ordinal.kendall_tau": {
+        "mean": 0.2956692185294613,
+        "std": 0.03323551132311368,
+        "min": 0.2601285230764061,
+        "max": 0.34007681544576285,
+        "samples": 3
+      },
+      "ordinal.accuracy": {
+        "mean": 0.6866666666666665,
+        "std": 0.018856180831641232,
+        "min": 0.66,
+        "max": 0.7,
+        "samples": 3
+      }
+    },
+    "runs": [
+      {
+        "file": "data/experiments/trials/results_hybrid_deterministic_first_20251122_131608.json",
+        "metrics": {
+          "mode": "hybrid_deterministic_first",
+          "mlc": {
+            "instance_jaccard": 0.045,
+            "instance_f1": 0.05647619047619047,
+            "micro_f1": 0.21621621621621623,
+            "macro_f1": 0.055882352941176466,
+            "hamming_loss": 0.06823529411764706,
+            "exact_match_ratio": 0.54
+          },
+          "ranking": {
+            "ndcg@5": 0.055198764607150626,
+            "map@5": 0.04666666666666666,
+            "mrr": 0.07
+          },
+          "ordinal": {
+            "weighted_kappa": 0.43249701314217437,
+            "spearman_rho": 0.31569194432364955,
+            "kendall_tau": 0.286802317066215,
+            "accuracy": 0.66
+          }
+        }
+      },
+      {
+        "file": "data/experiments/trials/results_hybrid_deterministic_first_20251122_132552.json",
+        "metrics": {
+          "mode": "hybrid_deterministic_first",
+          "mlc": {
+            "instance_jaccard": 0.05833333333333333,
+            "instance_f1": 0.07161904761904761,
+            "micro_f1": 0.3142857142857143,
+            "macro_f1": 0.07683310841205579,
+            "hamming_loss": 0.05052631578947368,
+            "exact_match_ratio": 0.62
+          },
+          "ranking": {
+            "ndcg@5": 0.0717348283060128,
+            "map@5": 0.06333333333333332,
+            "mrr": 0.08
+          },
+          "ordinal": {
+            "weighted_kappa": 0.4750926307122272,
+            "spearman_rho": 0.3703908308918756,
+            "kendall_tau": 0.34007681544576285,
+            "accuracy": 0.7
+          }
+        }
+      },
+      {
+        "file": "data/experiments/trials/results_hybrid_deterministic_first_20251122_133530.json",
+        "metrics": {
+          "mode": "hybrid_deterministic_first",
+          "mlc": {
+            "instance_jaccard": 0.056666666666666664,
+            "instance_f1": 0.07,
+            "micro_f1": 0.29508196721311475,
+            "macro_f1": 0.09814814814814814,
+            "hamming_loss": 0.07166666666666667,
+            "exact_match_ratio": 0.62
+          },
+          "ranking": {
+            "ndcg@5": 0.07742643603488421,
+            "map@5": 0.07,
+            "mrr": 0.1
+          },
+          "ordinal": {
+            "weighted_kappa": 0.4452070464424617,
+            "spearman_rho": 0.2845889701360285,
+            "kendall_tau": 0.2601285230764061,
+            "accuracy": 0.7
+          }
+        }
+      }
+    ]
+  },
+  "hybrid_llm_first": {
+    "trials": 3,
+    "aggregated": {
+      "mlc.instance_jaccard": {
+        "mean": 0.03611111111111111,
+        "std": 0.01887254194607003,
+        "min": 0.016666666666666666,
+        "max": 0.06166666666666666,
+        "samples": 3
+      },
+      "mlc.instance_f1": {
+        "mean": 0.04777777777777777,
+        "std": 0.022339689532199447,
+        "min": 0.02333333333333333,
+        "max": 0.07733333333333332,
+        "samples": 3
+      },
+      "mlc.micro_f1": {
+        "mean": 0.1948638564737636,
+        "std": 0.10544613220144561,
+        "min": 0.08823529411764706,
+        "max": 0.3384615384615385,
+        "samples": 3
+      },
+      "mlc.macro_f1": {
+        "mean": 0.059770782622949804,
+        "std": 0.04649351610304611,
+        "min": 0.019667832167832168,
+        "max": 0.12494747899159664,
+        "samples": 3
+      },
+      "mlc.hamming_loss": {
+        "mean": 0.06401010101010102,
+        "std": 0.006247440043018674,
+        "min": 0.056363636363636366,
+        "max": 0.07166666666666667,
+        "samples": 3
+      },
+      "mlc.exact_match_ratio": {
+        "mean": 0.6,
+        "std": 0.028284271247461926,
+        "min": 0.58,
+        "max": 0.64,
+        "samples": 3
+      },
+      "ranking.ndcg@5": {
+        "mean": 0.049159550621259686,
+        "std": 0.023815948017082606,
+        "min": 0.024692787260227562,
+        "max": 0.08143868466742701,
+        "samples": 3
+      },
+      "ranking.map@5": {
+        "mean": 0.040185185185185185,
+        "std": 0.022205240424997916,
+        "min": 0.02,
+        "max": 0.07111111111111111,
+        "samples": 3
+      },
+      "ranking.mrr": {
+        "mean": 0.06388888888888888,
+        "std": 0.02397272112265713,
+        "min": 0.04,
+        "max": 0.09666666666666666,
+        "samples": 3
+      },
+      "ordinal.weighted_kappa": {
+        "mean": 0.472633694020953,
+        "std": 0.051854586502595355,
+        "min": 0.400456794822992,
+        "max": 0.5199568500539374,
+        "samples": 3
+      },
+      "ordinal.spearman_rho": {
+        "mean": 0.3799542699384391,
+        "std": 0.031203093598988197,
+        "min": 0.33637481975769024,
+        "max": 0.4077500933195966,
+        "samples": 3
+      },
+      "ordinal.kendall_tau": {
+        "mean": 0.3505176542928967,
+        "std": 0.029666696447015684,
+        "min": 0.30892320633281745,
+        "max": 0.376068376068376,
+        "samples": 3
+      },
+      "ordinal.accuracy": {
+        "mean": 0.7066666666666667,
+        "std": 0.018856180831641232,
+        "min": 0.68,
+        "max": 0.72,
+        "samples": 3
+      }
+    },
+    "runs": [
+      {
+        "file": "data/experiments/trials/results_hybrid_llm_first_20251122_134452.json",
+        "metrics": {
+          "mode": "hybrid_llm_first",
+          "mlc": {
+            "instance_jaccard": 0.016666666666666666,
+            "instance_f1": 0.02333333333333333,
+            "micro_f1": 0.08823529411764706,
+            "macro_f1": 0.019667832167832168,
+            "hamming_loss": 0.056363636363636366,
+            "exact_match_ratio": 0.58
+          },
+          "ranking": {
+            "ndcg@5": 0.024692787260227562,
+            "map@5": 0.02,
+            "mrr": 0.04
+          },
+          "ordinal": {
+            "weighted_kappa": 0.5199568500539374,
+            "spearman_rho": 0.4077500933195966,
+            "kendall_tau": 0.376068376068376,
+            "accuracy": 0.72
+          }
+        }
+      },
+      {
+        "file": "data/experiments/trials/results_hybrid_llm_first_20251122_135417.json",
+        "metrics": {
+          "mode": "hybrid_llm_first",
+          "mlc": {
+            "instance_jaccard": 0.06166666666666666,
+            "instance_f1": 0.07733333333333332,
+            "micro_f1": 0.3384615384615385,
+            "macro_f1": 0.12494747899159664,
+            "hamming_loss": 0.07166666666666667,
+            "exact_match_ratio": 0.64
+          },
+          "ranking": {
+            "ndcg@5": 0.08143868466742701,
+            "map@5": 0.07111111111111111,
+            "mrr": 0.09666666666666666
+          },
+          "ordinal": {
+            "weighted_kappa": 0.4974874371859296,
+            "spearman_rho": 0.3957378967380305,
+            "kendall_tau": 0.36656138047749687,
+            "accuracy": 0.72
+          }
+        }
+      },
+      {
+        "file": "data/experiments/trials/results_hybrid_llm_first_20251122_140418.json",
+        "metrics": {
+          "mode": "hybrid_llm_first",
+          "mlc": {
+            "instance_jaccard": 0.03,
+            "instance_f1": 0.042666666666666665,
+            "micro_f1": 0.15789473684210525,
+            "macro_f1": 0.034697036709420606,
+            "hamming_loss": 0.064,
+            "exact_match_ratio": 0.58
+          },
+          "ranking": {
+            "ndcg@5": 0.041347179936124495,
+            "map@5": 0.029444444444444443,
+            "mrr": 0.055
+          },
+          "ordinal": {
+            "weighted_kappa": 0.400456794822992,
+            "spearman_rho": 0.33637481975769024,
+            "kendall_tau": 0.30892320633281745,
+            "accuracy": 0.68
+          }
+        }
+      }
+    ]
+  }
+}
