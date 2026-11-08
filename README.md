@@ -146,8 +146,9 @@ Other targets:
   their optional deps aren't installed.
 - `make fetch-data` — download the full feature corpus (`with_features.jsonl`,
   143 MB) as a `v1.0.0` GitHub **release asset** and verify it against
-  `data/CHECKSUMS.txt`. This fails with a clear message until the `v1.0.0` tag is
-  published; the committed sample is enough for `make reproduce` and `make train`.
+  `data/CHECKSUMS.txt` (published 2026-07-22). The committed sample is enough for
+  `make reproduce` and `make train`; `paper/reanalysis.py` needs the full corpus
+  only for its release-asset label counts.
 
 ## Repo map
 
