@@ -208,15 +208,23 @@ def load_trials(T_gold, ids) -> dict:
             PR = [list(r["pred"]["ranking"]) for r in det]
             S = [r["pred"]["harm_score"] for r in det]
             # 2025 scorer: gold mapped to groups, predictions scored raw.
-            got = score(T_gold, [r["true"]["ranking"] for r in det], P, PR)
-            rec = d["metrics"]
-            for key, want in [
-                ("instance_jaccard", rec["mlc"]["instance_jaccard"]),
-                ("exact_match_ratio", rec["mlc"]["exact_match_ratio"]),
-                ("micro_f1", rec["mlc"]["micro_f1"]),
-                ("ndcg@5", rec["ranking"]["ndcg@5"]),
-            ]:
-                assert abs(got[key] - want) < 1e-12, f"2025 scorer drift {run['file']} {key}"
+            TR = [r["true"]["ranking"] for r in det]
+            got = score(T_gold, TR, P, PR)
+            # Every recorded metric, not just the four headline ones, so a trial
+            # file corrupted only in (say) its ordinal block fails here too.
+            full = {
+                "mlc": calculate_mlc_metrics(T_gold, P),
+                "ranking": calculate_ranking_metrics(TR, PR),
+                "ordinal": calculate_ordinal_metrics([r["true"]["score"] for r in det], S),
+            }
+            for group, recomputed in full.items():
+                recorded = d["metrics"][group]
+                assert recorded.keys() == recomputed.keys(), f"metric set {run['file']} {group}"
+                for key, want in recorded.items():
+                    assert (
+                        abs(recomputed[key] - want) < 1e-12
+                    ), f"2025 scorer drift {run['file']} {group}.{key}"
+            assert abs(got["ndcg@5"] - full["ranking"]["ndcg@5"]) < 1e-12, "ndcg helper drift"
             trials.setdefault(mode, []).append(
                 {
                     "file": Path(run["file"]).name,

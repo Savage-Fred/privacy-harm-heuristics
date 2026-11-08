@@ -52,7 +52,8 @@ cd paper && latexmk -pdf lessons.tex           # -> paper/lessons.pdf
 
 Before it reports anything, `reanalysis.py` asserts that it exactly reproduces:
 
-- all 18 recorded 2025 trial files, and their means against the recorded table;
+- every recorded metric (set, ranking and ordinal) in all 18 recorded 2025 trial
+  files, and their means against the recorded table;
 - the 2026 rerun (set, ranking and ordinal metrics);
 - the repository's offline arm.
 
