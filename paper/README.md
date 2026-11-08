@@ -19,11 +19,14 @@ recovered per-case outputs of all 18 recorded trials:
 - Predicting no harm ties the arm on exact match.
 - On micro-F1, neither the headline arm nor the 2026 rerun is significantly
   better than the best constant, even with out-of-taxonomy labels filtered.
+  Against the label-free all-four constant both also tie; only the post-hoc
+  filtered rerun is better.
 - Five of the six arms sent an identical prompt. Rules-static, the one arm
-  with a different prompt, differs from them (one-sided p = 0.007), but not
+  with a different prompt, differs from them (one-sided p = 0.007,
+  unadjusted), but not
   enough to beat a constant.
 - The first research question (can heuristics estimate harm?) is still open,
-  because every training label came from a keyword fallback.
+  because every label in the released corpus came from a keyword fallback.
 
 Evaluation lessons:
 
@@ -33,7 +36,7 @@ Evaluation lessons:
 4. Diff what each arm actually sends. Five "different" arms sent one prompt.
 5. Make placeholders unable to pass for results. Every multi-arm result in the original public artifact came from a dry run. API errors echo the prompt, and twelve smoke runs scored exact-match 0.65 by predicting nothing.
 6. Keep the gold set independent of the models under test, and keep its review auditable.
-7. Measure the label pipeline you ran. 100% of training labels came from the keyword fallback, either because an LLM provider was configured (which disables GLiNER2) or because a GLiNER2 load failure was silently swallowed.
+7. Measure the label pipeline you ran. 100% of the released corpus's labels came from the keyword fallback, either because an LLM provider was configured (which disables GLiNER2) or because a GLiNER2 load failure was silently swallowed.
 8. Ship the per-case outputs behind every reported number. The extraction kept the dry runs and dropped the live trials. Also make the analysis deterministic.
 
 Data-ethics lesson: scrub at collection, not at release. Before the audit, the
@@ -61,7 +64,8 @@ It also asserts that its fast bootstrap metrics equal the repository scorer.
 
 Its output does not depend on the hash seed. To check, run it twice with
 different `PYTHONHASHSEED` values and `cmp` the JSON. Without
-`make fetch-data`, the `release_asset_v1_0_0` fields are `null`.
+`make fetch-data`, `release_asset_v1_0_0` is `null` and the two
+`*_release_share` fields are omitted.
 
 `trials_2025/` holds the trial summary and the 18 per-case result files behind
 the recorded 2025 table. `trials_2025/superseded/` holds the 22 same-day runs

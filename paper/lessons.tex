@@ -12,8 +12,10 @@
 \newif\ifanon
 \anonfalse
 
-% Every re-analysis number below is in paper/reanalysis.json, produced by
-% paper/reanalysis.py from committed artifacts and paper/trials_2025/.
+% Every computed re-analysis number below is in paper/reanalysis.json, produced
+% by paper/reanalysis.py from committed artifacts and paper/trials_2025/. A few
+% facts read from the artifacts by hand (commit dates, label kinds, the
+% provider default) are stated with their source in the text.
 
 \title{When Constants Win: Lessons from Re-analysing\\a Privacy-Harm Heuristics Evaluation}
 \author{Anonymous Author(s)}
@@ -36,14 +38,15 @@ recovered per-case outputs of all 18 recorded trials. We find:
         no harm ties the arm on exact match.
   \item On micro-F1, neither the headline arm nor a 2026 rerun is
         distinguishable from the best constant, even after out-of-taxonomy
-        labels are removed.
+        labels are removed. Against the label-free all-four constant both
+        also tie; only the post-hoc filtered rerun is better.
   \item Five of the six arms sent an identical prompt. Rules-static, the one
         arm with a different prompt, did differ from the other five (one-sided
-        $p = 0.007$), but not enough to beat a constant.
+        $p = 0.007$, unadjusted), but not enough to beat a constant.
   \item The gold set was LLM-generated and mostly off-topic.
   \item Every multi-arm result in the original public artifact came from a
         dry run on a different gold set.
-  \item Every training label came from a keyword fallback.
+  \item Every label in the released corpus came from a keyword fallback.
 \end{itemize}
 We distil eight evaluation lessons and one data-ethics lesson.
 \end{abstract}
@@ -98,7 +101,7 @@ recorded in a trial summary and 18 per-case result files. The public artifact
 omitted these; they survived in the private predecessor repository, and we
 republish them with this paper. The trial configurations record no model
 name. Earlier runs on the same day scored unmapped gold subtypes against
-group-level predictions, got zero overlap, and were superseded by one complete
+group-level predictions, got near-zero overlap, and were superseded by one complete
 pass. We republish those superseded runs too. All 22 scored against unmapped
 gold subtypes: ten 50-case runs reached micro-F1 of at most 0.022, and twelve
 20-case runs are the prompt-echo failures described in \S\ref{sec:audit}. We see
@@ -183,6 +186,8 @@ artifact, and we note below which gaps survive that adjustment.
         arm's point estimate (0.721) is higher than the constant's (0.700).
   \item On micro-F1, the arm minus the best constant, re-selected inside each
         resample from all 16 label sets, is $[-0.173, 0.214]$: a tie.
+        Against the label-free all-four constant it is $[-0.102, 0.261]$,
+        also a tie.
 \end{itemize}
 So the constants beat the headline arm on two metrics and tie it on the other
 two. The arm is not significantly better than a constant on any of the four
@@ -195,12 +200,16 @@ set metrics.
   \item All four also wins nDCG@5 by $[0.017, 0.112]$, but that gap's
         adjusted lower bound touches zero ($-0.0001$), within Monte Carlo
         error.
-  \item On micro-F1 the rerun ties the best constant ($[-0.128, 0.071]$).
+  \item On micro-F1 the rerun ties the best constant ($[-0.128, 0.071]$)
+        and the all-four constant ($[-0.035, 0.112]$).
 \end{itemize}
 The rerun's output contains eight labels outside the gold label space
 (root-cause terms such as \texttt{lack\_of\_consent}), and each is a
 guaranteed false positive. Dropping them post hoc lifts its micro-F1 to 0.463,
-but it still ties the best constant ($[-0.031, 0.217]$).
+but it still ties the best constant ($[-0.031, 0.217]$). Against the
+label-free all-four constant, though, it is better: $[0.060, 0.261]$, and
+$[0.006, 0.314]$ at the adjusted level. That is the only comparison here in
+which an arm beats a label-free constant, and it is post hoc.
 
 Against the offline arm, all four wins Jaccard ($[0.042, 0.151]$, which
 survives adjustment), micro-F1 ($[0.007, 0.149]$), and nDCG@5
@@ -230,7 +239,10 @@ deterministic model's output exists, and the runner never supplies one. The
 prompt builder never reads its context argument, so no retrieved text could
 reach the RAG arm's prompt. Building each arm's prompt offline yields two
 distinct texts: one for rules-static, and one shared by the other five. The
-2025 trials were committed together with this runner.
+2025 trials sit beside an older runner (predecessor commit
+\texttt{d1d38594}). Its prompt builder has the same mode branches, and its
+runner likewise never passes a deterministic model's output or any context,
+so the same holds for 2025.
 
 The five identical-prompt arms therefore measure replicate noise, and
 rules-static does stand out from them. Its paired micro-F1 gain over their mean
@@ -406,9 +418,11 @@ fallback text on error), and so end up on both sides of a comparison.
 Label-free constants beat the recorded headline arm on Jaccard and nDCG@5 and
 tie it on exact match and micro-F1. No arm, including a 2026 rerun with its
 out-of-taxonomy labels removed, is significantly better than the best constant
-on any of the four set metrics. Rules-static's outputs do differ from the
+on any of the four set metrics; only that post-hoc filtered rerun beats a
+label-free constant, on micro-F1. Rules-static's outputs do differ from the
 identical-prompt arms, and the arms carry real signal on severity. But the study's first question, whether heuristics can estimate harm,
-remains open, because every training label was itself a keyword heuristic.
+remains open, because every label in the released corpus was itself a keyword
+heuristic, and the training set's own labels cannot be checked.
 
 The study's uncertainty machinery (confidence intervals, corrected tests) ran
 only on dry runs against a different gold set, and its headline table carried

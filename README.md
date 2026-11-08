@@ -37,8 +37,9 @@ says 5 trials per mode; the per-trial files it was built from
 | RAG | 0.0467 | 0.5800 | 0.2424 | 0.0609 |
 | Hybrid (LLM first) | 0.0361 | 0.6000 | 0.1949 | 0.0492 |
 
-In this run the deterministic `rules_static` mode led every metric — a static
-block of regex/keyword privacy heuristics injected into the prompt beat the plain
+In this run the `rules_static` mode led every metric. Despite its name it is an
+LLM arm: a static block of five generic compliance sentences ("rules") is
+injected into the prompt, and the LLM produces every label. It beat the plain
 LLM baseline, RAG, and both hybrid combinations. The absolute numbers are low
 because the task is hard (multi-label harm assignment over a sparse taxonomy).
 
@@ -69,11 +70,11 @@ Be clear about what the offline reproduce path does and does not give you:
   to near-zero. The recorded numbers above were produced by a live cloud LLM call.
   See the `reproduce` docstring in `src/privacy_harm_heuristics/cli.py` for the
   full root-cause writeup.
-- The recorded numbers also came from an **unpinned** cloud model in late 2025 —
-  the experiment logs recorded only `provider: gemini`, with no model string. A
-  pinned re-run on **2026-07-21** (`gemini-2.5-flash`, same `rules_static` arm,
-  same n=50 gold set) lands in the **same regime** but with **materially drifted**
-  values — full table and analysis in
+- The recorded numbers came from a cloud model whose version was never
+  recorded: the 2025 logs show only `provider: gemini`, and the 2026 rerun's
+  config has `model_name: null` too (the provider default, `gemini-2.5-flash`,
+  was the same in both). A rerun on **2026-07-21** (`rules_static`, same n=50
+  gold set) gives different numbers — full table in
   [`data/experiments/rerun_20260721/README.md`](data/experiments/rerun_20260721/README.md):
 
   | metric | recorded (late 2025, model unpinned) | rerun 2026-07-21 (`gemini-2.5-flash`) |
@@ -83,13 +84,14 @@ Be clear about what the offline reproduce path does and does not give you:
   | micro_f1 | 0.3908 | 0.3356 |
   | ndcg@5 | 0.0896 | 0.1760 |
 
-  Today's model predicts non-empty harm sets far more often than the late-2025
-  model, so exact-match (dominated by empty-set agreement) roughly halves while
-  Jaccard and NDCG roughly double. This is presented as a **finding about
-  evaluating against moving cloud LLMs**, not an apology: a headline number pinned
-  to an unversioned hosted model is not reproducible by construction. The lesson
-  applied here is to pin the model string and treat the recorded table as a dated
-  historical artifact.
+  These differences are **not evidence of model drift**. Between the two runs
+  the prompt was revised (2025-11-29: a root-cause allowlist, and permission to
+  put root causes in the scored field), the scorer changed (it now maps
+  predictions to groups as well as gold), and one trial is compared against
+  three; the model may or may not have changed, and neither run records it. See
+  [`paper/`](paper/) §"Scorer and prompt changed between runs". The lesson is to
+  record the model string, prompt and scorer with every run, and to treat the
+  recorded table as a dated historical artifact.
 
 - Because the LLM arms are not offline-reproducible, this repo also ships an
   `offline_deterministic` arm (added in wave P3-D): a genuinely pure-rules
@@ -125,10 +127,12 @@ flowchart LR
     I[LLM baseline · RAG] --> H
 ```
 
-Facts are parsed by a small LLM (GLiNER2), turned into features, and fed to five
-interpretable model families. Each model exports human-readable heuristics; those
-heuristics feed the hybrid arms, which are scored on the same gold set as the LLM
-baseline, the RAG arm, and the classical-framework evaluators.
+As designed, facts are parsed by a small LLM (GLiNER2), turned into features, and
+fed to five interpretable model families, whose exported heuristics feed the
+hybrid arms. As run, the close-out re-analysis ([`paper/`](paper/)) found that
+every label in the released corpus came from the keyword fallback, not GLiNER2,
+and that the runner never passed a trained model's output to a hybrid arm, so
+the evaluated arms did not use the trained heuristics.
 
 ## Quickstart
 
@@ -148,7 +152,7 @@ Other targets:
   143 MB) as a `v1.0.0` GitHub **release asset** and verify it against
   `data/CHECKSUMS.txt` (published 2026-07-22). The committed sample is enough for
   `make reproduce` and `make train`; `paper/reanalysis.py` needs the full corpus
-  only for its release-asset label counts.
+  only for its release-corpus counts (label sources and class shares).
 
 ## Repo map
 

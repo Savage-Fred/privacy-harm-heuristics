@@ -631,6 +631,18 @@
           -0.0001,
           0.1398
         ],
+        "label_free 2025 micro_f1: rules_static - all_four": [
+          -0.1701,
+          0.3341
+        ],
+        "label_free 2026 micro_f1: filtered - all_four": [
+          0.0063,
+          0.3139
+        ],
+        "label_free 2026 micro_f1: rerun - all_four": [
+          -0.0707,
+          0.1487
+        ],
         "offline jaccard: all_four - offline": [
           0.0224,
           0.1773
@@ -692,6 +704,18 @@
         "2026 ndcg@5: all_four - rerun": [
           0.0174,
           0.1116
+        ],
+        "label_free 2025 micro_f1: rules_static - all_four": [
+          -0.1018,
+          0.2607
+        ],
+        "label_free 2026 micro_f1: filtered - all_four": [
+          0.0602,
+          0.2607
+        ],
+        "label_free 2026 micro_f1: rerun - all_four": [
+          -0.0352,
+          0.112
         ],
         "offline jaccard: all_four - offline": [
           0.042,

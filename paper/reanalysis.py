@@ -275,22 +275,26 @@ def headline() -> dict:
     }
 
     # Self-checks against recorded outputs.
-    rec = run["metrics"]
-    got = score(T, TR, *arms["rerun_current_scorer"])
-    for key, want in [
-        ("instance_jaccard", rec["mlc"]["instance_jaccard"]),
-        ("exact_match_ratio", rec["mlc"]["exact_match_ratio"]),
-        ("micro_f1", rec["mlc"]["micro_f1"]),
-        ("ndcg@5", rec["ranking"]["ndcg@5"]),
-    ]:
-        assert abs(got[key] - want) < 1e-12, f"scorer drift on {key}"
-    got_ord = calculate_ordinal_metrics(ys, ps)
-    for key in ("weighted_kappa", "accuracy", "spearman_rho", "kendall_tau"):
-        assert abs(got_ord[key] - rec["ordinal"][key]) < 1e-12, f"ordinal drift on {key}"
+    # Every recorded rerun metric, as load_trials does for the 2025 files.
+    rerun_P, rerun_PR = arms["rerun_current_scorer"]
+    full = {
+        "mlc": calculate_mlc_metrics(T, rerun_P),
+        "ranking": calculate_ranking_metrics(TR, rerun_PR),
+        "ordinal": calculate_ordinal_metrics(ys, ps),
+    }
+    for group, recomputed in full.items():
+        recorded_rerun = run["metrics"][group]
+        assert recorded_rerun.keys() == recomputed.keys(), f"rerun metric set {group}"
+        for key, want in recorded_rerun.items():
+            assert abs(recomputed[key] - want) < 1e-12, f"scorer drift on {group}.{key}"
+    assert abs(score(T, TR, rerun_P, rerun_PR)["ndcg@5"] - full["ranking"]["ndcg@5"]) < 1e-12
     ref = _run_deterministic_offline(cases, m)
     got_off = score(T, TR, off_P, off_PR)
     for key in ("instance_jaccard", "exact_match_ratio", "micro_f1", "ndcg@5"):
         assert abs(got_off[key] - ref[key]) < 1e-12, f"offline arm drift on {key}"
+    # Also pins the severity mapping copied into offline_arm().
+    off_kappa = calculate_ordinal_metrics(ys, off_S)["weighted_kappa"]
+    assert abs(off_kappa - ref["weighted_kappa"]) < 1e-12, "offline arm drift on weighted_kappa"
 
     trials = load_trials(T, ids)
     recorded = recorded_2025()
@@ -398,6 +402,11 @@ def headline() -> dict:
         add("2026 ndcg@5: all_four - rerun", a_nd - r_nd)
         add("2026 micro_f1: rerun - best_constant", r["micro_f1"] - best_f1)
         add("2026 micro_f1: filtered - best_constant", f["micro_f1"] - best_f1)
+        # Label-free counterparts (L1: report oracle and pre-specified constants
+        # separately). Kept out of the Bonferroni family so its size, and every
+        # interval above, is unchanged; they get the same adjusted level below.
+        add("label_free 2026 micro_f1: rerun - all_four", r["micro_f1"] - a["micro_f1"])
+        add("label_free 2026 micro_f1: filtered - all_four", f["micro_f1"] - a["micro_f1"])
         add("offline jaccard: all_four - offline", a["instance_jaccard"] - o["instance_jaccard"])
         add("offline micro_f1: all_four - offline", a["micro_f1"] - o["micro_f1"])
         add("offline ndcg@5: all_four - offline", a_nd - o_nd)
@@ -417,6 +426,10 @@ def headline() -> dict:
             e["jaccard_empty_as_1"] - rs_m["jaccard_empty_as_1"],
         )
         add("2025 micro_f1: rules_static - best_constant", rs_m["micro_f1"] - best_f1)
+        add(
+            "label_free 2025 micro_f1: rules_static - all_four",
+            rs_m["micro_f1"] - a["micro_f1"],
+        )
         add("2025 micro_f1: rules_static - same_prompt_arms", rs_m["micro_f1"] - sp_m["micro_f1"])
         add(
             "2025 emr: rules_static - same_prompt_arms",
@@ -431,9 +444,9 @@ def headline() -> dict:
         v = sorted(values)
         return [round(v[int(alpha / 2 * B)], 4), round(v[int((1 - alpha / 2) * B) - 1], 4)]
 
-    family = [k for k in draws if not k.startswith("single")]
+    family = [k for k in draws if not k.startswith(("single", "label_free"))]
     ci95 = {k: interval(v, ALPHA) for k, v in draws.items()}
-    bonf = {k: interval(draws[k], ALPHA / len(family)) for k in family}
+    bonf = {k: interval(draws[k], ALPHA / len(family)) for k in draws if not k.startswith("single")}
 
     # Trial-level permutation test: are the 3 rules-static trials exchangeable
     # with the 15 identical-prompt trials on micro-F1?
