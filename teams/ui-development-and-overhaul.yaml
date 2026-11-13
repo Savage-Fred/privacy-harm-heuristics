@@ -1,0 +1,250 @@
+schema_version: "1.0.0"
+team:
+  id: "ui-development-and-overhaul"
+  name: "Privacy Harm Heuristics UI Development and Overhaul Autonomous Team"
+  version: "1.0.0"
+  description: "Autonomous multi-agent team dedicated to designing, building, serving, and overhauling user interfaces for privacy-harm-heuristics, delivering an offline-first interactive studio, exposing REST API endpoints, visualizing decision tree heuristics, and providing 0-100 incident risk scoring."
+  default_orchestrator: "ui_architect"
+
+model_tiers:
+  orchestrator: "pro"  # Gemini 4 Argon High
+  specialist: "flash"  # Gemini 3.8 Flash High
+  auditor: "flash"     # Gemini 3.8 Flash High
+
+roster:
+  - role_id: "ui_architect"
+    name: "UI Architect & Product Lead"
+    tier: "pro"
+    model: "gemini-4-argon-high"
+    responsibilities:
+      - "Architect the Privacy Harm Heuristics Studio UI system, defining modular component hierarchies and data flow"
+      - "Specify formal REST API contracts matching docs/architecture/INTERPRETABILITY_GUIDE.md and schema definitions"
+      - "Direct the UI overhaul: replace legacy unextracted templates with a self-contained, offline-first application"
+      - "Manage packaging and optional dependencies ([project.optional-dependencies] ui = [...]) in pyproject.toml"
+      - "Integrate server CLI commands (privacy-harm-heuristics ui / privacy-harm-heuristics serve) into cli.py and Makefile"
+    capabilities:
+      - "read_file"
+      - "write_file"
+      - "edit_file"
+      - "run_command"
+      - "send_message"
+    tools:
+      - "python_runtime"
+      - "typer_cli_manager"
+      - "pyproject_packager"
+      - "git_inspector"
+    file_scope:
+      allow:
+        - "pyproject.toml"
+        - "Makefile"
+        - "docs/**"
+        - "src/privacy_harm_heuristics/cli.py"
+        - "src/privacy_harm_heuristics/web/**"
+        - "ui/**"
+      deny:
+        - ".git/**"
+        - ".venv/**"
+    resources:
+      - "docs/architecture/INTERPRETABILITY_GUIDE.md"
+      - "docs/OVERVIEW.md"
+      - "docs/MODELING_AND_HEURISTICS.md"
+      - "src/privacy_harm_heuristics/cli.py"
+      - "pyproject.toml"
+      - "Makefile"
+
+  - role_id: "backend_api_engineer"
+    name: "Backend Service & API Engineer"
+    tier: "flash"
+    model: "gemini-3.8-flash-high"
+    responsibilities:
+      - "Implement the REST API service layer in src/privacy_harm_heuristics/web/ exposing /api/root-cause-explanations, /api/score, /api/tree, /api/rules, and /api/leaderboard"
+      - "Connect API endpoints to core scoring engines (ScoringEngine, HybridScorer) with strict offline fallback guarantees (provider='fallback')"
+      - "Implement high-performance model and heuristic serialization adapters with mtime-based cache invalidation"
+      - "Define Pydantic request and response schemas ensuring strict typing and schema validation"
+      - "Implement CLI serve daemon with configurable host, port, reload, and browser launch flags"
+    capabilities:
+      - "read_file"
+      - "write_file"
+      - "edit_file"
+      - "run_command"
+      - "send_message"
+    tools:
+      - "fastapi_starlette_flask"
+      - "pydantic_v2"
+      - "scoring_engine_adapter"
+      - "cache_manager"
+    file_scope:
+      allow:
+        - "src/privacy_harm_heuristics/web/**"
+        - "src/privacy_harm_heuristics/cli.py"
+        - "tests/test_web_api.py"
+      deny:
+        - ".git/**"
+        - ".venv/**"
+    resources:
+      - "src/privacy_harm_heuristics/science/scoring.py"
+      - "src/privacy_harm_heuristics/models/heuristics.py"
+      - "trained_models/decision_tree_v4/heuristics_tree.json"
+      - "data/rules/"
+      - "docs/architecture/INTERPRETABILITY_GUIDE.md"
+      - "tests/test_cli.py"
+
+  - role_id: "frontend_viz_engineer"
+    name: "Frontend & Visualization Engineer"
+    tier: "flash"
+    model: "gemini-3.8-flash-high"
+    responsibilities:
+      - "Construct the Privacy Harm Heuristics Studio frontend comprising 4 interactive modules (Assessor, Tree Visualizer, Interpretability, Leaderboard)"
+      - "Build Module 1: Incident Harm Assessor ('Temperature Check') with 0-100 risk dial, harm breakdowns, framework provenance radar (% Solove, % NIST, % GDPR, % Zuboff), and mitigation recommendations"
+      - "Build Module 2: Interactive Decision Tree & Rule Catalog Visualizer parsing nested heuristics_tree.json with branch conditions, support, and leaf predictions"
+      - "Build Module 3: Root Cause & Interpretability Explorer displaying red risk-increasing cards (odds ratio > 1.0) and green risk-mitigating cards (odds ratio < 1.0)"
+      - "Build Module 4: Experiment Leaderboard comparing hybrid and heuristic model benchmarks"
+      - "Implement responsive design, light/dark mode tokens, and offline-bundled static assets with zero external CDN dependencies"
+    capabilities:
+      - "read_file"
+      - "write_file"
+      - "edit_file"
+      - "run_command"
+      - "send_message"
+    tools:
+      - "html5_canvas_svg"
+      - "tree_graph_renderer"
+      - "css_token_system"
+      - "asset_bundler"
+    file_scope:
+      allow:
+        - "src/privacy_harm_heuristics/web/static/**"
+        - "src/privacy_harm_heuristics/web/templates/**"
+        - "src/privacy_harm_heuristics/web/ui/**"
+      deny:
+        - ".git/**"
+        - ".venv/**"
+    resources:
+      - "trained_models/decision_tree_v4/heuristics_tree.json"
+      - "heuristics/"
+      - "data/rules/"
+      - "data/experiments/final_results_summary.md"
+      - "docs/architecture/INTERPRETABILITY_GUIDE.md"
+
+  - role_id: "ui_qa_engineer"
+    name: "UI Verification & QA Engineer"
+    tier: "flash"
+    model: "gemini-3.8-flash-high"
+    responsibilities:
+      - "Develop unit and integration tests for API endpoints using TestClient in tests/test_web_api.py"
+      - "Develop end-to-end smoke tests for CLI server commands using Typer CliRunner in tests/test_ui_cli.py"
+      - "Perform accessibility (a11y) audits enforcing WCAG 2.1 AA compliance (ARIA landmarks, focus rings, keyboard navigability, contrast ratios)"
+      - "Verify strict offline execution (zero unmocked network egress calls to external CDNs or APIs)"
+      - "Benchmark response latency ensuring cached endpoint responses resolve in < 15ms"
+    capabilities:
+      - "read_file"
+      - "run_command"
+      - "send_message"
+    tools:
+      - "pytest"
+      - "testclient"
+      - "cli_runner"
+      - "a11y_auditor"
+    file_scope:
+      allow:
+        - "tests/test_web_api.py"
+        - "tests/test_ui_cli.py"
+        - "tests/ui/**"
+        - "tests/conftest.py"
+      deny:
+        - "src/**"
+    resources:
+      - "tests/conftest.py"
+      - "tests/test_cli.py"
+      - "docs/architecture/INTERPRETABILITY_GUIDE.md"
+
+resources:
+  cli_entrypoint: "src/privacy_harm_heuristics/cli.py"
+  heuristics_tree_artifact: "trained_models/decision_tree_v4/heuristics_tree.json"
+  scoring_engine_source: "src/privacy_harm_heuristics/science/scoring.py"
+  rules_dir: "data/rules/"
+  heuristics_dir: "heuristics/"
+  experiments_summary: "data/experiments/final_results_summary.md"
+  interpretability_spec: "docs/architecture/INTERPRETABILITY_GUIDE.md"
+  verification_commands:
+    api_test: ".venv/bin/pytest tests/test_web_api.py -q"
+    ui_cli_test: ".venv/bin/pytest tests/test_ui_cli.py -q"
+    full_test: ".venv/bin/pytest tests/"
+    lint: "make lint"
+    cli_serve_help: ".venv/bin/python -m privacy_harm_heuristics.cli ui --help"
+
+workflows:
+  - id: "W1_architecture_and_packaging"
+    name: "UI Architecture & Packaging Workflow"
+    lead_role: "ui_architect"
+    supporting_roles:
+      - "backend_api_engineer"
+    description: "Define component layouts, declare optional dependencies in pyproject.toml, and standardize API response schemas."
+    steps:
+      - "ui_architect reviews docs/architecture/INTERPRETABILITY_GUIDE.md and specifies API endpoints"
+      - "ui_architect declares UI dependencies in pyproject.toml under [project.optional-dependencies] ui"
+      - "backend_api_engineer defines Pydantic schemas for /api/root-cause-explanations, /api/score, and /api/tree"
+      - "ui_architect validates package installation compatibility"
+    verification:
+      command: ".venv/bin/python -c 'import privacy_harm_heuristics; print(\"Package importable\")'"
+      criteria: "Dependencies install cleanly without altering core requirements."
+
+  - id: "W2_backend_api_and_cli_service"
+    name: "Backend Service & CLI Integration Workflow"
+    lead_role: "backend_api_engineer"
+    supporting_roles:
+      - "ui_architect"
+      - "ui_qa_engineer"
+    description: "Implement API router, hook into ScoringEngine with offline fallback, and register CLI ui command."
+    steps:
+      - "backend_api_engineer implements src/privacy_harm_heuristics/web/server.py and api routers"
+      - "backend_api_engineer connects /api/score to HybridScorer(provider='fallback') ensuring offline execution"
+      - "backend_api_engineer registers ui and serve commands in src/privacy_harm_heuristics/cli.py"
+      - "ui_qa_engineer writes unit tests in tests/test_web_api.py verifying 200 responses and valid schemas"
+    verification:
+      command: ".venv/bin/pytest tests/test_web_api.py"
+      criteria: "All API endpoint tests pass, returning valid JSON and headers."
+
+  - id: "W3_frontend_visualization_build"
+    name: "Frontend Visualization & Dashboard Construction"
+    lead_role: "frontend_viz_engineer"
+    supporting_roles:
+      - "ui_architect"
+      - "ui_qa_engineer"
+    description: "Construct interactive visual views for Temperature Check, Decision Tree graph, Interpretability cards, and Leaderboard."
+    steps:
+      - "frontend_viz_engineer creates modular UI layout with responsive CSS and dark mode support"
+      - "frontend_viz_engineer renders decision tree graph from trained_models/decision_tree_v4/heuristics_tree.json"
+      - "frontend_viz_engineer builds interactive incident submission form connecting to /api/score"
+      - "frontend_viz_engineer builds root-cause card browser connecting to /api/root-cause-explanations"
+      - "frontend_viz_engineer verifies zero external CDN references (all assets local/bundled)"
+    verification:
+      command: "test -f src/privacy_harm_heuristics/web/static/index.html || test -f src/privacy_harm_heuristics/web/templates/index.html"
+      criteria: "Frontend assets bundled and render without missing resource errors."
+
+  - id: "W4_ui_verification_and_a11y_audit"
+    name: "UI Verification, CLI Testing & Accessibility Audit"
+    lead_role: "ui_qa_engineer"
+    supporting_roles:
+      - "frontend_viz_engineer"
+      - "backend_api_engineer"
+    description: "Validate end-to-end user journeys, benchmark latency, and audit accessibility."
+    steps:
+      - "ui_qa_engineer runs full test suite including tests/test_web_api.py and tests/test_ui_cli.py"
+      - "ui_qa_engineer audits HTML output for WCAG 2.1 AA compliance (ARIA landmarks, contrast, labels)"
+      - "ui_qa_engineer tests server startup and graceful termination via CliRunner"
+      - "ui_qa_engineer benchmarks endpoint response times (< 15ms target for cached endpoints)"
+    verification:
+      command: ".venv/bin/pytest tests/ && make lint"
+      criteria: "Zero test failures, zero lint regressions, clean working tree."
+
+validation_gates:
+  pre_merge:
+    - "Zero test regressions across full pytest suite (.venv/bin/pytest tests/)"
+    - "Zero lint violations across ruff, black, and mypy (make lint)"
+    - "Offline-first guarantee: all UI features and API endpoints execute without external network access"
+    - "API response conformance to docs/architecture/INTERPRETABILITY_GUIDE.md schemas"
+  performance_baselines:
+    api_cached_latency_ms_max: 15.0
+    initial_page_load_ms_max: 50.0
+    wcag_compliance_standard: "WCAG 2.1 AA"

@@ -1,0 +1,334 @@
+schema_version: "1.0.0"
+team:
+  id: "research-and-validation"
+  name: "Privacy Harm Heuristics Research and Validation Autonomous Team"
+  version: "1.0.0"
+  description: "Autonomous multi-agent team dedicated to empirical privacy harm heuristics research, interpretable model training (Decision Tree, Sparse Linear, EBM, BRL, Bayes Net), weak-supervision calibration, and multi-metric benchmark replication against Solove, NIST, GDPR, and ISO frameworks."
+  default_orchestrator: "research_lead"
+
+model_tiers:
+  orchestrator: "pro"  # Gemini 4 Argon High
+  specialist: "flash"  # Gemini 3.8 Flash High
+  auditor: "pro"       # Gemini 4 Argon High
+
+roster:
+  - role_id: "research_lead"
+    name: "Lead Research & Taxonomy Architect"
+    tier: "pro"
+    model: "gemini-4-argon-high"
+    responsibilities:
+      - "Curate and expand privacy harm taxonomy categories and definitions aligned with Solove (16 categories across 4 groups: collection, processing, dissemination, invasion)"
+      - "Synthesize cross-framework mappings between legal articles (GDPR Art. 83, NIST Privacy Framework, ISO/IEC 29100) and technical incident root causes"
+      - "Maintain normative, expert, and learned rule sets in data/rules/*.json"
+      - "Formulate empirical research hypotheses and design experimental trials regarding heuristic interpretability vs predictive performance"
+      - "Lead multi-agent research planning and synthesis of findings in docs/"
+    capabilities:
+      - "read_file"
+      - "write_file"
+      - "edit_file"
+      - "run_command"
+      - "send_message"
+    tools:
+      - "python_runtime"
+      - "json_schema_validator"
+      - "file_editor"
+      - "git_inspector"
+    file_scope:
+      allow:
+        - "docs/**"
+        - "heuristics/**"
+        - "data/rules/**"
+        - "src/privacy_harm_heuristics/constants/**"
+        - "data/experiments/**"
+      deny:
+        - ".git/**"
+        - ".venv/**"
+    resources:
+      - "src/privacy_harm_heuristics/constants/privacy_taxonomy.py"
+      - "data/rules/solove.v1.0.json"
+      - "data/rules/nist.v1.0.json"
+      - "data/rules/gdpr.v1.0.json"
+      - "data/rules/expert_framework.v1.0.json"
+      - "docs/reference/GLOBAL_PRIVACY_FRAMEWORKS.md"
+      - "docs/OVERVIEW.md"
+      - "tests/test_harm_taxonomy.py"
+
+  - role_id: "model_engineer"
+    name: "Interpretable Model Engineer"
+    tier: "flash"
+    model: "gemini-3.8-flash-high"
+    responsibilities:
+      - "Train, tune, and evaluate the 5 interpretable models: Decision Tree, Sparse Linear, Explainable Boosting Machine (EBM), Bayesian Rule Lists (BRL), and Bayesian Networks (Bayes Net)"
+      - "Extract human-readable heuristics, decision rules, linear odds-ratio pseudo-rules, and tree graphs (heuristics.jsonl, HEURISTICS.md, heuristics_tree.json)"
+      - "Manage model serialization checkpoints under trained_models/ with metrics.json, provenance.json, and feature_names.json"
+      - "Maintain feature engineering builder pipelines and product feature ontologies"
+    capabilities:
+      - "read_file"
+      - "write_file"
+      - "edit_file"
+      - "run_command"
+      - "send_message"
+    tools:
+      - "cli_train_all"
+      - "scikit_learn"
+      - "interpret_ml"
+      - "imodels"
+      - "pomegranate"
+      - "joblib"
+    file_scope:
+      allow:
+        - "src/privacy_harm_heuristics/models/**"
+        - "src/privacy_harm_heuristics/features/**"
+        - "heuristics/**"
+        - "trained_models/**"
+        - "results/heuristics/**"
+      deny:
+        - ".git/**"
+        - ".venv/**"
+    resources:
+      - "src/privacy_harm_heuristics/models/trainers/"
+      - "src/privacy_harm_heuristics/models/heuristics.py"
+      - "src/privacy_harm_heuristics/models/serialize.py"
+      - "src/privacy_harm_heuristics/features/builder.py"
+      - "data/with_features.sample.jsonl"
+      - "trained_models/"
+      - "tests/test_decision_tree_trainer.py"
+      - "tests/test_sparse_linear_trainer.py"
+      - "tests/test_ebm_trainer.py"
+      - "tests/test_brl_trainer.py"
+      - "tests/test_bayes_net_trainer.py"
+
+  - role_id: "eval_specialist"
+    name: "Benchmark & Evaluation Specialist"
+    tier: "flash"
+    model: "gemini-3.8-flash-high"
+    responsibilities:
+      - "Maintain gold-standard evaluation benchmarks on curated incident datasets (golden_cases_v3.jsonl, golden_with_features.jsonl)"
+      - "Compute Multi-Label Classification (MLC) metrics: instance Jaccard, Exact Match Ratio (EMR), Micro/Macro F1, Hamming loss"
+      - "Compute ranking metrics: NDCG@5, MAP@5, MRR@5, Kendall's tau, Spearman rank correlation"
+      - "Compute ordinal severity metrics: Cohen's quadratic-weighted kappa and Expected Calibration Error (ECE)"
+      - "Execute regression gating checks and verify byte-stability of the offline deterministic keyword scoring arm"
+    capabilities:
+      - "read_file"
+      - "run_command"
+      - "send_message"
+    tools:
+      - "cli_reproduce"
+      - "pytest"
+      - "offline_deterministic_scorer"
+      - "eval_metrics_engine"
+    file_scope:
+      allow:
+        - "src/privacy_harm_heuristics/evals/**"
+        - "data/experiments/**"
+        - "results/comparison/**"
+        - "tests/evals/**"
+      deny:
+        - ".git/**"
+        - ".venv/**"
+    resources:
+      - "src/privacy_harm_heuristics/evals/metrics.py"
+      - "src/privacy_harm_heuristics/cli.py"
+      - "data/golden_cases_v3.jsonl"
+      - "data/golden_with_features.jsonl"
+      - "data/experiments/final_results_summary.md"
+      - "data/experiments/rerun_20260721/README.md"
+      - "tests/evals/test_metrics.py"
+      - "tests/test_cli.py"
+
+  - role_id: "hybrid_evaluator"
+    name: "Hybrid & LLM Systems Evaluator"
+    tier: "flash"
+    model: "gemini-3.8-flash-high"
+    responsibilities:
+      - "Evaluate and optimize the 6 hybrid reasoning modes combining deterministic heuristics with LLMs (baseline, rules_static, rules_dynamic, rag, hybrid_deterministic_first, hybrid_llm_first)"
+      - "Manage LLM provider configuration, rate limiting, and model string pinning (gemini-2.5-flash, gemini-2.5-pro, gpt-4o-mini, fallback)"
+      - "Run multi-iteration comparison trials with Beta-distribution confidence tracking and request capping"
+      - "Track and document provider drift against frozen baseline references"
+    capabilities:
+      - "read_file"
+      - "write_file"
+      - "edit_file"
+      - "run_command"
+      - "send_message"
+    tools:
+      - "hybrid_runner"
+      - "comparison_trials"
+      - "llm_provider"
+      - "pace_limiter"
+    file_scope:
+      allow:
+        - "src/privacy_harm_heuristics/models/hybrid.py"
+        - "src/privacy_harm_heuristics/llm/**"
+        - "src/privacy_harm_heuristics/evals/hybrid_runner.py"
+        - "src/privacy_harm_heuristics/evals/comparison_trials.py"
+        - "data/experiments/**"
+      deny:
+        - ".git/**"
+        - ".venv/**"
+    resources:
+      - "src/privacy_harm_heuristics/models/hybrid.py"
+      - "src/privacy_harm_heuristics/llm/provider.py"
+      - "src/privacy_harm_heuristics/evals/hybrid_runner.py"
+      - "src/privacy_harm_heuristics/evals/comparison_trials.py"
+      - "docs/COMPARISON_TRIALS.md"
+      - "tests/test_provider_pinning.py"
+      - "tests/test_llm_eval.py"
+
+  - role_id: "provenance_auditor"
+    name: "Data Provenance & Ethics Auditor"
+    tier: "pro"
+    model: "gemini-4-argon-high"
+    responsibilities:
+      - "Enforce strict PII and sensitive content scrubbing on all sample corpora, dropping 20+ forbidden fields"
+      - "Verify deterministic sample regeneration with fixed random seeds via scripts/make_samples.py"
+      - "Maintain cryptographic SHA-256 integrity checksums in data/CHECKSUMS.txt"
+      - "Audit train, validation, and golden test splits to guarantee zero data leakage"
+    capabilities:
+      - "read_file"
+      - "run_command"
+      - "send_message"
+    tools:
+      - "make_samples_script"
+      - "sha256sum"
+      - "pytest_scrub_audit"
+    file_scope:
+      allow:
+        - "scripts/**"
+        - "data/**"
+        - "tests/test_scrub.py"
+        - "docs/RELEASE-AUDIT.md"
+      deny:
+        - ".git/**"
+        - ".venv/**"
+    resources:
+      - "scripts/make_samples.py"
+      - "tests/test_scrub.py"
+      - "data/CHECKSUMS.txt"
+      - "docs/RELEASE-AUDIT.md"
+      - "data/README.md"
+
+resources:
+  test_suite: "tests/"
+  heuristics_dir: "heuristics/"
+  data_dir: "data/"
+  docs_dir: "docs/"
+  rules_dir: "data/rules/"
+  trained_models_dir: "trained_models/"
+  reference_metrics: "data/experiments/final_results_summary.md"
+  reference_baselines:
+    recorded_2025:
+      rules_static:
+        jaccard: 0.0678
+        exact_match_ratio: 0.6667
+        micro_f1: 0.3908
+        ndcg_at_5: 0.0896
+      offline_deterministic:
+        jaccard: 0.0808
+        exact_match_ratio: 0.0800
+        micro_f1: 0.2222
+        ndcg_at_5: 0.1623
+    rerun_2026:
+      rules_static:
+        jaccard: 0.1052
+        exact_match_ratio: 0.3600
+        micro_f1: 0.3356
+        ndcg_at_5: 0.1760
+  verification_commands:
+    quick_test: ".venv/bin/pytest tests/ -m 'not slow' -q"
+    full_test: ".venv/bin/pytest tests/"
+    lint: "make lint"
+    offline_reproduce: ".venv/bin/python -m privacy_harm_heuristics.cli reproduce --check --reference recorded-2025"
+    train_models: ".venv/bin/python -m privacy_harm_heuristics.cli train-all --data data/with_features.sample.jsonl --golden data/golden_with_features.jsonl"
+    scrub_audit: ".venv/bin/pytest tests/test_scrub.py"
+    checksum_verify: "sha256sum -c data/CHECKSUMS.txt"
+
+workflows:
+  - id: "W1_taxonomy_and_rules_curation"
+    name: "Taxonomy & Rules Curation Workflow"
+    lead_role: "research_lead"
+    supporting_roles:
+      - "provenance_auditor"
+    description: "Curate taxonomy categories, subtype mappings, keyword dictionaries, and framework rulesets."
+    steps:
+      - "research_lead reviews incident patterns and updates src/privacy_harm_heuristics/constants/privacy_taxonomy.py"
+      - "research_lead synchronizes data/rules/*.json with legal framework articles and technical root causes"
+      - "provenance_auditor verifies that rule conditions and examples contain zero PII or sensitive identities"
+      - "research_lead verifies taxonomy integrity via test suite"
+    verification:
+      command: ".venv/bin/pytest tests/test_harm_taxonomy.py"
+      criteria: "All taxonomy tests pass with zero schema errors or unmapped categories."
+
+  - id: "W2_model_training_and_heuristics_extraction"
+    name: "Interpretable Model Training & Heuristics Extraction"
+    lead_role: "model_engineer"
+    supporting_roles:
+      - "eval_specialist"
+    description: "Train interpretable models, serialize checkpoints, and extract readable heuristic rules."
+    steps:
+      - "model_engineer loads sample feature data from data/with_features.sample.jsonl"
+      - "model_engineer executes model training for Decision Tree, Sparse Linear, EBM, BRL, and Bayes Net"
+      - "model_engineer extracts heuristics into heuristics.jsonl, HEURISTICS.md, and heuristics_tree.json"
+      - "model_engineer writes model artifacts, metrics.json, and provenance.json under trained_models/"
+      - "eval_specialist verifies model trainer test suite"
+    verification:
+      command: ".venv/bin/pytest tests/test_decision_tree_trainer.py tests/test_sparse_linear_trainer.py tests/test_ebm_trainer.py tests/test_heuristics_serialization.py"
+      criteria: "All trainer tests pass, artifacts serialized cleanly, heuristics extracted with valid syntax."
+
+  - id: "W3_benchmark_and_evaluation"
+    name: "Offline Deterministic Benchmark & Regression Gating"
+    lead_role: "eval_specialist"
+    supporting_roles:
+      - "model_engineer"
+      - "hybrid_evaluator"
+    description: "Evaluate models against golden cases, calculate MLC/ranking/ordinal metrics, and gate regressions."
+    steps:
+      - "eval_specialist loads golden cases from data/golden_cases_v3.jsonl"
+      - "eval_specialist runs offline reproduce command with fallback provider"
+      - "eval_specialist verifies byte-stability of offline_deterministic keyword rules (Jaccard: 0.0808, EMR: 0.0800, F1: 0.2222)"
+      - "eval_specialist verifies output files results/comparison/comparison.json and comparison_table.md"
+      - "eval_specialist checks regression tolerances against reference metrics"
+    verification:
+      command: ".venv/bin/pytest tests/test_cli.py tests/evals/test_metrics.py"
+      criteria: "All metric computation tests pass; CLI reproduce command succeeds offline with zero network calls."
+
+  - id: "W4_hybrid_and_llm_evaluation"
+    name: "Hybrid Architecture & LLM Drift Evaluation"
+    lead_role: "hybrid_evaluator"
+    supporting_roles:
+      - "eval_specialist"
+    description: "Evaluate hybrid reasoning modes, manage model string pinning, and track LLM provider drift."
+    steps:
+      - "hybrid_evaluator verifies model string pinning (e.g., gemini-2.5-flash) and API configuration"
+      - "hybrid_evaluator executes multi-iteration comparison trials with Beta-distribution confidence tracking"
+      - "hybrid_evaluator computes cross-mode performance delta (Baseline LLM vs Rules Static vs Dynamic vs RAG vs Deterministic First)"
+      - "hybrid_evaluator documents provider drift and logs comparison records in data/experiments/"
+    verification:
+      command: ".venv/bin/pytest tests/test_provider_pinning.py tests/test_llm_eval.py tests/labeling/test_llm_fallback.py"
+      criteria: "Provider pinning tests pass; graceful fallback succeeds when API keys are unset."
+
+  - id: "W5_provenance_and_ethics_audit"
+    name: "Data Hygiene, PII Scrubbing & Provenance Audit"
+    lead_role: "provenance_auditor"
+    supporting_roles:
+      - "research_lead"
+    description: "Enforce zero-PII leakage, verify cryptographic checksums, and audit sample dataset reproducibility."
+    steps:
+      - "provenance_auditor audits committed sample datasets (with_features.sample.jsonl, labeled_gliner2.sample.jsonl)"
+      - "provenance_auditor executes tests/test_scrub.py to guarantee absence of 20+ forbidden identifier fields"
+      - "provenance_auditor verifies SHA-256 integrity checksums against data/CHECKSUMS.txt"
+      - "provenance_auditor verifies train/test partition disjointness to prevent evaluation data leakage"
+    verification:
+      command: ".venv/bin/pytest tests/test_scrub.py"
+      criteria: "Zero forbidden fields detected in sample files; all checksums match registered digests."
+
+validation_gates:
+  pre_merge:
+    - "Zero test failures across full pytest suite (.venv/bin/pytest tests/)"
+    - "Zero lint violations across ruff, black, and mypy (make lint)"
+    - "Offline deterministic keyword benchmark within 0.0001 of target metrics"
+    - "Zero forbidden PII fields in any committed dataset or rule file"
+  performance_baselines:
+    offline_deterministic_jaccard_min: 0.0800
+    offline_deterministic_micro_f1_min: 0.2200
+    regression_tolerance_pct: 5.0
