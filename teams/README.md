@@ -73,9 +73,9 @@ teams/
 
 ## 4. Multi-Agent Tier Strategy
 
-The autonomous teams follow a two-tier model specialization architecture:
-- **`pro` Tier (`gemini-4-argon-high`)**: Orchestrators, architects, and auditors. Responsible for system design, theoretical grounding, ethical gating, and adversarial falsification.
-- **`flash` Tier (`gemini-3.8-flash-high`)**: Specialized execution workers. Responsible for deterministic implementation, component rendering, metric calculation, and test execution.
+The autonomous teams follow a two-tier provider-agnostic specialization architecture using role/tier aliases rather than hard-coded model IDs:
+- **`pro` Tier**: Orchestrators, architects, and auditors. Responsible for system design, theoretical grounding, ethical gating, and adversarial falsification.
+- **`flash` Tier**: Specialized execution workers. Responsible for deterministic implementation, component rendering, metric calculation, and test execution.
 
 ---
 
@@ -87,8 +87,8 @@ To verify the team configurations, repository health, and underlying resources:
 # 1. Full regression test suite (expects 70 passed)
 .venv/bin/pytest tests/
 
-# 2. Verify offline deterministic benchmark reproducibility
-.venv/bin/python -m privacy_harm_heuristics.cli reproduce --check --reference recorded-2025
+# 2. Run offline deterministic benchmark reproduction (writes results/comparison/; Note: passing --check checks the LLM-routed rules_static arm and intentionally exits 1 offline per cli.py)
+env -u OPENAI_API_KEY -u GEMINI_API_KEY -u GOOGLE_API_KEY .venv/bin/python -m privacy_harm_heuristics.cli reproduce
 
 # 3. Verify PII scrubbing and data hygiene
 .venv/bin/pytest tests/test_scrub.py
@@ -96,6 +96,6 @@ To verify the team configurations, repository health, and underlying resources:
 # 4. Verify cryptographic checksums
 sha256sum -c data/CHECKSUMS.txt
 
-# 5. Verify YAML schema validity
+# 5. Verify YAML schema validity (requires PyYAML, e.g. system python3-yaml)
 python3 -c "import yaml; yaml.safe_load(open('teams/research-and-validation.yaml')); yaml.safe_load(open('teams/ui-development-and-overhaul.yaml')); print('All team YAML schemas valid')"
 ```

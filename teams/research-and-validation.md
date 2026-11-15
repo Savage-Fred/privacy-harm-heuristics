@@ -10,18 +10,19 @@ The **Research and Validation Autonomous Team** is tasked with autonomous resear
 3. *Interpretability vs. Performance*: What is the empirical trade-off between rule sparsity/depth and multi-label classification accuracy, ranking fidelity, and ordinal risk calibration?
 
 ### Core Operating Principles
-- **Evidence-First Verification**: Never assert a heuristic or model works without empirical proof from the benchmark suite (`tests/`, `data/golden_cases_v3.jsonl`, `data/experiments/`).
+- **Evidence-First & Constant-Baseline Verification**: Never assert a heuristic or model works without empirical proof from the benchmark suite (`tests/`, `data/golden_cases_v3.jsonl`, `data/experiments/`, `paper/`) and explicit comparison against pre-specified label-free constant baselines (empty set, all four Solove groups, modal severity — see `paper/README.md`).
+- **Frozen-Artifact Preservation**: Preserve historical recorded results, committed samples, checksums, and frozen experiment tables (`data/experiments/final_results_summary.md`, `paper/trials_2025/`) unchanged; write new runs under `results/` or new dated experiment directories.
 - **Offline Determinism**: Core pipelines must operate 100% deterministically without network calls or cloud API keys. The `offline_deterministic` arm provides byte-stable verification.
-- **Provider Drift Awareness**: Cloud LLM outputs drift over time. Experiments comparing against LLMs must use pinned model identifiers (`gemini-2.5-flash`, `gpt-4o-mini`) and validate against reference baselines with documented tolerance bands rather than bitwise equality.
+- **Provider Drift Awareness**: Cloud LLM outputs drift over time. Experiments comparing against LLMs must record the exact pinned provider model configured via `src/privacy_harm_heuristics/llm/provider.py` (`GEMINI_MODEL`, `OPENAI_MODEL`) and validate against reference baselines with documented tolerance bands rather than bitwise equality.
 - **Strict Data Hygiene**: Absolute prohibition of personal identifiable information (PII) in committed files. All datasets must pass `tests/test_scrub.py`.
 
 ---
 
 ## 2. Team Structure and Tier Allocations
 
-The team operates using Antigravity multi-agent tiers:
-- **`pro` Tier (Gemini 4 Argon High)**: Reserved for high-level theoretical synthesis, taxonomy curation, hypothesis formulation, and adversarial validation/auditing.
-- **`flash` Tier (Gemini 3.8 Flash High)**: Assigned to bounded, deterministic implementation, model training, feature pipeline engineering, and benchmark execution.
+The team operates using provider-agnostic multi-agent tier aliases:
+- **`pro` Tier**: Reserved for high-level theoretical synthesis, taxonomy curation, hypothesis formulation, and adversarial validation/auditing.
+- **`flash` Tier**: Assigned to bounded, deterministic implementation, model training, feature pipeline engineering, and benchmark execution.
 
 ```
 +-------------------------------------------------------------------------+
@@ -47,7 +48,7 @@ The team operates using Antigravity multi-agent tiers:
 ## 3. Role Specifications
 
 ### 3.1 Lead Research & Taxonomy Architect (`research_lead`)
-- **Tier**: `pro` (Gemini 4 Argon High)
+- **Tier**: `pro`
 - **Primary Objective**: Maintain taxonomy integrity, align technical root causes with legal/ethical frameworks, design research trials, and synthesize findings.
 - **Key Responsibilities**:
   - Curate Solove privacy taxonomy categories, subtypes, and keywords in `src/privacy_harm_heuristics/constants/privacy_taxonomy.py`.
@@ -58,7 +59,7 @@ The team operates using Antigravity multi-agent tiers:
 - **Validation Resource**: `tests/test_harm_taxonomy.py`.
 
 ### 3.2 Interpretable Model Engineer (`model_engineer`)
-- **Tier**: `flash` (Gemini 3.8 Flash High)
+- **Tier**: `flash`
 - **Primary Objective**: Train and tune interpretable models, extract human-readable heuristics, and manage model checkpoints.
 - **Key Responsibilities**:
   - Maintain and train the 5 interpretable trainers in `src/privacy_harm_heuristics/models/trainers/`:
@@ -76,20 +77,19 @@ The team operates using Antigravity multi-agent tiers:
 - **Validation Resources**: `tests/test_decision_tree_trainer.py`, `tests/test_sparse_linear_trainer.py`, `tests/test_ebm_trainer.py`, `tests/test_heuristics_serialization.py`.
 
 ### 3.3 Benchmark & Evaluation Specialist (`eval_specialist`)
-- **Tier**: `flash` (Gemini 3.8 Flash High)
+- **Tier**: `flash`
 - **Primary Objective**: Curate golden evaluation datasets, execute benchmark suites, compute standardized metrics, and gate regressions.
 - **Key Responsibilities**:
   - Maintain the gold-standard evaluation corpus: `data/golden_cases_v3.jsonl` (50 curated incidents) and `data/golden_with_features.jsonl`.
   - Calculate multi-label classification (MLC) metrics via `src/privacy_harm_heuristics/evals/metrics.py`: instance Jaccard, Exact Match Ratio (EMR), Micro/Macro F1, Hamming loss.
   - Calculate ranking metrics: NDCG@5, MAP@5, MRR@5.
   - Calculate ordinal severity metrics: Cohen's quadratic-weighted kappa.
-  - Verify byte-stability of the offline keyword baseline (`offline_deterministic` arm).
-  - Execute regression gates: `python -m privacy_harm_heuristics.cli reproduce --check --reference recorded-2025` and `--reference rerun-2026`.
+  - Verify byte-stability of the offline keyword baseline (`offline_deterministic` arm) via `cli reproduce` without `--check` (note: `--check` inspects only the LLM-routed `rules_static` arm, which falls back to prompt truncation offline and exits `code 1` by design; use `--check --reference rerun-2026` only for live API drift runs).
 - **Allowed Scope**: `src/privacy_harm_heuristics/evals/**`, `data/experiments/**`, `results/comparison/**`, `tests/evals/**`.
-- **Validation Resources**: `tests/evals/test_metrics.py`, `tests/test_cli.py`, `data/experiments/final_results_summary.md`.
+- **Validation Resources**: `tests/evals/test_metrics.py`, `tests/test_cli.py`, `data/experiments/final_results_summary.md`, `paper/README.md`.
 
 ### 3.4 Hybrid & LLM Systems Evaluator (`hybrid_evaluator`)
-- **Tier**: `flash` (Gemini 3.8 Flash High)
+- **Tier**: `flash`
 - **Primary Objective**: Evaluate hybrid reasoning architectures that combine deterministic heuristics with LLMs, manage provider configurations, and track model drift.
 - **Key Responsibilities**:
   - Maintain and evaluate the 6 hybrid modes in `src/privacy_harm_heuristics/models/hybrid.py`:
@@ -99,14 +99,14 @@ The team operates using Antigravity multi-agent tiers:
     4. `rag`: Vector retrieval of top-k related past incidents.
     5. `hybrid_deterministic_first`: Deterministic rules evaluate first; LLM adjudicates unresolved edge cases.
     6. `hybrid_llm_first`: LLM proposes harm categories; deterministic rules validate or prune.
-  - Manage provider pinning in `src/privacy_harm_heuristics/llm/provider.py` (`gemini-2.5-flash`, `gpt-4o-mini`, `fallback`).
+  - Manage provider selection and model pinning in `src/privacy_harm_heuristics/llm/provider.py` (`GEMINI_MODEL`, `GEMINI_HEAVY_MODEL`, `OPENAI_MODEL`, `LLM_PROVIDER="fallback"`).
   - Execute multi-iteration comparison trials (`src/privacy_harm_heuristics/evals/comparison_trials.py`) with Beta-distribution confidence tracking.
   - Document provider drift across model iterations and maintain comparison logs in `data/experiments/`.
 - **Allowed Scope**: `src/privacy_harm_heuristics/models/hybrid.py`, `src/privacy_harm_heuristics/llm/**`, `src/privacy_harm_heuristics/evals/hybrid_runner.py`, `src/privacy_harm_heuristics/evals/comparison_trials.py`, `data/experiments/**`.
 - **Validation Resources**: `tests/test_provider_pinning.py`, `tests/test_llm_eval.py`, `tests/labeling/test_llm_fallback.py`.
 
 ### 3.5 Data Provenance & Ethics Auditor (`provenance_auditor`)
-- **Tier**: `pro` (Gemini 4 Argon High)
+- **Tier**: `pro`
 - **Primary Objective**: Enforce zero PII leakage, verify cryptographic checksums, audit data splits, and ensure research ethics compliance.
 - **Key Responsibilities**:
   - Enforce automated PII scrubbing across all committed datasets via `tests/test_scrub.py`, dropping 20+ forbidden fields (`raw`, `author`, `username`, `account_display_name`, `url`, `permalink`, etc.).
@@ -160,16 +160,17 @@ The team operates using Antigravity multi-agent tiers:
 - **Trigger**: Prior to creating any commit, PR, or releasing model artifacts.
 - **Lead**: `eval_specialist` | **Supporting**: `model_engineer`, `hybrid_evaluator`
 - **Execution Protocol**:
-  1. Execute offline reproduction check:
+  1. Execute offline reproduction without `--check` (unset API keys so `provider='fallback'` runs deterministically; note `--check` evaluates the LLM-routed `rules_static` arm and intentionally exits non-zero offline as documented in `src/privacy_harm_heuristics/cli.py`):
      ```bash
-     .venv/bin/python -m privacy_harm_heuristics.cli reproduce --check --reference recorded-2025
+     env -u OPENAI_API_KEY -u GEMINI_API_KEY -u GOOGLE_API_KEY \
+       .venv/bin/python -m privacy_harm_heuristics.cli reproduce
      ```
-  2. Verify that `Offline Deterministic (keyword rules)` yields target baselines:
+  2. Verify in `results/comparison/comparison.json` and `results/comparison/comparison_table.md` that `Offline Deterministic (keyword rules)` yields target baselines:
      - Instance Jaccard: `0.0808` (±0.0001)
      - Exact Match Ratio: `0.0800` (±0.0001)
      - Micro-F1: `0.2222` (±0.0001)
      - NDCG@5: `0.1623` (±0.0001)
-  3. Verify emission of `results/comparison/comparison.json` and `results/comparison/comparison_table.md`.
+  3. Compare candidate models against pre-specified constant baselines per `paper/README.md`.
   4. Run full test suite: `.venv/bin/pytest tests/`.
 
 ### Workflow 4: Hybrid & LLM Systems Evaluation (W4)
@@ -180,19 +181,16 @@ The team operates using Antigravity multi-agent tiers:
      ```bash
      .venv/bin/pytest tests/labeling/test_llm_fallback.py
      ```
-  2. Pin specific provider model:
-     ```bash
-     export GEMINI_MODEL="gemini-2.5-flash"
-     ```
-  3. Execute hybrid comparison:
+  2. Rely on the pinned default model in `src/privacy_harm_heuristics/llm/provider.py` (or override explicitly via `GEMINI_MODEL` / `OPENAI_MODEL` and record the exact string in provenance metadata).
+  3. Execute hybrid comparison or live drift check (`--check --reference rerun-2026`):
      ```bash
      .venv/bin/python -m privacy_harm_heuristics.evals.hybrid_runner \
        --golden-file data/golden_cases_v3.jsonl \
        --mode rules_static \
        --ruleset expert_framework
      ```
-  4. Compute delta against `data/experiments/rerun_20260721/README.md`.
-  5. If drift exceeds 10% on EMR or F1, flag to `research_lead` and log incident in `data/experiments/`.
+  4. Compute delta against `data/experiments/rerun_20260721/README.md` and constant baselines (`paper/README.md`).
+  5. If drift exceeds 10% on EMR or F1, flag to `research_lead` and log a new dated record under `data/experiments/`.
 
 ### Workflow 5: Data Hygiene & Provenance Audit (W5)
 - **Trigger**: Any data sample regeneration or ingestion of external breach records.
@@ -227,8 +225,9 @@ The team operates using Antigravity multi-agent tiers:
 | **Rule Sets** | `data/rules/` | Versioned rule definitions: `solove.v1.0.json`, `nist.v1.0.json`, `gdpr.v1.0.json`, `expert_framework.v1.0.json`, `learned_dt.v1.1.json`. |
 | **Heuristics Catalog** | `heuristics/` | 14 human-readable heuristic files (`augmented_solove.json`, `decision_tree_v3.jsonl`, `sparse_linear_v3.jsonl`, `ebm_v3.jsonl`, `bayes_net_v3.jsonl`, `brl_cascade_v3.jsonl`). |
 | **Experimental Baselines** | `data/experiments/final_results_summary.md` | Frozen headline table recording the 6 evaluation modes across n=50 golden cases. |
-| **Provider Drift Logs** | `data/experiments/rerun_20260721/README.md` | Reference live rerun tracking provider drift on `gemini-2.5-flash`. |
-| **Core Documentation** | `docs/` | `OVERVIEW.md`, `MODELING_AND_HEURISTICS.md`, `COMPARISON_METRICS.md`, `COMPARISON_TRIALS.md`, `INTERPRETABILITY_GUIDE.md`. |
+| **Provider Drift Logs** | `data/experiments/rerun_20260721/README.md` | Reference live rerun tracking provider drift against recorded 2025 baselines. |
+| **Re-Analysis & Constant Baselines** | `paper/` | `README.md`, `reanalysis.py`, `reanalysis.json`, and `trials_2025/` documenting offline trial verification and constant-predictor baselines. |
+| **Core Documentation** | `docs/` | `OVERVIEW.md`, `MODELING_AND_HEURISTICS.md`, `COMPARISON_METRICS.md`, `COMPARISON_TRIALS.md`, `RELEASE-AUDIT.md`, `architecture/INTERPRETABILITY_GUIDE.md`, `reference/GLOBAL_PRIVACY_FRAMEWORKS.md`, `ops/MAINTENANCE.md`. |
 
 ---
 
@@ -243,8 +242,8 @@ Every pull request, model release, or heuristic revision must pass through the f
    - Command: `make lint` (`ruff check`, `black --check`, `mypy src/`)
    - Requirement: Zero errors or warnings.
 3. **Gate 3: Deterministic Baseline Invariance**
-   - Command: `.venv/bin/python -m privacy_harm_heuristics.cli reproduce --check --reference recorded-2025`
-   - Requirement: Pure keyword arm must match expected scores within `0.0001`.
+   - Command: `env -u OPENAI_API_KEY -u GEMINI_API_KEY -u GOOGLE_API_KEY .venv/bin/python -m privacy_harm_heuristics.cli reproduce`
+   - Requirement: Exits `0` offline and `offline_deterministic` keyword arm in `results/comparison/comparison.json` matches expected scores within `0.0001`.
 4. **Gate 4: Privacy & Ethics Invariance**
    - Command: `.venv/bin/pytest tests/test_scrub.py && sha256sum -c data/CHECKSUMS.txt`
    - Requirement: Zero PII detected; all checksums match.

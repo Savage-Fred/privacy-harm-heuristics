@@ -24,9 +24,9 @@ The UI team's mission is **not** to patch legacy spaghetti code, but to execute 
 
 ## 2. Team Structure and Tier Allocations
 
-The team operates using Antigravity multi-agent tiers:
-- **`pro` Tier (Gemini 4 Argon High)**: Reserved for `ui_architect` to design systems, specify API contracts, direct component hierarchies, and resolve cross-functional ambiguities.
-- **`flash` Tier (Gemini 3.8 Flash High)**: Assigned to `backend_api_engineer`, `frontend_viz_engineer`, and `ui_qa_engineer` for bounded implementation, component rendering, and test automation.
+The team operates using provider-agnostic multi-agent tier aliases:
+- **`pro` Tier**: Reserved for `ui_architect` to design systems, specify API contracts, direct component hierarchies, and resolve cross-functional ambiguities.
+- **`flash` Tier**: Assigned to `backend_api_engineer`, `frontend_viz_engineer`, and `ui_qa_engineer` for bounded implementation, component rendering, and test automation.
 
 ```
 +-------------------------------------------------------------------------+

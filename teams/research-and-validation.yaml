@@ -7,15 +7,14 @@ team:
   default_orchestrator: "research_lead"
 
 model_tiers:
-  orchestrator: "pro"  # Gemini 4 Argon High
-  specialist: "flash"  # Gemini 3.8 Flash High
-  auditor: "pro"       # Gemini 4 Argon High
+  orchestrator: "pro"
+  specialist: "flash"
+  auditor: "pro"
 
 roster:
   - role_id: "research_lead"
     name: "Lead Research & Taxonomy Architect"
     tier: "pro"
-    model: "gemini-4-argon-high"
     responsibilities:
       - "Curate and expand privacy harm taxonomy categories and definitions aligned with Solove (16 categories across 4 groups: collection, processing, dissemination, invasion)"
       - "Synthesize cross-framework mappings between legal articles (GDPR Art. 83, NIST Privacy Framework, ISO/IEC 29100) and technical incident root causes"
@@ -56,7 +55,6 @@ roster:
   - role_id: "model_engineer"
     name: "Interpretable Model Engineer"
     tier: "flash"
-    model: "gemini-3.8-flash-high"
     responsibilities:
       - "Train, tune, and evaluate the 5 interpretable models: Decision Tree, Sparse Linear, Explainable Boosting Machine (EBM), Bayesian Rule Lists (BRL), and Bayesian Networks (Bayes Net)"
       - "Extract human-readable heuristics, decision rules, linear odds-ratio pseudo-rules, and tree graphs (heuristics.jsonl, HEURISTICS.md, heuristics_tree.json)"
@@ -101,7 +99,6 @@ roster:
   - role_id: "eval_specialist"
     name: "Benchmark & Evaluation Specialist"
     tier: "flash"
-    model: "gemini-3.8-flash-high"
     responsibilities:
       - "Maintain gold-standard evaluation benchmarks on curated incident datasets (golden_cases_v3.jsonl, golden_with_features.jsonl)"
       - "Compute Multi-Label Classification (MLC) metrics: instance Jaccard, Exact Match Ratio (EMR), Micro/Macro F1, Hamming loss"
@@ -139,10 +136,9 @@ roster:
   - role_id: "hybrid_evaluator"
     name: "Hybrid & LLM Systems Evaluator"
     tier: "flash"
-    model: "gemini-3.8-flash-high"
     responsibilities:
       - "Evaluate and optimize the 6 hybrid reasoning modes combining deterministic heuristics with LLMs (baseline, rules_static, rules_dynamic, rag, hybrid_deterministic_first, hybrid_llm_first)"
-      - "Manage LLM provider configuration, rate limiting, and model string pinning (gemini-2.5-flash, gemini-2.5-pro, gpt-4o-mini, fallback)"
+      - "Manage LLM provider configuration, rate limiting, and explicit model pinning via provider environment variables (GEMINI_MODEL, GEMINI_HEAVY_MODEL, OPENAI_MODEL, LLM_PROVIDER='fallback')"
       - "Run multi-iteration comparison trials with Beta-distribution confidence tracking and request capping"
       - "Track and document provider drift against frozen baseline references"
     capabilities:
@@ -178,7 +174,6 @@ roster:
   - role_id: "provenance_auditor"
     name: "Data Provenance & Ethics Auditor"
     tier: "pro"
-    model: "gemini-4-argon-high"
     responsibilities:
       - "Enforce strict PII and sensitive content scrubbing on all sample corpora, dropping 20+ forbidden fields"
       - "Verify deterministic sample regeneration with fixed random seeds via scripts/make_samples.py"
@@ -213,6 +208,7 @@ resources:
   heuristics_dir: "heuristics/"
   data_dir: "data/"
   docs_dir: "docs/"
+  paper_dir: "paper/"
   rules_dir: "data/rules/"
   trained_models_dir: "trained_models/"
   reference_metrics: "data/experiments/final_results_summary.md"
@@ -238,7 +234,8 @@ resources:
     quick_test: ".venv/bin/pytest tests/ -m 'not slow' -q"
     full_test: ".venv/bin/pytest tests/"
     lint: "make lint"
-    offline_reproduce: ".venv/bin/python -m privacy_harm_heuristics.cli reproduce --check --reference recorded-2025"
+    offline_reproduce: "env -u OPENAI_API_KEY -u GEMINI_API_KEY -u GOOGLE_API_KEY .venv/bin/python -m privacy_harm_heuristics.cli reproduce"
+    live_drift_check: ".venv/bin/python -m privacy_harm_heuristics.cli reproduce --check --reference rerun-2026"
     train_models: ".venv/bin/python -m privacy_harm_heuristics.cli train-all --data data/with_features.sample.jsonl --golden data/golden_with_features.jsonl"
     scrub_audit: ".venv/bin/pytest tests/test_scrub.py"
     checksum_verify: "sha256sum -c data/CHECKSUMS.txt"
@@ -299,7 +296,7 @@ workflows:
       - "eval_specialist"
     description: "Evaluate hybrid reasoning modes, manage model string pinning, and track LLM provider drift."
     steps:
-      - "hybrid_evaluator verifies model string pinning (e.g., gemini-2.5-flash) and API configuration"
+      - "hybrid_evaluator verifies explicit provider model pinning via GEMINI_MODEL / OPENAI_MODEL (defined in src/privacy_harm_heuristics/llm/provider.py) and API configuration"
       - "hybrid_evaluator executes multi-iteration comparison trials with Beta-distribution confidence tracking"
       - "hybrid_evaluator computes cross-mode performance delta (Baseline LLM vs Rules Static vs Dynamic vs RAG vs Deterministic First)"
       - "hybrid_evaluator documents provider drift and logs comparison records in data/experiments/"

@@ -7,15 +7,14 @@ team:
   default_orchestrator: "ui_architect"
 
 model_tiers:
-  orchestrator: "pro"  # Gemini 4 Argon High
-  specialist: "flash"  # Gemini 3.8 Flash High
-  auditor: "flash"     # Gemini 3.8 Flash High
+  orchestrator: "pro"
+  specialist: "flash"
+  auditor: "flash"
 
 roster:
   - role_id: "ui_architect"
     name: "UI Architect & Product Lead"
     tier: "pro"
-    model: "gemini-4-argon-high"
     responsibilities:
       - "Architect the Privacy Harm Heuristics Studio UI system, defining modular component hierarchies and data flow"
       - "Specify formal REST API contracts matching docs/architecture/INTERPRETABILITY_GUIDE.md and schema definitions"
@@ -55,7 +54,6 @@ roster:
   - role_id: "backend_api_engineer"
     name: "Backend Service & API Engineer"
     tier: "flash"
-    model: "gemini-3.8-flash-high"
     responsibilities:
       - "Implement the REST API service layer in src/privacy_harm_heuristics/web/ exposing /api/root-cause-explanations, /api/score, /api/tree, /api/rules, and /api/leaderboard"
       - "Connect API endpoints to core scoring engines (ScoringEngine, HybridScorer) with strict offline fallback guarantees (provider='fallback')"
@@ -92,7 +90,6 @@ roster:
   - role_id: "frontend_viz_engineer"
     name: "Frontend & Visualization Engineer"
     tier: "flash"
-    model: "gemini-3.8-flash-high"
     responsibilities:
       - "Construct the Privacy Harm Heuristics Studio frontend comprising 4 interactive modules (Assessor, Tree Visualizer, Interpretability, Leaderboard)"
       - "Build Module 1: Incident Harm Assessor ('Temperature Check') with 0-100 risk dial, harm breakdowns, framework provenance radar (% Solove, % NIST, % GDPR, % Zuboff), and mitigation recommendations"
@@ -129,7 +126,6 @@ roster:
   - role_id: "ui_qa_engineer"
     name: "UI Verification & QA Engineer"
     tier: "flash"
-    model: "gemini-3.8-flash-high"
     responsibilities:
       - "Develop unit and integration tests for API endpoints using TestClient in tests/test_web_api.py"
       - "Develop end-to-end smoke tests for CLI server commands using Typer CliRunner in tests/test_ui_cli.py"
