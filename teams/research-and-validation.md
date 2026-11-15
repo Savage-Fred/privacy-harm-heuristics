@@ -84,7 +84,7 @@ The team operates using provider-agnostic multi-agent tier aliases:
   - Calculate multi-label classification (MLC) metrics via `src/privacy_harm_heuristics/evals/metrics.py`: instance Jaccard, Exact Match Ratio (EMR), Micro/Macro F1, Hamming loss.
   - Calculate ranking metrics: NDCG@5, MAP@5, MRR@5.
   - Calculate ordinal severity metrics: Cohen's quadratic-weighted kappa.
-  - Verify byte-stability of the offline keyword baseline (`offline_deterministic` arm) via `cli reproduce` without `--check` (note: `--check` inspects only the LLM-routed `rules_static` arm, which falls back to prompt truncation offline and exits `code 1` by design; use `--check --reference rerun-2026` only for live API drift runs).
+  - Verify byte-stability of the offline keyword baseline (`offline_deterministic` arm) via `cli reproduce` without `--check` (note: `cli reproduce` always routes hybrid arms through `provider="fallback"` offline, so `--check` intentionally exits `code 1` against live references as documented in `src/privacy_harm_heuristics/cli.py`).
 - **Allowed Scope**: `src/privacy_harm_heuristics/evals/**`, `data/experiments/**`, `results/comparison/**`, `tests/evals/**`.
 - **Validation Resources**: `tests/evals/test_metrics.py`, `tests/test_cli.py`, `data/experiments/final_results_summary.md`, `paper/README.md`.
 
@@ -111,7 +111,7 @@ The team operates using provider-agnostic multi-agent tier aliases:
 - **Key Responsibilities**:
   - Enforce automated PII scrubbing across all committed datasets via `tests/test_scrub.py`, dropping 20+ forbidden fields (`raw`, `author`, `username`, `account_display_name`, `url`, `permalink`, etc.).
   - Verify deterministic sample dataset regeneration with fixed random seeds (`scripts/make_samples.py`).
-  - Maintain and verify cryptographic SHA-256 integrity digests in `data/CHECKSUMS.txt`.
+  - Verify cryptographic SHA-256 integrity digests of committed files in `data/CHECKSUMS.txt` (`grep -v 'release asset' data/CHECKSUMS.txt | sha256sum -c -`).
   - Audit train/validation/test splits to prevent evaluation contamination between `with_features.sample.jsonl` and `golden_with_features.jsonl`.
 - **Allowed Scope**: `scripts/**`, `data/**`, `tests/test_scrub.py`, `docs/RELEASE-AUDIT.md`.
 - **Validation Resources**: `tests/test_scrub.py`, `data/CHECKSUMS.txt`, `docs/RELEASE-AUDIT.md`.
@@ -182,12 +182,14 @@ The team operates using provider-agnostic multi-agent tier aliases:
      .venv/bin/pytest tests/labeling/test_llm_fallback.py
      ```
   2. Rely on the pinned default model in `src/privacy_harm_heuristics/llm/provider.py` (or override explicitly via `GEMINI_MODEL` / `OPENAI_MODEL` and record the exact string in provenance metadata).
-  3. Execute hybrid comparison or live drift check (`--check --reference rerun-2026`):
+  3. Execute live-provider hybrid comparison into an untracked output directory (do not use `cli reproduce`, which hardcodes `provider="fallback"`):
      ```bash
      .venv/bin/python -m privacy_harm_heuristics.evals.hybrid_runner \
        --golden-file data/golden_cases_v3.jsonl \
        --mode rules_static \
-       --ruleset expert_framework
+       --ruleset expert_framework \
+       --ruleset-version 1.0 \
+       --output-dir results/live_drift
      ```
   4. Compute delta against `data/experiments/rerun_20260721/README.md` and constant baselines (`paper/README.md`).
   5. If drift exceeds 10% on EMR or F1, flag to `research_lead` and log a new dated record under `data/experiments/`.
@@ -204,9 +206,9 @@ The team operates using provider-agnostic multi-agent tier aliases:
      ```bash
      .venv/bin/pytest tests/test_scrub.py
      ```
-  3. Validate cryptographic checksums:
+  3. Validate cryptographic checksums of committed data files (excluding the external `v1.0.0` release-asset entry):
      ```bash
-     sha256sum -c data/CHECKSUMS.txt
+     grep -v 'release asset' data/CHECKSUMS.txt | sha256sum -c -
      ```
   4. Verify that no data from `data/golden_cases_v3.jsonl` appears in training samples.
 
@@ -242,8 +244,12 @@ Every pull request, model release, or heuristic revision must pass through the f
    - Command: `make lint` (`ruff check`, `black --check`, `mypy src/`)
    - Requirement: Zero errors or warnings.
 3. **Gate 3: Deterministic Baseline Invariance**
-   - Command: `env -u OPENAI_API_KEY -u GEMINI_API_KEY -u GOOGLE_API_KEY .venv/bin/python -m privacy_harm_heuristics.cli reproduce`
-   - Requirement: Exits `0` offline and `offline_deterministic` keyword arm in `results/comparison/comparison.json` matches expected scores within `0.0001`.
+   - Command:
+     ```bash
+     env -u OPENAI_API_KEY -u GEMINI_API_KEY -u GOOGLE_API_KEY .venv/bin/python -m privacy_harm_heuristics.cli reproduce && \
+       .venv/bin/python -c "import json; m = json.load(open('results/comparison/comparison.json'))['modes']['offline_deterministic']; assert abs(m['instance_jaccard'] - 0.0808) < 1e-4 and abs(m['exact_match_ratio'] - 0.0800) < 1e-4 and abs(m['micro_f1'] - 0.2222) < 1e-4 and abs(m['ndcg@5'] - 0.1623) < 1e-4, m"
+     ```
+   - Requirement: Exits `0` offline and asserts `offline_deterministic` keyword arm metrics match within `0.0001`.
 4. **Gate 4: Privacy & Ethics Invariance**
-   - Command: `.venv/bin/pytest tests/test_scrub.py && sha256sum -c data/CHECKSUMS.txt`
-   - Requirement: Zero PII detected; all checksums match.
+   - Command: `.venv/bin/pytest tests/test_scrub.py && (grep -v 'release asset' data/CHECKSUMS.txt | sha256sum -c -)`
+   - Requirement: Zero PII detected; all committed checksums match.

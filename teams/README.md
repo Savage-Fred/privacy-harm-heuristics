@@ -87,14 +87,15 @@ To verify the team configurations, repository health, and underlying resources:
 # 1. Full regression test suite (expects 70 passed)
 .venv/bin/pytest tests/
 
-# 2. Run offline deterministic benchmark reproduction (writes results/comparison/; Note: passing --check checks the LLM-routed rules_static arm and intentionally exits 1 offline per cli.py)
-env -u OPENAI_API_KEY -u GEMINI_API_KEY -u GOOGLE_API_KEY .venv/bin/python -m privacy_harm_heuristics.cli reproduce
+# 2. Run offline deterministic benchmark reproduction and assert target scores
+env -u OPENAI_API_KEY -u GEMINI_API_KEY -u GOOGLE_API_KEY .venv/bin/python -m privacy_harm_heuristics.cli reproduce && \
+  .venv/bin/python -c "import json; m = json.load(open('results/comparison/comparison.json'))['modes']['offline_deterministic']; assert abs(m['instance_jaccard'] - 0.0808) < 1e-4 and abs(m['exact_match_ratio'] - 0.0800) < 1e-4 and abs(m['micro_f1'] - 0.2222) < 1e-4 and abs(m['ndcg@5'] - 0.1623) < 1e-4, m"
 
 # 3. Verify PII scrubbing and data hygiene
 .venv/bin/pytest tests/test_scrub.py
 
-# 4. Verify cryptographic checksums
-sha256sum -c data/CHECKSUMS.txt
+# 4. Verify cryptographic checksums of committed data files (excluding external v1.0.0 release asset line)
+grep -v 'release asset' data/CHECKSUMS.txt | sha256sum -c -
 
 # 5. Verify YAML schema validity (requires PyYAML, e.g. system python3-yaml)
 python3 -c "import yaml; yaml.safe_load(open('teams/research-and-validation.yaml')); yaml.safe_load(open('teams/ui-development-and-overhaul.yaml')); print('All team YAML schemas valid')"

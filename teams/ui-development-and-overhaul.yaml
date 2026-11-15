@@ -134,6 +134,8 @@ roster:
       - "Benchmark response latency ensuring cached endpoint responses resolve in < 15ms"
     capabilities:
       - "read_file"
+      - "write_file"
+      - "edit_file"
       - "run_command"
       - "send_message"
     tools:
@@ -162,6 +164,7 @@ resources:
   heuristics_dir: "heuristics/"
   experiments_summary: "data/experiments/final_results_summary.md"
   interpretability_spec: "docs/architecture/INTERPRETABILITY_GUIDE.md"
+  # Target gates api_test, ui_cli_test, and cli_serve_help are authored during W2/W4 execution
   verification_commands:
     api_test: ".venv/bin/pytest tests/test_web_api.py -q"
     ui_cli_test: ".venv/bin/pytest tests/test_ui_cli.py -q"

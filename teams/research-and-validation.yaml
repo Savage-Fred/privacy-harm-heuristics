@@ -107,6 +107,8 @@ roster:
       - "Execute regression gating checks and verify byte-stability of the offline deterministic keyword scoring arm"
     capabilities:
       - "read_file"
+      - "write_file"
+      - "edit_file"
       - "run_command"
       - "send_message"
     tools:
@@ -177,7 +179,7 @@ roster:
     responsibilities:
       - "Enforce strict PII and sensitive content scrubbing on all sample corpora, dropping 20+ forbidden fields"
       - "Verify deterministic sample regeneration with fixed random seeds via scripts/make_samples.py"
-      - "Maintain cryptographic SHA-256 integrity checksums in data/CHECKSUMS.txt"
+      - "Verify cryptographic SHA-256 integrity checksums of committed files in data/CHECKSUMS.txt"
       - "Audit train, validation, and golden test splits to guarantee zero data leakage"
     capabilities:
       - "read_file"
@@ -234,11 +236,11 @@ resources:
     quick_test: ".venv/bin/pytest tests/ -m 'not slow' -q"
     full_test: ".venv/bin/pytest tests/"
     lint: "make lint"
-    offline_reproduce: "env -u OPENAI_API_KEY -u GEMINI_API_KEY -u GOOGLE_API_KEY .venv/bin/python -m privacy_harm_heuristics.cli reproduce"
-    live_drift_check: ".venv/bin/python -m privacy_harm_heuristics.cli reproduce --check --reference rerun-2026"
+    offline_reproduce: "env -u OPENAI_API_KEY -u GEMINI_API_KEY -u GOOGLE_API_KEY .venv/bin/python -m privacy_harm_heuristics.cli reproduce && .venv/bin/python -c \"import json; m = json.load(open('results/comparison/comparison.json'))['modes']['offline_deterministic']; assert abs(m['instance_jaccard'] - 0.0808) < 1e-4 and abs(m['exact_match_ratio'] - 0.0800) < 1e-4 and abs(m['micro_f1'] - 0.2222) < 1e-4 and abs(m['ndcg@5'] - 0.1623) < 1e-4, m\""
+    live_drift_eval: ".venv/bin/python -m privacy_harm_heuristics.evals.hybrid_runner --golden-file data/golden_cases_v3.jsonl --mode rules_static --ruleset expert_framework --ruleset-version 1.0 --output-dir results/live_drift"
     train_models: ".venv/bin/python -m privacy_harm_heuristics.cli train-all --data data/with_features.sample.jsonl --golden data/golden_with_features.jsonl"
     scrub_audit: ".venv/bin/pytest tests/test_scrub.py"
-    checksum_verify: "sha256sum -c data/CHECKSUMS.txt"
+    checksum_verify: "grep -v 'release asset' data/CHECKSUMS.txt | sha256sum -c -"
 
 workflows:
   - id: "W1_taxonomy_and_rules_curation"
