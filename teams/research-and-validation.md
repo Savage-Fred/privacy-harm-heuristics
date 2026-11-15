@@ -182,9 +182,10 @@ The team operates using provider-agnostic multi-agent tier aliases:
      .venv/bin/pytest tests/labeling/test_llm_fallback.py
      ```
   2. Rely on the pinned default model in `src/privacy_harm_heuristics/llm/provider.py` (or override explicitly via `GEMINI_MODEL` / `OPENAI_MODEL` and record the exact string in provenance metadata).
-  3. Execute live-provider hybrid comparison into an untracked output directory (do not use `cli reproduce`, which hardcodes `provider="fallback"`):
+  3. Execute live-provider hybrid comparison into an untracked output directory, passing `--provider` explicitly to match the active credentials (do not use `cli reproduce`, which hardcodes `provider="fallback"`):
      ```bash
      .venv/bin/python -m privacy_harm_heuristics.evals.hybrid_runner \
+       --provider "${LLM_PROVIDER:-$([ -n "${GEMINI_API_KEY:-}" ] && echo gemini || echo openai)}" \
        --golden-file data/golden_cases_v3.jsonl \
        --mode rules_static \
        --ruleset expert_framework \
