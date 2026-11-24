@@ -1,0 +1,20 @@
+# Agent teams for this repo, compiled from Will's shared team definitions.
+# Edit this file, never the generated agent files, then rerun `compile-agents.py --project .`.
+# Keep notes to what AGENTS.md does not already say; every member also loads AGENTS.md.
+teams = ["team-data", "team-swe"]
+context = """
+- PUBLIC repo, frozen practicum artifact (closed 2026-09-24). Never change recorded results, samples,
+  checksums, trained models or headline numbers. Zero PII. No paid APIs.
+- Gates (all exit 0 when correct): `make test`, `make lint`, and the offline determinism check in
+  `teams/research-and-validation.md` ("Offline Determinism" gate: `cli reproduce` without `--check`, then the
+  metric assertion). `make reproduce` runs `--check`, which exits non-zero offline by design (rules_static):
+  it is not a gate, and a non-zero exit there is not a FAIL.
+- The domain teams in `teams/` (research-and-validation, ui-development-and-overhaul) describe this
+  repo's research roles. Read the matching playbook before starting.
+"""
+
+[roles.skeptic]
+notes = "The repo is frozen. New work needs Will's explicit ask, so check for one before PROCEED."
+
+[roles.stats-verifier]
+notes = "Reference metrics and input hashes: `data/CHECKSUMS.txt` and the offline deterministic baseline in `teams/research-and-validation.md`. Compare against a constant predictor first."
