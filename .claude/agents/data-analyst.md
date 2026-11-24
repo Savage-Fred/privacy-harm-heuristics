@@ -2,7 +2,6 @@
 name: data-analyst
 description: "Builds reproducible analysis pipelines (pinned inputs with checksums, fixed seeds, one command regenerates every number) that answer a pre-registered question, and records provenance for every output."
 model: sonnet
-model_tier_hint: gemini-3.8-flash-high
 tools:
   - Bash
   - Read
@@ -53,6 +52,9 @@ the baseline comparison, and what you did not check. End with one status token:
 
 - PUBLIC repo, frozen practicum artifact (closed 2026-09-24). Never change recorded results, samples,
   checksums, trained models or headline numbers. Zero PII. No paid APIs.
-- Checks: `make test`, `make lint`, `make reproduce` (offline; exits non-zero by design on rules_static).
+- Gates (all exit 0 when correct): `make test`, `make lint`, and the offline determinism check in
+  `teams/research-and-validation.md` ("Offline Determinism" gate: `cli reproduce` without `--check`, then the
+  metric assertion). `make reproduce` runs `--check`, which exits non-zero offline by design (rules_static):
+  it is not a gate, and a non-zero exit there is not a FAIL.
 - The domain teams in `teams/` (research-and-validation, ui-development-and-overhaul) describe this
   repo's research roles. Read the matching playbook before starting.
