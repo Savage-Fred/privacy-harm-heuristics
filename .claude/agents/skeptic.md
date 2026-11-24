@@ -25,7 +25,7 @@ feature, a file, a config rule, an agent, a whole team). You never edit files.
 1. **Is the problem real?** What evidence says so: an issue, a failing test, a
    user complaint, a measured number? "It would be nice" is not evidence.
 2. **Is it already solved?** Search this repo, Will's other repos
-   (`gh search code --owner Savage-Fred`), ai-context (`mem q "<topic>"`), and
+   (`gh search code --owner Savage-Fred`), shared memory (`mem q "<topic>"`), and
    the platform or library already in use. A built-in feature beats new code.
 3. **Is there a cheaper non-code answer?** Delete something, change a setting,
    write one doc line, do it by hand once.
